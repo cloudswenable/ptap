@@ -1,0 +1,124 @@
+<?xml version = "1.0" ?>
+<root>
+    <policy>
+        <metric>cpi</metric>
+        <realMetric>CPI</realMetric>
+        <summary>cyles per instruction, the smaller the better</summary>
+        <min>0.001</min>
+        <max>5</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>PMU</type>
+    </policy>
+    <policy>
+        <metric>cache misses</metric>
+        <realMetric>cache-misses(% of all cache refs )</realMetric>
+        <summary>access cache miss, the smaller the better</summary>
+        <min>0</min>
+        <max>25</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>Perf</type>
+    </policy>
+    <policy>
+        <metric>NUMA READ HIT</metric>
+        <realMetric>numa read hit</realMetric>
+        <summary>numa read hit, the smaller the better</summary>
+        <min>0.001</min>
+        <max>5</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>PMU</type>
+    </policy>
+    <policy>
+        <metric>cpu freq</metric>
+        <realMetric>CPU_all_MHz</realMetric>
+        <summary>cpu freq, the larger the better</summary>
+        <min>1000</min>
+        <max>5000</max>
+        <betterValue>larger</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+    <policy>
+        <metric>cpu utilization</metric>
+        <realMetric>formula</realMetric>
+        <formula>100-%s</formula>
+        <parameters>
+                <p>CPU_all_%idle</p>
+        </parameters>
+        <summary>cpu utilization, the larger the better</summary>
+        <min>0</min>
+        <max>80</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+    <policy>
+        <metric>interrupt/s</metric>
+        <realMetric>INTR_sum_intr/s</realMetric>
+        <summary>interrupter, the smaller the better</summary>
+        <min>0</min>
+        <max>300</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+    <policy>
+        <metric>cs/s</metric>
+        <realMetric>cswch/s</realMetric>
+        <summary>cswch/s, the smaller the better</summary>
+        <min>0</min>
+        <max>300</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+    <policy>
+        <metric>network io</metric>
+        <realMetric>packet/s</realMetric>
+        <summary>tps, the smaller the better</summary>
+        <min>0</min>
+        <max>30</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+    <policy>
+        <metric>disk io</metric>
+        <realMetric>tps</realMetric>
+        <summary>tps, the smaller the better</summary>
+        <min>0</min>
+        <max>10</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use vtune to check
+            2. suggested command is: XXXX
+        </suggestion>
+        <type>SAR</type>
+    </policy>
+</root>

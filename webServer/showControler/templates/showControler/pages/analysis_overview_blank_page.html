@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.bar.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script src="{% static 'showControler/js/analysis_right_content.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                showOverviewDatas();
+        });
+</script>
+</head>
+<body>
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Overview All Tables</a>
+</div>
+</div>
+</div>
+
+<div id='compareContainer' class='container-fluid'>
+<div id='compareBody'>
+        {% for tableName, compressTableName, tableDatas in datas %}
+        <div id='{{compressTableName}}' class='row-fluid'>
+                <h3 class='pull-left'>{{tableName}}</h3>
+                <div id='chart{{compressTableName}}' class='compareChartContainer'>
+                </div>
+                <div class='compareTableContainer'>
+                        <div class='realTableContainer'>
+                                <table id='compareTable{{compressTableName}}' class='table table-striped table-hover table-bordered table-condensed'>
+                                <thead>
+                                        <tr>
+                                        {% for name in names %}
+                                        <th>{{name}}</th>
+                                        {% endfor %}
+                                        </tr>
+                                </thead>
+                                <tbody> 
+                                        {% for data in tableDatas %}
+                                        <tr>
+                                                {% for item in data %}
+                                                <td>{{item}}</td>
+                                                {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                </tbody>
+                                </table>
+                        </div>
+                </div>
+        </div>
+        {% endfor %}
+</div>
+</div>
+
+</body>
+</html>

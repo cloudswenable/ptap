@@ -1,0 +1,7 @@
+CPU frequency(GHZ)
+IPC
+cache references(M/s)
+cache misses rate(%)
+branch instructions(M/s)
+branch misses rate(%)
+bus cycles(M/s)

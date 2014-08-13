@@ -1,0 +1,44 @@
+cpu-cycles			#	CPU frequency(GHZ)
+instructions			#	IPC
+cache-references		#	cache references(M/s)
+cache-misses			#	cache misses rate(%)
+branch-instructions		#	branch instructions(M/s)
+branch-misses			#	branch misses rate(%)
+bus-cycles			#	bus cycles(M/s)
+stalled-cycles-frontend		#	frontend cycles idle(%)
+stalled-cycles-backend		#	backend  cycles idle(%)
+cpu-clock			#
+task-clock			#	CPUs utilized
+page-faults			#	page faults(K/s)
+context-switches		#	context switches(K/s)
+cpu-migrations			#	cpu migrations(K/s)
+minor-faults			#	minor faults(K/s)
+major-faults			#	major faults(K/s)
+alignment-faults		#	alignment faults(K/s)
+emulation-faults		#	emulation faults(K/s)
+L1-dcache-loads			#	L1 dcache loads(M/s)
+L1-dcache-misses		#	L1 dcache load misses(%)
+L1-dcache-stores		#	L1 dcache stores(M/s)
+L1-dcache-misses		#	L1 dcache stores misses(M/s)
+L1-dcache-prefetches		#
+L1-dcache-misses		#	L1 dcache prefetch misses(M/s)
+L1-icache-loads			#
+L1-icache-misses		#	L1 icache loads misses(%)
+L1-icache-prefetches		#
+L1-icache-misses		#
+LLC-loads			#	LLC loads(M/s)
+LLC-misses			#	LLC loads misses(%)
+LLC-stores			#	LLC stores(M/s)
+LLC-misses			#	LLC stores misses(M/s)
+LLC-prefetches			#	LLC prefetches(M/s)
+LLC-misses			#	LLC prefetches misses(M/s
+dTLB-loads			#	dTLB loads(M/s)	
+dTLB-misses			#	dTLB loads misses(%)
+dTLB-stores			#	dTLB stores(M/s)
+dTLB-store-misses		#	dTLB stores misses(M/s)
+dTLB-prefetches			#
+dTLB-misses			#
+iTLB-loads			#	iTLB loads(M/s)
+iTLB-misses			#	iTLB loads misses(M/s)
+branch-loads			#	branch loads(M/s)
+branch-misses			#	branch loads misses(M/s)

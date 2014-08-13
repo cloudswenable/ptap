@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang='en'>
+<body>
+<div id='pagesTitle' class='row'><h3 class='span4 offset5'>showing {{itemName}}</h3></div>
+
+<div id='newShowTableContainer'>
+<div id='datatable'>
+    {% if datas %}
+        <div id='pageshow' class='pull-right text-info'>showing {{s}} to {{e}}</div>
+        <table class='table table-striped table-hover table-bordered ' id='newShowTable'>
+                <thead>
+                        <tr>
+                        <th></th>
+                        {% for column in columnNames %}
+                                <th>{{column}}</th>
+                        {% endfor %}
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for dataId, dataItem in datas %}
+                        <tr>
+                        <td><input id='newShowTable{{dataId}}' type='radio' value='{{dataId}}' name='rowchoose' /></td>
+                        {% for data in dataItem %}
+                                <td>{{data}}</td>
+                        {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+    {% else %}
+        No datas
+    {% endif %}
+    <div id='buttons' class='row'>
+        {% ifequal itemName 'services' %}
+        <div id='addbutton' onclick='popAddService()' data-target="#poptable" data-toggle="modal" style='margin-left:20px;' class='btn btn-inverse pull-left'><i class="icon-plus icon-white"></i> add</div>
+        <div id='delete' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='deleteService()'><i class="icon-trash icon-white"></i> delete</div>
+        <div id='modify' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='popModifyService()'><i class="icon-pencil icon-white"></i> modify</div>
+        <div id='runTest' onclick="serviceRun()" style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='run()'><i class="icon-play icon-white"></i> run</div>
+        {% endifequal %}
+
+        {% ifequal itemName 'results' %}
+        <div id='delete' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='deleteService()'><i class="icon-trash icon-white"></i> delete</div>
+        <div id='runTest' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='serviceNewAnalysis()'><i class="icon-plus icon-white"></i> new analysis</div>
+        {% endifequal %}
+
+        {% ifequal itemName 'analysises' %}
+        <div id='delete' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='deleteService()'><i class="icon-trash icon-white"></i> delete</div>
+        <div id='analysis' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='serviceAnalysis()'><i class="icon-play icon-white"></i> analysis</div>
+        <div id='show' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='serviceShow()'><i class="icon-eye-open icon-white"></i> show</div>
+        {% endifequal %}
+
+        <div id='nextbutton' style='margin-right:25px;' class='btn btn-inverse pull-right' onclick='serviceNext()'>next <i class="icon-forward icon-white"></i></div>
+        <div id='prebutton' style='margin-right:20px;' class='btn btn-inverse pull-right {%ifequal s 1 %} disabled {%endifequal%}' onclick='servicePrevious()'><i class="icon-backward icon-white"></i> previous</div>
+    </div>
+    <div class='lastline'></div>
+</div>
+</div>
+
+<div id='poptable' style='width:55%; height:75%;border-radius:0px;' class='modal hide fade' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class='modal-header' style='height: 6%; background-color:#1b1b1b; color:white;'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' style='color:white;'>x</button>
+        <h3 id='myModalLabel' >Add {{ itemName }}</h3>
+    </div>
+    <div style='overflow: auto;max-height:82%;height: 82%;'>
+    {% for column, lineType, inputType, buttonType in columnsInfo %}
+        <div id='{{column}}' class="row {{lineType}}" {% ifequal lineType 'firstline' %}style='margin-top:20px;'{% endifequal %}>
+            {% ifequal lineType 'firstline' %}
+                <div class='span3 offset1 firstcolumn'>{{ column }} :</div>
+            {% endifequal %}
+            {% ifequal lineType 'normal' %}
+                <div class='span3 offset1 firstcolumn'>{{ column }} :</div>
+            {% endifequal %}
+            {% ifequal lineType 'headline' %}
+                <div class='span3 offset1 firstheadline'><strong>{{ column }}</strong></div>
+            {% endifequal %}
+
+            {% ifequal inputType 'disable' %}
+                <input class='span4 offset1' style='float:left' type='text' name="{{column }}" disabled="disabled" />
+            {% endifequal %}
+            {% ifequal inputType 'disableupload' %}
+                <input class='span4 offset1' style='float:left;' type='text' name="{{column }}" value="source" disabled="disabled"/>
+            {% endifequal %}
+            {% ifequal inputType 'select' %}
+                <select name='{{column}}'>
+                        <option value ="NMF">NMF</option>
+                        <option value ="K-Means">K-Means</option>
+                </select>
+            {% endifequal %}
+            {% ifequal inputType 'normal' %}
+                <input class='span4 offset1' type='text' name="{{column }}"/>
+            {% endifequal %}
+            {% ifequal inputType 'textarea' %}
+                <textarea class='span4 offset1' rows="3" cols="26"></textarea>
+            {% endifequal %}
+
+            {% ifequal buttonType 'hiddenInput' %}
+                <input type='hidden' name='{{column}}ForeignId' />
+            {% endifequal %}
+            {% ifequal buttonType 'choose' %}
+                <input type='hidden' name='{{column}}ForeignId' />
+                <div class='btn btn-link span2 offset1 foreignbutton' onclick='serviceChoose(this)'>
+                <input type='hidden' value='{{ column}}'/>
+                choose
+                </div>
+            {% endifequal %}
+            {% ifequal buttonType 'upload' %}
+                <div id='uploadbutton' class='btn btn-link span2 offset1 foreignbutton' onclick='upload(this)'>upload</div>
+            {% endifequal %}
+            {% ifequal buttonType 'headchoose' %}
+                <div class='btn btn-link span2 offset5 headchoose' onclick='selectForeign(this)'>select</div>
+            {% endifequal %}
+        </div>
+    {% endfor %}
+    </div>
+    <div class='modal-footer' style='height:6%;'>
+        <button type='button' onclick='addService()' id='submitbutton' class='btn btn-inverse pull-left'><i class="icon-screenshot icon-white"></i> submit</button>
+        <div id="choosedalert" class="hide">upload files success</div>
+    </div>
+</div>
+<div id='selectpop' style='width:55%; height:75%;' class='hide modal fade' tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+<form id='postform' enctype="multipart/form-data" method='post'>{% csrf_token %}</form>
+<form id='getform' method='get'></form>
+<input id='start' type='hidden' value='{{start}}' />
+</body>
+</html>

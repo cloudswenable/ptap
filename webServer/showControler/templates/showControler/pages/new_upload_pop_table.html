@@ -1,0 +1,18 @@
+<div class='modal-header' style='height:6%;background-color:#1b1b1b;color:white;'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' style='color:white;'>x</button>
+        <h3>Upload Source Codes</h3>
+</div>
+<div id='uploaddatatable' class='modal-body' style='max-height:80%;height:80%;overflow:auto;'>
+    <div id='uploadrow' class='row'>
+    <div class='uploadrow pull-left' style='width:55%;'>
+	<input class='uploadcolumn pull-left' style='margin-left:15px;margin-top:2px;' name="showinput"/>
+	<div class='uploadcolumn btn btn-inverse pull-left' style='margin-left:5px;'><i class="icon-folder-open icon-white"></i> select file</div>
+	<input class='hiddeninput pull-left' style='filter: alpha(opacity=0);opacity:0;position: absolute;right: 45%; cursor: pointer;' name='upload' type='file' onchange="inputchange(this)" />
+    </div>
+    </div>
+</div>
+<div class='modal-footer' style='height:6%;'>
+	<div id='uploadadd' class='btn btn-inverse pull-left' onclick="addUploadRow()"><i class="icon-plus icon-white"></i> add</div>
+        <div id='uploadconfirm' class='btn btn-inverse pull-left' onclick='submitUpload()'><i class="icon-ok icon-white"></i> submit</div>
+        <div id='uploadcancel' class='btn btn-inverse pull-left' onclick='cancelUpload()'><i class="icon-remove icon-white"></i> cancel</div>
+</div>

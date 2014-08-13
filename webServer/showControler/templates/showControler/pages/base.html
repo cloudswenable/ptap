@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang='en'>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+
+{% block extracss %}{% endblock %}
+
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.bar.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/content_base.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/new_right_content.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/new_upload_pop_table.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/system_content.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/service_right_content.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+{% block extrjs %}{% endblock %}
+
+<style type='text/css'>
+#scrollingContainer{
+        margin:0;
+        padding:0;
+}
+#resultsShowTable{
+        clear:both;
+        margin-top: 50px;
+}
+.customNode{
+        float: left;
+        width: 33%;
+}
+.innerBox{
+        padding: 10px;
+}
+.innerBox .customHeader{
+        background:#1b1b1b;
+        color:white;
+        width: 100%;
+        height: 50px;
+        border-radius: 3px;
+}
+.customHeader .headerImg{
+        width: 30px;
+        height: 30px;
+        float: left;
+        margin: 10px 0 0 10px;
+}
+#resultsContainer .customHeader .headerImg{
+        background: url({% static 'showControler/images/cog.png' %}) no-repeat;
+}
+#systemContainer .customHeader .headerImg{
+        background: url({% static 'showControler/images/computer.png' %}) no-repeat;
+}
+.innerBox .customHeader .textDiv{
+        font-size: 18px;
+        float: left;
+        padding-top: 14px;
+        padding-left: 5px;
+}
+.innerBox .customHeader .checkboxDiv{
+        float: right;
+        padding: 15px 30px 0 0 ;
+        margin:0;
+}
+.innerBox .customBody{
+        background: white;
+        clear: both;
+        margin:0 2px;
+        border: 1px solid #bcbcbc;
+        border-top: 0;
+}
+.innerBox .customBody .lilist{
+        border-bottom: 1px dotted #ababab;
+        color: #444444;
+}
+.innerBox .customBody .lilist span{
+        display: table-cell;
+        padding: 2px 5px;
+}
+.cutline{
+        clear: both;
+}
+.table-striped tbody > tr.selectedRow:nth-child(odd) > td, .table-striped tbody > tr.selectedRow:nth-child(even) > td{
+        background-color: #B0BED9;
+}
+#machineShowTable{
+        clear:both;
+        float:left;
+        width:100%;
+        margin-top:20px;
+}
+#machineShowTable .customNode{
+        width:25%;
+}
+</style>                                      
+
+<title>{% block title %}Performance Tracking and Analysis Platform{% endblock %}</title>
+</head>
+<body>
+{% block header %}
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Performance Tracking and Analysis Platform</a>
+        <div id='header' class='nav-collapse collapse pull-right'>
+                <ul class='nav'>
+                <li class='pull-right {% if new %} active {% endif %}'>
+                <a href="{% url 'showControler:new' %}">new</a>
+                </li>
+                <li class='pull-right {% if analysis %} active {% endif %}'>
+                <a href="{% url 'showControler:index' %}">analysis</a>
+                </li>
+                <li class='pull-right {% if system %} active {% endif %}'>
+                <a href="{% url 'showControler:system' %}">system</a>
+                </li>
+                <li class='pull-right {% if service %} active {% endif %}'>
+                <a href="{% url 'showControler:service' %}">service</a>
+                </li>
+                </ul>
+        </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+<div class='container-fluid' id='content'>
+{% block content %}content ... {% endblock %}
+</div>
+</body>
+</html>

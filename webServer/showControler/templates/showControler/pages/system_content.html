@@ -1,0 +1,37 @@
+{% extends "showControler/pages/base.html" %}
+{% load staticfiles %}
+
+{%block content %}
+<div id='systemContainer'>
+<div id='machineShowButtons'>
+	<button class='btn btn-inverse btn-large pull-right' style='margin-right:20px;' id='clearButton' onclick='clearMachines()'><i class="icon-trash icon-white"></i> clear</button>
+	<button class='btn btn-inverse btn-large pull-right' style='margin-right:20px;' id='syncButton' onclick='syncMachines()'><i class="icon-refresh icon-white"></i> sync</button>
+</div>
+<div id='machineShowTable'>
+{% for name, cutline, infos in machines %}
+<div class='customNode'>
+<div class='innerBox'>
+	<div class='customHeader'>
+	<div class='headerImg'></div>
+	<div class='textDiv'>{{name}}</div>
+	</div>
+	<div class='customBody'>
+	<div class='ullist'>
+	{% for title, data in infos %}
+		<div class='lilist'>
+		<span>{{title}}:</span>
+		<span>{{data}}</span>
+		</div>
+	{% endfor %}
+	</div>
+	</div>
+</div>
+</div>
+{%if cutline %}
+<div class='cutline'></div>
+{%endif%}
+{% endfor %}
+</div>
+
+</div>
+{% endblock %}

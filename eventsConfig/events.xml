@@ -1,0 +1,521 @@
+<?xml version="1.0"?>
+<root>
+    <event core="Sandy Bridge">
+		<realName>INST_RETIRED:ANY_P</realName>
+		<configs>
+			<config>0x5300c0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>CPU_CLK_UNHALTED:THREAD_P</realName>
+		<configs>
+			<config>0x53003c</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>CPU_CLK_UNHALTED:REF_P</realName>
+		<configs>
+			<config>0x53013c</config>
+		</configs>
+	</event>
+    <event core="Sandy Bridge">
+		<realName>INST_RETIRED:ANY_P:SUP</realName>
+		<configs>
+			<config>0x5200c0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>CPU_CLK_UNHALTED:THREAD_P:SUP</realName>
+		<configs>
+			<config>0x52003c</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>CPU_CLK_UNHALTED:REF_P:SUP</realName>
+		<configs>
+			<config>0x52013c</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_RETIRED:ALL:c1</realName>
+		<configs>
+			<config>0x15301c2</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L2_RQSTS:ALL_DEMAND_DATA_RD</realName>
+		<configs>
+			<config>0x530324</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L2_RQSTS:ALL_DEMAND_RD_HIT</realName>
+		<configs>
+			<config>0x530124</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>OFFCORE_REQUESTS_OUTSTANDING:DEMAND_DATA_RD</realName>
+		<configs>
+			<config>0x530160</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>OFFCORE_REQUESTS:DEMAND_DATA_RD</realName>
+		<configs>
+			<config>0x5301b0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>MEM_LOAD_UOPS_RETIRED:L1_HIT</realName>
+		<configs>
+			<config>0x5301d1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>MEM_LOAD_UOPS_RETIRED:L2_HIT</realName>
+		<configs>
+			<config>0x5302d1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_PCIITOM</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xce000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_Q_CLOCKTICKS</realName>
+		<configs>
+			<config>0x14</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_H_REQUESTS:READS</realName>
+		<configs>
+			<config>0x301</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_H_REQUESTS:WRITES</realName>
+		<configs>
+			<config>0xc01</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_CAS_COUNT:RD</realName>
+		<configs>
+			<config>0x304</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_CAS_COUNT:WR</realName>
+		<configs>
+			<config>0xc04</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_ACT_COUNT</realName>
+		<configs>
+			<config>0x1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_PRE_COUNT:PAGE_MISS</realName>
+		<configs>
+			<config>0x102</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_P_CLOCKTICKS</realName>
+		<configs>
+			<config>0x0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_P_FREQ_MAX_LIMIT_THERMAL_CYCLES</realName>
+		<configs>
+			<config>0x4</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_P_FREQ_MAX_POWER_CYCLES</realName>
+		<configs>
+			<config>0x5</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_P_FREQ_MAX_OS_CYCLES</realName>
+		<configs>
+			<config>0x6</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>BR_INST_RETIRED:ALL_BRANCHES</realName>
+		<configs>
+			<config>0x5304c4</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>BR_MISP_RETIRED:ALL_BRANCHES</realName>
+		<configs>
+			<config>0x5304c5</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_OCCUPANCY:MISS_OPCODE:OPC_DRD</realName>
+		<configs>
+			<config>0x336</config>
+			<config>0xc1000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_DRD</realName>
+		<configs>
+			<config>0x335</config>
+			<config>0xc1000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_PRD</realName>
+		<configs>
+			<config>0x335</config>
+			<config>0xc3800000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_WCILF</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xc6000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_WCIL</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xc6800000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_ITOM</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xe4000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_ITOM</realName>
+		<configs>
+			<config>0x335</config>
+			<config>0xe4000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_PCIITOM</realName>
+		<configs>
+			<config>0x335</config>
+			<config>0xce000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSWR</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xf2800000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSWRF</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xf3000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_CLOCKTICKS</realName>
+		<configs>
+			<config>0xff</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>MEM_UOPS_RETIRED:LOCK_LOADS</realName>
+		<configs>
+			<config>0x5321d0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L2_LINES_IN:ANY</realName>
+		<configs>
+			<config>0x5307f1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_LLC_VICTIMS:M_STATE</realName>
+		<configs>
+			<config>0x137</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_POWER_CHANNEL_PPD</realName>
+		<configs>
+			<config>0x85</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_POWER_SELF_REFRESH</realName>
+		<configs>
+			<config>0x43</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_M_POWER_CRITICAL_THROTTLE_CYCLES</realName>
+		<configs>
+			<config>0x86</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_RETIRED:ALL</realName>
+		<configs>
+			<config>0x5301c2</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_RETIRED:RETIRE_SLOTS</realName>
+		<configs>
+			<config>0x5302c2</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>ITLB_MISSES:WALK_COMPLETED</realName>
+		<configs>
+			<config>0x530285</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>DSB2MITE_SWITCHES:PENALTY_CYCLES</realName>
+		<configs>
+			<config>0x5302ab</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSRD</realName>
+		<configs>
+			<config>0x135</config>
+			<config>0xf2000000</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L2_RQSTS:CODE_RD_MISS</realName>
+		<configs>
+			<config>0x532024</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L2_RQSTS:ALL_CODE_RD</realName>
+		<configs>
+			<config>0x533024</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>FP_COMP_OPS_EXE:SSE_PACKED_SINGLE</realName>
+		<configs>
+			<config>0x534010</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>FP_COMP_OPS_EXE:SSE_FP_SCALAR_SINGLE</realName>
+		<configs>
+			<config>0x532010</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>FP_COMP_OPS_EXE:SSE_FP_PACKED_DOUBLE</realName>
+		<configs>
+			<config>0x531010</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>FP_COMP_OPS_EXE:SSE_SCALAR_DOUBLE</realName>
+		<configs>
+			<config>0x538010</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>DTLB_LOAD_MISSES:WALK_DURATION</realName>
+		<configs>
+			<config>0x530408</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>DTLB_LOAD_MISSES:WALK_COMPLETED</realName>
+		<configs>
+			<config>0x530208</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>DTLB_STORE_MISSES:WALK_COMPLETED</realName>
+		<configs>
+			<config>0x530249</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>DTLB_STORE_MISSES:WALK_DURATION</realName>
+		<configs>
+			<config>0x530449</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>INT_MISC:RECOVERY_CYCLES</realName>
+		<configs>
+			<config>0x153030d</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>IDQ_UOPS_NOT_DELIVERED:CORE</realName>
+		<configs>
+			<config>0x53019c</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_ISSUED:ANY</realName>
+		<configs>
+			<config>0x53010e</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>MEM_UOPS_RETIRED:ALL_LOADS</realName>
+		<configs>
+			<config>0x5381d0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>MEM_UOPS_RETIRED:ALL_STORES</realName>
+		<configs>
+			<config>0x5382d0</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>INT_MISC:RAT_STALL_CYCLES</realName>
+		<configs>
+			<config>0x53400d</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>RS_EVENTS:EMPTY_CYCLES</realName>
+		<configs>
+			<config>0x53015e</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>IDQ:MS_UOPS</realName>
+		<configs>
+			<config>0x533079</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>IDQ:MITE_UOPS</realName>
+		<configs>
+			<config>0x530479</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>IDQ:DSB_UOPS</realName>
+		<configs>
+			<config>0x530879</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>RESOURCE_STALLS:ANY</realName>
+		<configs>
+			<config>0x5301a2</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_0</realName>
+		<configs>
+			<config>0x5301a1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_1</realName>
+		<configs>
+			<config>0x5302a1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_4</realName>
+		<configs>
+			<config>0x5340a1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_5</realName>
+		<configs>
+			<config>0x5380a1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_2</realName>
+		<configs>
+			<config>0x530ca1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>UOPS_DISPATCHED_PORT:PORT_3</realName>
+		<configs>
+			<config>0x5330a1</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>L1D:REPLACEMENT</realName>
+		<configs>
+			<config>0x530151</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+		<realName>CPU_CLK_UNHALTED:THREAD_P:k</realName>
+		<configs>
+			<config>0x52003c</config>
+		</configs>
+	</event>
+	<event core="Sandy Bridge">
+                <realName>CPU_CLK_UNHALTED:THREAD_P:k</realName>
+                <configs>
+                       <config>0x5200c0</config>
+                </configs>
+        </event>
+        <event core="Sandy Bridge">
+               <realName>UOPS_RETIRED:ALL:c=1</realName>
+               <configs>
+                      <config>0x15301c2</config>
+               </configs>
+        </event>
+        <event core="Sandy Bridge">
+               <realName>L2_RQSTS:ALL_DEMAND_DATA_RD</realName>
+               <configs>
+                      <config>0x530324</config>
+               </configs>
+        </event>
+        <event core="Sandy Bridge">
+               <realName>L2_RQSTS:ALL_DEMAND_RD_HIT</realName>
+               <configs>
+                      <config>0x530124</config>
+               </configs>
+        </event>
+        <event core="Sandy Bridge">
+               <realName>OFFCORE_RESPONSE_0:ANY_DATA:LLC_HITMESF:HITM</realName>
+               <configs>
+                      <config>0x5301b7</config>
+                      <config>0x10003c0091</config>
+               </configs>
+        </event>
+        <event core="Sandy Bridge">
+               <realName>UNC_C_TOR_INSERTS:OPCODE:OPC_PCIPRD</realName>
+               <configs>
+                      <config>0x135</config>
+                      <config>0xca800000</config>
+               </configs>
+        </event>
+</root>

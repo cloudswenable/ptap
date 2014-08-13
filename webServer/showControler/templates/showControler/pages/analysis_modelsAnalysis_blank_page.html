@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.line.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script src="{% static 'showControler/js/analysis_right_content.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                showModelsAnalysisDatas();
+        });
+</script>
+</head>
+<body>
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Models Analysis</a>
+</div>
+</div>
+</div>
+
+<div id='compareContainer' class='container-fluid'>
+        <div id='chartsContainer'>
+                <div id='datasBlock' style='display:none'>
+                        <table id='cpusDatas'>
+                                <tbody>
+                                {% for name, datas in cpus %}
+                                <tr id='{{name}}'>
+                                {% for item in datas %}
+                                        <td>{{item}}</td>
+                                {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                        <table id='memsDatas'>
+                                <tbody>
+                                {% for name, datas in mems %}
+                                <tr id='{{name}}'>
+                                {% for item in datas %}
+                                        <td>{{item}}</td>
+                                {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                        <table id='iosDatas'>
+                                <tbody>
+                                {% for name, datas in ios %}
+                                <tr id='{{name}}'>
+                                {% for item in datas %}
+                                        <td>{{item}}</td>
+                                {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                        <table id='netsDatas'>
+                                <tbody>
+                                {% for name, datas in nets %}
+                                <tr id='{{name}}'>
+                                {% for item in datas %}
+                                        <td>{{item}}</td>
+                                {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                        <table id='powersDatas'>
+                                <tbody>
+                                {% for name, datas in powers %}
+                                <tr id='{{name}}'>
+                                {% for item in datas %}
+                                        <td>{{item}}</td>
+                                {% endfor %}
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                        </table>
+                </div>
+                <div id='realCharts' style='width:100%; border-bottom: solid #444444 2px;'>
+                        <h3 class='span5 offset6'>Source Utilization</h3>
+                        <h4 class='span4 offset1' style='clear:both'>CPU Utilization</h4>
+                        <div id='cpusDatasCharts' ></div>
+                        <h4 class='span4 offset1' >Memory Utilization</h4>
+                        <div id='memsDatasCharts' ></div>
+                        <h4 class='span4 offset1' >IO Utilization</h4>
+                        <div id='iosDatasCharts' ></div>
+                        <h4 class='span4 offset1' >Net Utilization</h4>
+                        <div id='netsDatasCharts' ></div>
+                        <h4 class='span4 offset1' >Power Utilization</h4>
+                        <div id='powersDatasCharts' ></div>
+                </div>
+        </div>
+        <div id='summaryContainer'>
+                <h3 class='span5 offset6'>Application Model Prediction</h3>
+                <div id='predictionSummaryContainer' style='clear:both; margin-bottom: 100px;'>
+                <div id='leftSummary' style='width:30%;margin:0 5% 0 15%;float:left;'>
+                        <h5>{{chooseModel}}</h5>
+                        <div>{{summary}}</div>
+                </div>
+                <div id='rightSummary' style='width:40%;margin:0 5%; float:left;'>
+                        {% for metric, data in metrics %}
+                        <div><span>{{metric}} : </span><span>{{data}}</span></div>
+                        {% endfor %}
+                </div>
+                </div>
+        </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,57 @@
+{% extends "showControler/pages/base.html" %}
+{% load staticfiles %}
+
+{% block extracss %}
+{% block childcss %}
+{% endblock %}
+{% endblock %}
+
+{% block extrjs %}
+{% block childjs %}
+{% endblock %}
+{% endblock %}
+
+{% block content %}
+<div class='row-fluid'>
+<div id='leftcontent' class='span3'>
+{% block leftcontent %}
+        <div class='well sidebar-nav'>
+	<ul class='nav nav-list'>
+        {% if dirItems %}
+                {% if analysis %}
+                {% for id, name in dirItems %}
+                        <li style='cursor:pointer;' class='{% ifequal name chooseItem %}active{% endifequal %}'>
+                        <input type='hidden' value='{{ id }}' />
+                        <a>{{name}}</a>
+                        </li>
+                {% endfor %}
+                {% elif new %}
+                {% for name in dirItems %}
+                        <li style='cursor:pointer;' class='{% ifequal name chooseItem %}active{% endifequal %}'>
+                        <a>{{name}}</a>
+                        </li>
+                {% endfor %}
+                {% elif service %}
+                {% for name in dirItems %}
+                        <li style='cursor:pointer;' class='{% ifequal name chooseItem %}active{% endifequal %}'>
+                        <a>{{name}}</a>
+                        </li>
+                {% endfor %}
+                {% endif %}
+        {% else %}
+        No Directory Items
+        {% endif %}
+	</ul>
+        </div>
+{% endblock %}
+</div>
+
+<div id='rightcontent' class='span9'>
+{% block rightcontent %}
+right content ...
+{% endblock %}
+</div>
+
+</div>
+{% endblock %}
+

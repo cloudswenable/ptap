@@ -1,0 +1,43 @@
+<div class='modal-header' style='height:6%;background-color:#1b1b1b;color:white;'>
+        <button type='button' class='close' data-dismiss='modal' aria-hidden='true' style='color:white;'>x</button>
+        <h3>Select {{ itemName }}</h3>
+</div>
+<div class='modal-body' style='max-height:80%;overflow:auto;height:80%;'>
+    {% if datas %}
+	<div id='popshowindex' class='pull-right text-info'>showing {{s}} to {{e}} </div>
+	<table id='popShowTable' class='table table-striped table-hover table-bordered '>
+                <thead>
+                        <tr>
+                        <th></th>
+                        {% for column in columnNames %}
+                                <th>{{column}}</th>
+                        {% endfor %}
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for dataId, dataItem in datas %}
+                        <tr>
+                        <td><input id='newShowTable{{dataId}}' type='radio' value='{{dataId}}' name='poprowchoose' /></td>
+                        {% for data in dataItem %}
+                                <td>{{data}}</td>
+                        {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+    {% else %}
+	<div>
+        No datas
+	</div>
+    {% endif %}
+</div>
+<div class='modal-footer' style='height:6%;'>
+        <div id='popconfirm' class='btn btn-inverse pull-left' onclick='selectItem()'><i class="icon-ok icon-white"></i> confirm</div>
+        <div id='popcancel' class='btn btn-inverse pull-left' onclick='hideanother()'><i class="icon-remove icon-white"></i> cancel</div>
+        <div id='next' class='btn btn-inverse pull-right ' onclick='popnext()'>next <i class="icon-forward icon-white"></i></div>
+        <div id='popprevious' class='btn btn-inverse pull-right {%ifequal s 1 %} disabled {%endifequal%}' onclick='popprevious()'><i class="icon-backward icon-white"></i> previous</div>
+<input id='popmps' type='hidden' value="{{mps}}"/>
+<input id='poptestps' type='hidden' value="{{tps}}"/>
+<input id='popprojectps' type='hidden' value="{{pps}}"/>
+<input id='popsourcecodeps' type='hidden' value="{{sps}}"/>
+</div>

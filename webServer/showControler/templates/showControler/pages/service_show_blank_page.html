@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.tooltips.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.effects.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.line.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.bar.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/content_base.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script src="{% static 'showControler/js/service_blank_content.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                showServiceTestsChart();
+        });
+</script>
+</head>
+<body>
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Showing Service {{analysisName}}</a>
+</div>
+</div>
+</div>
+
+<div id='serviceShowContainer' class='container-fluid' style='width:96%;overflow:hidden;'>
+<div id='features' class='row-fluid' style='width:100%;overflow:auto;'>
+        <h3 class='pull-left'>Features</h3>
+        <table id='featuresTable' class='table table-striped table-hover table-bordered table-condensed' style='font-size:12px;'>
+                <tbody>
+                        {% for feature, datas in features %}
+                        <tr>
+                                <td>{{feature}}</td>
+                                {% for data in datas %}
+                                <td>{{data}}</td>
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
+<div id='testsChart' class='row-fluid' style='overflow:hidden'>
+        <div id='testFeatures' style='display:none'>
+        {% for test, feature in testFeatures %}
+                <li><span class='first'>{{test}}</span><span class='second'>{{feature}}</span></li>
+        {% endfor %}
+        </div>
+        <h3 class='pull-left'>Tests Chart</h3>
+        <div style='clear:both'></div>
+        <div id='testsChartContainer' style='width:100%;overflow:auto;'></div>
+</div>
+<div id='testsTable' class='row-fluid' style='width:100%;overflow:auto;'>
+        <h3 class='pull-left'>Tests Datas Table</h3>
+        <table id='featuresTable' class='table table-striped table-hover table-bordered table-condensed'>
+                <thead>
+                        <tr>
+                        <th></th>
+                        {% for metric in metrics %}
+                        <th>{{metric}}</th>
+                        {% endfor %}
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for test, datas in tests %}
+                        <tr>
+                                <td>{{test}}</td>
+                                {% for data in datas %}
+                                <td>{{data}}</td>
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
+<div id='rawTestsTable' class='row-fluid' style='width:100%;overflow:auto;'>
+        <h3 class='pull-left'>Tests Raw Datas Table</h3>
+        <table id='featuresTable' class='table table-striped table-hover table-bordered table-condensed'>
+                <thead>
+                        <tr>
+                        <th></th>
+                        {% for metric in metrics %}
+                        <th>{{metric}}</th>
+                        {% endfor %}
+                        </tr>
+                </thead>
+                <tbody>
+                        {% for test, datas in rawTests %}
+                        <tr>
+                                <td>{{test}}</td>
+                                {% for data in datas %}
+                                <td>{{data}}</td>
+                                {% endfor %}
+                        </tr>
+                        {% endfor %}
+                </tbody>
+        </table>
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<root>
+
+    <metric name="CPI">
+		<fullname>metric_CPI</fullname>
+		<throughput-metric-name>metric_cycles per txn</throughput-metric-name>
+		<event alias="a">CPU_CLK_UNHALTED:THREAD_P</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+    </metric>
+
+	<metric name="L1D MPI">
+		<fullname>metric_L1D MPI (includes data+rfo w/ prefetches)</fullname>
+        <throughput-metric-name>metric_L1D misses per txn (includes data+rfo w/ prefetches)</throughput-metric-name>
+		<event alias="a">L1D:REPLACEMENT</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+
+	<metric name="L2 MPI">
+		<fullname>metric_L2 MPI (includes code+data+rfo w/ prefetches)</fullname>
+        <throughput-metric-name>metric_L2 misses per txn (includes code+data+rfo w/ prefetches)</throughput-metric-name>
+		<event alias="a">L2_LINES_IN:ANY</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+	
+ 
+	<metric name="ITLB MPI">
+		<fullname>metric_ITLB MPI</fullname>
+        <throughput-metric-name>metric_ITLB misses per txn</throughput-metric-name>
+		<event alias="a">ITLB_MISSES:WALK_COMPLETED</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+</root>

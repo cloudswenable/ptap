@@ -8,7 +8,7 @@ All function are writted by python. Website adopts the Django framework, bootstr
 
 For easily using ptap, we provide some script in "bin", for a try usage, you can deploy the web server and client on the same server and just run "bing/startAll.sh". Also you can deploy ptap on cluster mode with copying all code without the "webserver" to target machine and edit the conf file "clusterService/config/agentclient.cfg", the bellow is a sample:
 
-##sample config
+#sample client config
 [remote-server]
 server_ip = 10.240.192.112
 server_port = 54321
@@ -20,6 +20,25 @@ interval = 10
 
 in the config, we set the central server IP and port for tcp layer and interval 10 seconds for heartbeat check.
 
+#How to install it.
+#install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
+tar xzvf Django-1.6.2.tar.gz
+cd Django-1.6.2
+sudo python setup.py install
+
+#install rabbitmq-server(http://www.rabbitmq.com/download.html)
+follow Installation Guides
+
+#install mysql and create a database "performancedb"
+
+#run setup.py
+./setup.py mysql_username mysql_passwd
+
+#start server
+bin/startall.py
+
+#stop server
+bin/stopall.py
+
 Copyright notice:
   Some license files are include in the root path. PTAP self use the intel sample code license. 
-

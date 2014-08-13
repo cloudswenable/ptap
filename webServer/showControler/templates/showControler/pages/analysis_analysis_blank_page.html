@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.bar.js' %}"></script>
+<script type="text/javascript" src="{% static 'showControler/js/content_base.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script src="{% static 'showControler/js/analysis_right_content.js' %}"></script>
+<script src="{% static 'showControler/js/analysis_blank_page.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                var metricName = 'self-defined performance matrix';
+                var ids = [];
+                $('input[name="ids"]').each(function(i, e){
+                        ids.push($(e).val());
+                });
+                context = {'metricName': metricName, 'ids':ids};
+                loadShowTable(context, "text", "/show/analysisanalysisrightpage", analysis_analysis_right_content);
+        });
+</script>
+</head>
+<body>
+<div id = 'ids'>
+{% for id in ids %}
+        <input type='hidden' value='{{id}}' name='ids' />
+{% endfor %}
+</div>
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Analysis All Tables</a>
+</div>
+</div>
+</div>
+
+<div class='container-fluid' id='content'>
+<div class='row-fluid'>
+        <div id='leftcontent' class='span3'>
+                <div class='accordion' id='accordion1'>
+                        {% for count, groupname, title, items in titles %}
+                                <div class='accordion-group'>
+                                <div class='accordion-heading'>
+                                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#{{groupname}}">
+                                        <h4>{{title}}</h4>
+                                        </a>
+                                </div>
+                                <div id='{{groupname}}' class='accordion-body collapse {% ifequal count 0 %}in{% endifequal %}'>        
+                                        <div class='accordion-inner well sidebar-nav' >
+                                                <ul class="nav nav-list" style="cursor:pointer;">
+                                                        {% for itemcount, item in items %}
+                                                                <li {% ifequal count 0 %}{% ifequal itemcount 0 %}class='active'{% endifequal %}{% endifequal %} onclick='showAnalysisMetrics(this)'><a>{{item}}</a></li>
+                                                        {% endfor %}
+                                                </ul>
+                                        </div>
+                                </div>
+                                </div>
+                        {% endfor %}
+
+                </div>
+        </div>
+
+        <div id='rightcontent' class='span9'>
+
+        </div>
+</div>
+</div>
+
+</body>
+</html>
