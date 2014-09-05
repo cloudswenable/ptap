@@ -25,6 +25,7 @@ class AgentClientConfig(object):
         	self.server_port = int(self.config.get('remote-server', 'server_port'))
 
         	self.heartbeat_interval = int(self.config.get('heartbeat-checker', 'interval'))
+                self.client_ip = self.config.get('client', 'client_ip')
 
 class FrontendAgentClientConfig(object):
 	def __init__(self):

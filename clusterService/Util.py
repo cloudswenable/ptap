@@ -4,14 +4,11 @@ import platform
 import os
 import shutil
 import traceback
-
+from ClusterConfig import *
 def collectMachineInfo():
 	name = open('/proc/sys/kernel/hostname').read().strip()
-
-	ip_addr = socket.gethostbyname(socket.gethostname())
-        if ip_addr == '127.0.0.1':
-                iplist = socket.gethostbyname_ex(socket.gethostname())
-                ip_addr = iplist[2][1]
+        config = AgentClientConfig()
+	ip_addr = config.client_ip
 	os_info = "-".join(platform.linux_distribution())
 
 	cpuinfo = open('/proc/cpuinfo').read()
