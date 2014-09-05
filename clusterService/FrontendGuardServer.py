@@ -30,7 +30,7 @@ class FrontendGuardServer(threading.Thread):
                         except:
                                 portUsed = True
 
-                ip = socket.gethostbyname(socket.gethostname())
+                ip = '127.0.0.1'
                 return (ip, port)
 
 
