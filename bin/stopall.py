@@ -10,7 +10,7 @@ s = c.communicate()
 commands = s[0].split('\n')
 pa = re.compile('\\d{1,6}')
 for command in commands:
-    if command.find('perf-monitor-platform')>=0:
+    if command.find('ptap')>=0:
 	gs = pa.search(command)
 	pid = gs.group(0)
 	print 'kill : ', pid 
