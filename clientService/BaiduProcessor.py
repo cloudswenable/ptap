@@ -2,6 +2,7 @@ __author__ = 'jimmy'
 
 from Processor import *
 from Util import *
+import traceback
 
 class BaiduProcessorConfig(ProcessorConfig):
 
@@ -15,8 +16,14 @@ class BaiduProcessorConfig(ProcessorConfig):
 
     def getOutputPath(self):
         tmp = 'AllSource/ClientOutput/' + self.rPath + '/Process/Metrics/RMON/'
+        try:
+            shutil.rmtree(tmp)
+        except:
+            pass
+        if not os.path.exists(tmp):
+            os.makedirs(tmp)
         path = createPaths(self.root_path, tmp) + 'report.dat'
-        return path
+        return path 
 
 class BaiduProcessor(Processor):
 

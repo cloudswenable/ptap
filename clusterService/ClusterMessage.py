@@ -29,6 +29,8 @@ class ClusterMessage(object):
                          21 "AnalysisSuccessMessage"
                          22 "QueryAResultOverviewMessage"
                          23 "QueryModelsResultsMessage"
+                         24 "StopMessage"
+                         25 "QueryDynamicOverviewMessage"
     	'''
 	def __init__(self, type=0):
         	self.type = type
@@ -313,3 +315,25 @@ class QueryModelsResultsMessage(ClusterMessage):
         tmp = json.dumps([rPath])
         self.body = tmp
         self.msg_len = len(self.body)
+
+class StopMessage(ClusterMessage):
+    def __init__(self, direction, id, fileno):
+        ClusterMessage.__init__(self, 24)
+        self.direction = direction
+        self.id = id
+        self.fileno = fileno
+        tmp = json.dumps([direction, id, fileno])
+        self.body = tmp
+        self.msg_len = len(self.body)
+
+class QueryDynamicOverviewMessage(ClusterMessage):
+    def __init__(self, rPath, qtables, starts, next):
+        ClusterMessage.__init__(self, 25)
+        self.rPath = rPath
+        self.qtables = qtables
+        self.starts = starts
+        self.next = next
+        tmp = json.dumps([rPath, qtables, starts, next])
+        self.body = tmp
+        self.msg_len = len(self.body)
+

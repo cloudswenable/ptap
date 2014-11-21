@@ -58,10 +58,10 @@ class Job(object):
 
 
 class JobDispatcher(threading.Thread):
-    def __init__(self, messageHandler=None):
+    def __init__(self, responseQueue=None):
         super(JobDispatcher, self).__init__()
         self.job_queue = Queue.Queue()
-        self.handler = JobHandler(messageHandler)
+        self.handler = JobHandler(responseQueue)
 
     def run(self):
         self.handler.start()
@@ -74,47 +74,56 @@ class JobDispatcher(threading.Thread):
         if job:
             self.job_queue.put(job)
 
+    def stopMonitor(self):
+        self.handler.stopMonitor()
 
 class JobHandler(threading.Thread):
-    def __init__(self, messageHandler):
-        super(JobHandler, self).__init__()
+    def __init__(self, responseQueue):
+        threading.Thread.__init__(self)
         self.job_queue = Queue.Queue()
-        self.messageHandler = messageHandler
+        self.responseQueue = responseQueue
         self.process_steps = [
             PMUMonitorAdapter(PMUMonitor(), PMUProcessor()),
             PerfListMonitorAdapter(PerfListMonitor(), PerfListProcessor()),
             SARMonitorAdapter(SARMonitor(), SARProcessor()),
             HotspotsMonitorAdapter(HotspotsMonitor(), HotspotsProcessor()),
-            #BaiduMonitorAdapter(BaiduMonitor(), BaiduProcessor())
+            BaiduMonitorAdapter(BaiduMonitor(), BaiduProcessor())
         ]
 
     def run(self):
         while True:
             try:
-                job = self.job_queue.get()
+                self.job = self.job_queue.get()
                 #Start source code project
                 sourceCodeControler = SourceDeploymentControler()
-                pid = sourceCodeControler.run(job.source_path)
+                pid = sourceCodeControler.run(self.job.source_path)
                 print 'START SOURCE CODE PROCESS PID : ', pid
-                if job:
-                    job.pid = pid
+                if self.job:
+                    self.job.pid = pid
                     for step in self.process_steps:
-                        step.startMonitor(job)
-                        step.startProcessor(job)
-                    if (self.messageHandler):
-                        self.messageHandler.enqueue({'status': 'done'})
-                else:
-                    if (self.messageHandler):
-                        self.messageHandler.enqueue({'status': 'fail'})
+                        step.job = self.job
+                        step.start()
+                    #for step in self.process_steps:
+                    #    step.join()
             except:
                 traceback.print_exc()
-                if (self.messageHandler):
-                    self.messageHandler.enqueue({'status': 'fail'})
             print 'JOB DONE'
 
     def handle(self, job):
         if job:
             self.job_queue.put(job)
+
+    def stopMonitor(self):
+        for step in self.process_steps:
+            monitor = step.monitor
+            if monitor.isAlive():
+                monitor.running = False
+    
+        for step in self.process_steps:
+            if step.isAlive():
+                step.join()
+
+        self.responseQueue.put({'status': 'done', 'rPath': self.job.path})
 
 
 def test():

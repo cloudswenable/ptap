@@ -54,6 +54,13 @@ class ShowView(View):
                 return HttpResponse(json.dumps(data),
                                     content_type='text/json')
 
+class StopView(View):
+        def get(self, request, *args, **kwargs):
+                id = request.GET['id']
+                result = Result.objects.get(pk=id)
+                fileno = result.test.machine.fileno
+                frontendAgent.enqueue((6, [id, fileno]))
+                return HttpResponseRedirect(reverse('showControler:redirectnew', args=('results',)))
 
 class RunView(View):
     def get(self, request, *args, **kwargs):

@@ -1,5 +1,12 @@
 <?xml version="1.0"?>
 <root>
+	<metric name="CPU frequency">
+		<fullname>metric_CPU operating frequency (in GHz)</fullname>
+        <event alias="a">CPU_CLK_UNHALTED:THREAD_P</event>
+		<event alias="b">CPU_CLK_UNHALTED:REF_P</event>
+		<constant alias="c">system.tsc_freq</constant>
+		<formula>(a/b*c)/1000000000</formula>
+	</metric>
 
     <metric name="CPI">
 		<fullname>metric_CPI</fullname>
@@ -9,6 +16,76 @@
 		<formula>a/b</formula>
     </metric>
 
+    <metric name="kernel CPI">
+		<fullname>metric_kernel_CPI</fullname>
+        <event alias="a">CPU_CLK_UNHALTED:THREAD_P:k</event>
+        <event alias="b">INST_RETIRED:ANY_P:k</event>
+        <formula>a/b</formula>
+    </metric>
+
+    <metric name="cycles uops retired">
+		<fullname>metric_% cycles uops retired</fullname>
+        <event alias="a">UOPS_RETIRED:ALL:c=1</event>
+        <event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+        <formula>100*a/b</formula>
+    </metric>
+	
+	<metric name="branch mispredict ratio">
+		<fullname>metric_branch mispredict ratio</fullname>
+		<event alias="a">BR_MISP_RETIRED:ALL_BRANCHES</event>
+		<event alias="b">BR_INST_RETIRED:ALL_BRANCHES</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="loads PI">
+		<fullname>metric_loads per instr</fullname>
+        <throughput-metric-name>metric_loads per txn</throughput-metric-name>
+		<event alias="a">MEM_UOPS_RETIRED:ALL_LOADS</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="stores PI">
+		<fullname>metric_stores per instr</fullname>
+        <throughput-metric-name>metric_stores per txn</throughput-metric-name>
+		<event alias="a">MEM_UOPS_RETIRED:ALL_STORES</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>	
+
+	<metric name="locks retired PI">
+		<fullname>metric_locks retired per instr</fullname>
+        <throughput-metric-name>metric_locks retired per txn</throughput-metric-name>
+		<event alias="a">MEM_UOPS_RETIRED:LOCK_LOADS</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>	
+
+	<metric name="uncacheable reads PI">
+		<fullname>metric_uncacheable reads per instr</fullname>
+        <throughput-metric-name>metric_uncacheable reads per txn</throughput-metric-name>
+		<event alias="a">UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_PRD</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>	
+
+	<metric name="streaming stores(full) PI">
+		<fullname>metric_streaming stores (full line) per instr</fullname>
+        <throughput-metric-name>metric_streaming stores (full line) per txn</throughput-metric-name>
+		<event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_WCILF</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>	
+
+	<metric name="streaming stores(partial) PI">
+		<fullname>metric_streaming stores (partial line) per instr</fullname>
+        <throughput-metric-name>metric_streaming stores (partial line) per txn</throughput-metric-name>
+		<event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_WCIL</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>	
+
+
 	<metric name="L1D MPI">
 		<fullname>metric_L1D MPI (includes data+rfo w/ prefetches)</fullname>
         <throughput-metric-name>metric_L1D misses per txn (includes data+rfo w/ prefetches)</throughput-metric-name>
@@ -17,6 +94,29 @@
 		<formula>a/b</formula>
 	</metric>
 
+	<metric name="L1D demand data read hits PI">
+		<fullname>metric_L1D demand data read hits per instr</fullname>
+        <throughput-metric-name>metric_L1D demand data read hits per txn</throughput-metric-name>
+		<event alias="a">MEM_LOAD_UOPS_RETIRED:L1_HIT</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="L1-I code read misses PI">
+		<fullname>metric_L1-I code read misses (w/ prefetches) per instr</fullname>
+        <throughput-metric-name>metric_L1I code read misses (includes prefetches) per txn</throughput-metric-name>
+		<event alias="a">L2_RQSTS:ALL_CODE_RD</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="L2 demand data read hits PI">
+		<fullname>metric_L2 demand data read hits per instr</fullname>
+        <throughput-metric-name>metric_L2 demand data read hits per txn</throughput-metric-name>
+		<event alias="a">MEM_LOAD_UOPS_RETIRED:L2_HIT</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
 
 	<metric name="L2 MPI">
 		<fullname>metric_L2 MPI (includes code+data+rfo w/ prefetches)</fullname>
@@ -26,6 +126,62 @@
 		<formula>a/b</formula>
 	</metric>
 	
+ 	<metric name="L2 demand data read MPI">
+		<fullname>metric_L2 demand data read MPI</fullname>
+        <throughput-metric-name>metric_L2 demand data read misses per txn</throughput-metric-name>
+		<event alias="a">L2_RQSTS:ALL_DEMAND_DATA_RD</event>
+		<event alias="b">L2_RQSTS:ALL_DEMAND_RD_HIT</event>
+		<event alias="c">INST_RETIRED:ANY_P</event>
+		<formula>(a-b)/c</formula>
+	</metric>
+	
+	<metric name="L2 demand code MPI">
+		<fullname>metric_L2 demand code MPI</fullname>
+        <throughput-metric-name>metric_L2 demand code misses per txn</throughput-metric-name>
+		<event alias="a">L2_RQSTS:CODE_RD_MISS</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+	
+	<metric name="L2 local HITM request in a sibling core">
+		<fullname>metric_L2 Any local request that HITM in a sibling core (per instr)</fullname>
+        <throughput-metric-name>metric_L2 Any local request that HITM in a sibling core per txn</throughput-metric-name>
+		<event alias="a">OFFCORE_RESPONSE_0:ANY_DATA:LLC_HITMESF:HITM</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="L2 read miss latency(core clocks)">
+		<fullname>metric_L2 read miss latency (in core clocks)</fullname>
+		<event alias="a">OFFCORE_REQUESTS_OUTSTANDING:DEMAND_DATA_RD</event>
+		<event alias="b">OFFCORE_REQUESTS:DEMAND_DATA_RD</event>
+		<formula>a/b</formula>
+	</metric>
+
+    <metric name="LLC writebacks PI">
+		<fullname>metric_LLC writebacks per instr</fullname>
+        <throughput-metric-name>metric_LLC writebacks per txn</throughput-metric-name>
+        <event alias="a">UNC_C_LLC_VICTIMS:M_STATE</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+    </metric>
+
+    <metric name="Average LLC DR miss latency">
+		<fullname>metric_Average LLC data read (demand+prefetch) miss latency (in ns)</fullname>
+        <event alias="a">UNC_C_TOR_OCCUPANCY:MISS_OPCODE:OPC_DRD</event>
+        <event alias="b">UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_DRD</event>
+        <event alias="c">CPU_CLK_UNHALTED:THREAD_P</event>
+        <event alias="d">CPU_CLK_UNHALTED:REF_P</event>
+        <constant alias="e">system.tsc_freq</constant>
+        <formula>1000000000*(a/b)/(c/d*e)</formula>
+    </metric>
+
+    <metric name="Average LLC DR miss latency(core clk)">
+		<fullname>metric_Average LLC data read (demand+prefetch) miss latency (in core clk)</fullname>
+        <event alias="a">UNC_C_TOR_OCCUPANCY:MISS_OPCODE:OPC_DRD</event>
+        <event alias="b">UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_DRD</event>
+        <formula>a/b</formula>
+    </metric>
  
 	<metric name="ITLB MPI">
 		<fullname>metric_ITLB MPI</fullname>
@@ -34,5 +190,324 @@
 		<event alias="b">INST_RETIRED:ANY_P</event>
 		<formula>a/b</formula>
 	</metric>
+
+	
+
+	<metric name="DTLB load MPI">
+		<fullname>metric_DTLB load MPI</fullname>
+        <throughput-metric-name>metric_DTLB load misses per txn</throughput-metric-name>
+		<event alias="a">DTLB_LOAD_MISSES:WALK_COMPLETED</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	
+
+	<metric name="DTLB store MPI">
+		<fullname>metric_DTLB store MPI</fullname>
+        <throughput-metric-name>metric_DTLB store misses per txn</throughput-metric-name>
+		<event alias="a">DTLB_STORE_MISSES:WALK_COMPLETED</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="DTLB load miss latency(core clks)">
+		<fullname>metric_DTLB load miss latency (in core clks)</fullname>
+		<event alias="a">DTLB_LOAD_MISSES:WALK_DURATION</event>
+		<event alias="b">DTLB_LOAD_MISSES:WALK_COMPLETED</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="DTLB store miss latency(core clks)">
+		<fullname>metric_DTLB store miss latency (in core clks)</fullname>
+		<event alias="a">DTLB_STORE_MISSES:WALK_DURATION</event>
+		<event alias="b">DTLB_STORE_MISSES:WALK_COMPLETED</event>
+		<formula>a/b</formula>
+	</metric>
+
+	
+
+
+
+
+    <metric name="HA - Reads vs. all requests">
+		<fullname>metric_HA - Reads vs. all requests</fullname>
+      <event alias="a">UNC_H_REQUESTS:READS</event>
+      <event alias="b">UNC_H_REQUESTS:WRITES</event>
+      <formula>a/(a+b)</formula>
+    </metric>
+
+    <metric name="HA - Writes vs. all requests">
+		<fullname>metric_HA - Writes vs. all requests</fullname>
+      <event alias="a">UNC_H_REQUESTS:READS</event>
+      <event alias="b">UNC_H_REQUESTS:WRITES</event>
+      <formula>b/(a+b)</formula>
+    </metric>
+
+    <metric name="DDR data rate (MT/sec)">
+		<fullname>metric_DDR data rate (MT/sec)</fullname>
+        <event alias="a">UNC_M_CLOCKTICKS</event>
+        <constant alias="b"> system.sockets.count </constant>
+        <!-- Assumed 4 memory channels populated in each socket -->
+        <formula>2*a/(b*4)/1000000</formula>
+    </metric>
+
+    <metric name="memory bandwidth read (M/s)">
+		<fullname>metric_memory bandwidth read (MB/sec)</fullname>
+        <event alias="a">UNC_M_CAS_COUNT:RD</event>
+        <formula>a*64/1000000</formula>
+    </metric>
+
+    <metric name="memory bandwidth write (M/s)">
+		<fullname>metric_memory bandwidth write (MB/sec)</fullname>
+        <event alias="a">UNC_M_CAS_COUNT:WR</event>
+        <formula>a*64/1000000</formula>
+    </metric>
+
+    <metric name="memory bandwidth total (M/s)">
+		<fullname>metric_memory bandwidth total (MB/sec)</fullname>
+        <event alias="a">UNC_M_CAS_COUNT:RD</event>
+        <event alias="b">UNC_M_CAS_COUNT:WR</event>
+        <formula>(a+b)*64/1000000</formula>
+    </metric>
+
+    <metric name="IO_bandwidth_disk_or_network_writes(M/s)">
+		<fullname>metric_IO_bandwidth_disk_or_network_writes (MB/sec)</fullname>
+        <event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_PCIPRD</event>
+        <event alias="b">UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSRD</event>
+        <formula>(a+b)*64/1000000</formula>
+    </metric>
+
+    <metric name="IO_bandwidth_disk_or_network_reads(M/s)">
+		<fullname>metric_IO_bandwidth_disk_or_network_reads (MB/sec)</fullname>
+        <event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_PCIITOM</event>
+        <event alias="b">UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSWRF</event>
+        <formula>(a+b)*64/1000000</formula>
+    </metric>
+
+    <metric name="IO_number of partial PCI writes(/s)">
+		<fullname>metric_IO_number of partial PCI writes per sec</fullname>
+        <event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_PCINSWR</event>
+        <formula>a</formula>
+    </metric>
+
+   
+
+    <metric name="IO_write cache miss bandwidth(M/s)">
+		<fullname>metric_IO_write cache miss(disk/network reads) bandwidth (MB/sec)</fullname>
+        <event alias="a">UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_PCIITOM</event>
+        <formula>a*64/1000000</formula>
+    </metric>
+
+    <metric name="mem reads vs. all requests">
+		<fullname>metric_memory reads vs. all requests</fullname>
+        <event alias="a">UNC_M_CAS_COUNT:RD</event>
+        <event alias="b">UNC_M_CAS_COUNT:WR</event>
+        <formula>a/(a+b)</formula>
+    </metric>
+
+    <metric name="mem Page Empty vs. all requests">
+		<fullname>metric_memory Page Empty vs. all requests</fullname>
+        <event alias="a">UNC_M_ACT_COUNT</event>
+        <event alias="b">UNC_M_PRE_COUNT:PAGE_MISS</event>
+        <event alias="c">UNC_M_CAS_COUNT:RD</event>
+        <event alias="d">UNC_M_CAS_COUNT:WR</event>
+        <formula>(a-b)/(c+d)</formula>
+    </metric>
+
+    <metric name="mem Page Misses vs. all requests">
+		<fullname>metric_memory Page Misses vs. all requests</fullname>
+        <event alias="b">UNC_M_PRE_COUNT:PAGE_MISS</event>
+        <event alias="c">UNC_M_CAS_COUNT:RD</event>
+        <event alias="d">UNC_M_CAS_COUNT:WR</event>
+        <formula>b/(c+d)</formula>
+    </metric>
+
+    <metric name="mem Page Hits vs. all requests">
+		<fullname>metric_memory Page Hits vs. all requests</fullname>
+        <event alias="a">UNC_M_ACT_COUNT</event>
+        <event alias="c">UNC_M_CAS_COUNT:RD</event>
+        <event alias="d">UNC_M_CAS_COUNT:WR</event>
+        <formula>1-a/(c+d)</formula>
+    </metric>
+
+    <metric name="mem % Cycles where all DRAM ranks in PPD">
+		<fullname>metric_memory % Cycles where all DRAM ranks are in PPD mode</fullname>
+        <event alias="a">UNC_M_POWER_CHANNEL_PPD</event>
+        <event alias="b">UNC_M_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+    <metric name="mem % Cycles all ranks in critical thermal throttle">
+		<fullname>metric_memory % Cycles all ranks in critical thermal throttle</fullname>
+        <event alias="a">UNC_M_POWER_CRITICAL_THROTTLE_CYCLES</event>
+        <event alias="b">UNC_M_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+    <metric name="mem % Cycles Mem in self refresh power mode">
+		<fullname>metric_memory % Cycles Memory is in self refresh power mode</fullname>
+        <event alias="a">UNC_M_POWER_SELF_REFRESH</event>
+        <event alias="b">UNC_M_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+    <metric name="power % cycles max freq limited by thermal issues">
+		<fullname>metric_power % cycles max frequency limited by thermal issues</fullname>
+        <event alias="a">UNC_P_FREQ_MAX_LIMIT_THERMAL_CYCLES</event>
+        <event alias="b">UNC_P_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+    <metric name="power % cycles max freq limited by OS">
+		<fullname>metric_power % cycles max frequency limited by OS</fullname>
+        <event alias="a">UNC_P_FREQ_MAX_OS_CYCLES</event>
+        <event alias="b">UNC_P_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+    <metric name="power % cycles max freq limited by power">
+		<fullname>metric_power % cycles max frequency limited by power</fullname>
+        <event alias="a">UNC_P_FREQ_MAX_POWER_CYCLES</event>
+        <event alias="b">UNC_P_CLOCKTICKS</event>
+        <formula>100*a/b</formula>
+    </metric>
+
+	<metric name="ItoM operations that reference LLC(PI)">
+		<fullname>metric_ItoM operations (fast strings) that reference LLC per instr</fullname>
+        <throughput-metric-name>metric_ItoM operations (fast strings) that reference LLC per txn</throughput-metric-name>
+		<event alias="a">UNC_C_TOR_INSERTS:OPCODE:OPC_ITOM</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+		
+	<metric name="ItoM operations that miss LLC(PI)">
+		<fullname>metric_ItoM operations (fast strings) that miss LLC per instr</fullname>
+        <throughput-metric-name>metric_ItoM operations (fast strings) that miss LLC per txn</throughput-metric-name>
+		<event alias="a">UNC_C_TOR_INSERTS:MISS_OPCODE:OPC_ITOM</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+		
+	<metric name="% cycles spent Front End bounded">
+		<fullname>metric_% cycles spent Front End bounded</fullname>
+		<event alias="a">IDQ_UOPS_NOT_DELIVERED:CORE</event>
+		<event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+		<formula>100*a/(4*b)</formula>
+	</metric>
+
+    <metric name="% cycles spent retiring uops">
+		<fullname>metric_% cycles spent retiring uops</fullname>
+        <event alias="a">UOPS_RETIRED:RETIRE_SLOTS</event>
+        <event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+      <formula>100*a/(4*b)</formula>
+    </metric>
+
+    <metric name="% cycles spent due to bad speculation">
+		<fullname>metric_% cycles spent due to bad speculation</fullname>
+        <event alias="a">UOPS_ISSUED:ANY</event>
+        <event alias="b">UOPS_RETIRED:RETIRE_SLOTS</event>
+        <event alias="c">INT_MISC:RECOVERY_CYCLES</event>
+        <event alias="d">CPU_CLK_UNHALTED:THREAD_P</event>
+        <formula>100*(a-b+(4*c))/(4*d)</formula>
+    </metric>
+
+   <metric name="% cycles reservation station empty">
+		<fullname>metric_% cycles reservation station empty</fullname>
+        <event alias="a">RS_EVENTS:EMPTY_CYCLES</event>
+        <event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+    
+	<metric name="% cycles spent Back End bounded">
+		<fullname>metric_% cycles spent Back End bounded</fullname>
+		<event alias="a">IDQ_UOPS_NOT_DELIVERED:CORE</event>
+		<event alias="b">UOPS_ISSUED:ANY</event>
+		<event alias="c">INT_MISC:RECOVERY_CYCLES</event>
+		<event alias="d">CPU_CLK_UNHALTED:THREAD_P</event>
+		<formula>100-(100*(a+b+4*c)/(4*d))</formula>
+	</metric>
+
+
+
+
+    <metric name="% Uops delivered from decoded Icache(DSB)">
+		<fullname>metric_% Uops delivered from decoded Icache (DSB)</fullname>
+        <event alias="a">IDQ:DSB_UOPS</event>
+        <event alias="b">UOPS_ISSUED:ANY</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+
+    <metric name="% Uops delivered from legacy decode pipe(MITE)">
+		<fullname>metric_% Uops delivered from legacy decode pipeline (MITE)</fullname>
+        <event alias="a">IDQ:MITE_UOPS</event>
+        <event alias="b">UOPS_ISSUED:ANY</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+
+    <metric name="% Uops delivered from microcode sequencer(MS)">
+		<fullname>metric_% Uops delivered from microcode sequencer (MS)</fullname>
+        <event alias="a">IDQ:MS_UOPS</event>
+        <event alias="b">UOPS_ISSUED:ANY</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+
+    <metric name="% Uops delivered from loop stream detector(LSD)">
+		<fullname>metric_% Uops delivered from loop stream detector (LSD)</fullname>
+        <event alias="a">IDQ:MITE_UOPS</event>
+        <event alias="b">IDQ:MS_UOPS</event>
+        <event alias="c">IDQ:DSB_UOPS</event>
+        <event alias="d">UOPS_ISSUED:ANY</event>
+        <formula>100*(d-a-b-c)/d</formula>
+    </metric>
+
+    <metric name="% cycles spent switching DSB to MITE">
+		<fullname>metric_% cycles spent in switching from DSB to MITE</fullname>
+        <event alias="a">DSB2MITE_SWITCHES:PENALTY_CYCLES</event>
+        <event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+
+    <metric name="% cycles spent in resource stalls">
+		<fullname>metric_% cycles spent in resource stalls</fullname>
+        <event alias="a">RESOURCE_STALLS:ANY</event>
+        <event alias="b">CPU_CLK_UNHALTED:THREAD_P</event>
+        <formula>100*(a/b)</formula>
+    </metric>
+
+	
+
+	<metric name="SSE FP scalar single-precision uops executed(PI)">
+		<fullname>metric_SSE FP scalar single-precision uops executed per instr</fullname>
+        <throughput-metric-name>metric_SSE FP scalar single-precision uops executed per txn</throughput-metric-name>
+		<event alias="a">FP_COMP_OPS_EXE:SSE_FP_SCALAR_SINGLE</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="SSE FP scalar double-precision uops executed(PI)">
+		<fullname>metric_SSE FP scalar double-precision uops executed per instr</fullname>
+        <throughput-metric-name>metric_SSE FP scalar double-precision uops executed per txn</throughput-metric-name>
+		<event alias="a">FP_COMP_OPS_EXE:SSE_SCALAR_DOUBLE</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="SSE FP packed single-precision uops executed(PI)">
+		<fullname>metric_SSE FP packed single-precision uops executed per instr</fullname>
+        <throughput-metric-name>metric_SSE FP packed single-precision uops executed per txn</throughput-metric-name>
+		<event alias="a">FP_COMP_OPS_EXE:SSE_PACKED_SINGLE</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+
+	<metric name="SSE FP packed double-precision uops executed(PI)">
+		<fullname>metric_SSE FP packed double-precision uops executed per instr</fullname>
+        <throughput-metric-name>metric_SSE FP packed double-precision uops executed per txn</throughput-metric-name>
+		<event alias="a">FP_COMP_OPS_EXE:SSE_FP_PACKED_DOUBLE</event>
+		<event alias="b">INST_RETIRED:ANY_P</event>
+		<formula>a/b</formula>
+	</metric>
+		
 
 </root>

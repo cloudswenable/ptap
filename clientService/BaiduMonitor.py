@@ -26,15 +26,19 @@ class BaiduMonitor(Monitor):
     def __init__(self):
         super(BaiduMonitor, self).__init__(config=BaiduMonitorConfig())
         self.command = 'sudo ' + self.config.root_path + self.config.tool_path + 'rmon -p %d -t %d >>%s'
+        self.endless_cmd = 'sudo ' + self.config.root_path + self.config.tool_path + 'rmon -p %d >>%s'
         #print self.command
 
-    def run(self, job):
-        self.config.rPath = job.path
-        duration = int(job.rmon_paras['duration'])
-        cmd = self.command % (job.pid, duration, self.config.getOutputPath())
-        print cmd, duration
+    def run(self):
+        self.config.rPath = self.job.path
+        delay_time = self.job.pmu_paras['delay']
+        duration = int(self.job.rmon_paras['duration'])
+        cmd = self.endless_cmd % (self.job.pid, self.config.getOutputPath())
         child = subprocess.Popen(cmd, shell=True)
-        child.wait()
+        while self.running:
+            time.sleep(delay_time)
+        child.kill()
+
 
 
 def main():

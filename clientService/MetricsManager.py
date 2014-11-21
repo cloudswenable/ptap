@@ -49,6 +49,9 @@ class Event:
         string += 'name=' + self.reportName + '/'
         return string
 
+    def getRawEvent(self):
+        return 'r'+self.configs[0][2:]
+
 class Metric:
 
     def __init__(

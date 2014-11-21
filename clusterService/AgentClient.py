@@ -68,8 +68,8 @@ class AgentClient(threading.Thread):
         self.epoll = select.epoll()
         self.dispatch_queue = Queue.Queue()
         self.dispatcher = Dispatcher(self.dispatch_queue)
-
-        #self.event_manager = EventManager()
+        self.response_queue = Queue.Queue()
+        self.jobDispatcher = JobDispatcher(self.response_queue)
 
     def getServerIp(self):
         return self.ip_addr
@@ -113,6 +113,7 @@ class AgentClient(threading.Thread):
         self.checker.start()
 
         self.dispatcher.start()
+        self.jobDispatcher.start()
 
         #daemon_thread = threading.Thread(target=self.serve())
         #daemon_thread.start()
@@ -122,7 +123,6 @@ class AgentClient(threading.Thread):
 
     def enqueue(self, message):
 	self.dispatch_queue.put(message)
-
 
 if __name__ == '__main__':
     client = AgentClient()

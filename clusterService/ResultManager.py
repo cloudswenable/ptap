@@ -1,7 +1,8 @@
 import os
 from ResultModel import *
 from Util import Calculater
-class ResultManager(object):
+
+class AbstractResultManager(object):
         def __init__(self, rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process'):
                 self.rootPath = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
                 self.resultPath = self.rootPath + rootSubPath
@@ -35,13 +36,51 @@ class ResultManager(object):
                         content = open(realPath).read()
                         result = self.createResult(content)
                         if result:
-                                self.results.append(result)
-                
-        def getOutputResults(self, rPath):
-                self.results = []
+                                self.addResults(result)
+
+        def addResults(self, result): pass
+
+        def getOutputResults(self, rPath): 
                 tmpPath = self.resultPath+'/'+rPath+'/'+self.tailSubPath
                 self.initResults(tmpPath)
 
+class ClassifyResultManager(AbstractResultManager):
+        def __init__(self, rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process'):
+                super(ClassifyResultManager, self).__init__(rootSubPath, tailSubPath)
+                self.results = {}
+
+        def addResults(self, result):
+                if self.results.has_key(result.name):
+                        self.results[result.name].append(result)
+                else:
+                        self.results[result.name] = []
+
+        def queryResultsByNames(self, names, start, end):
+                datas = []
+                for name in names:
+                        tmpData = []
+                        for listName, resultslist in self.results.items():
+                                if resultslist and resultslist[0].query(name):
+                                        for result in resultslist:
+                                                tmpDataItem = result.query(name)
+                                                if not tmpDataItem:
+                                                        tmpDataItem = 0
+                                                tmpData.append(float(tmpDataItem))
+                                        break
+                        if not tmpData:
+                                count = len(self.results.items()[0][1])
+                                tmpData = [0]*count
+                        datas.append(tmpData[start:end])
+                return datas 
+
+class ResultManager(AbstractResultManager):
+        def __init__(self, rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process'):
+                super(ResultManager, self).__init__(rootSubPath, tailSubPath)
+                self.results = []
+
+        def addResults(self, result):
+                self.results.append(result)
+                
         def mergeResults(self, rPath):
                 self.getOutputResults(rPath)
                 names = []
@@ -130,11 +169,13 @@ class ResultManager(object):
                 
 
 def main():
-        manager = ResultManager()
-        rPath = '/project1/sourcecode1/source/1/test1/'
+        manager = ClassifyResultManager()
+        rPath = '/project1/sourcecode1/source/1/test5/'
         print '+++++++++++++++++++++++++++++++++++++++++'
-        items = ['CPI', 'cpu-cycles(GHz )', 'uncacheable reads PI', 'LLC-misses(of all LL-cache hits %)']
-        datas = manager.queryResults(rPath, items)
+        manager.getOutputResults(rPath)
+        print manager.results
+        names = ['CPI', 'cache-misses(% of all cache refs )', 'cswch/s']
+        datas = manager.queryResultsByNames(names)
         print datas
 
 if __name__ == '__main__':

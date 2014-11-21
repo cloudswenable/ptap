@@ -3,7 +3,7 @@ import time
 import subprocess
 import os
 import ConfigParser
-
+import threading
 
 class MonitorConfig(object):
     def __init__(self):
@@ -16,14 +16,19 @@ class MonitorConfig(object):
     def toTuple(self): pass
 
 
-class Monitor(object):
+class Monitor(threading.Thread):
     def __init__(self, config=MonitorConfig()):
+        threading.Thread.__init__(self)
         self.config = config
+        self.job = None
+        self.running = True
 
-    def run(self, rPath, pid, duration, delay_time): pass
+#    def run(self, rPath, pid, duration, delay_time): pass
 
     def runCommand(self, output_path, command, delay_time): pass
 
-    def run(self, job): pass
+    def run(self): pass
+
+    def monitor(self, args): pass
 
 

@@ -170,6 +170,14 @@ class MessageParser(object):
             tmp_buffer = buffer[8:]
             rPath = json.loads(tmp_buffer)[0]
             message = QueryModelsResultsMessage(rPath)
+        elif type == 24:
+            tmp_buffer = buffer[8:]
+            direction, id, fileno = json.loads(tmp_buffer)
+            message = StopMessage(direction, id, fileno)
+        elif type == 25:
+            tmp_buffer = buffer[8:]
+            rPath, qtables, starts, next = json.loads(tmp_buffer)
+            message = QueryDynamicOverviewMessage(rPath, qtables, starts, next)
 
         return message
 

@@ -275,6 +275,7 @@ function showOverviewDatas(){
                 }
         });
 }
+
 function showModelsAnalysisDatas(){
         $('div#datasBlock table').each(function(i, e){
                 var tableId = $(e).attr('id');
@@ -312,6 +313,7 @@ function compare(){
         }
         popBlankPage(url);
 }
+
 function overview(){
         var url = "/show/analysisoverview?";
         var chooseItem = false;
@@ -325,6 +327,98 @@ function overview(){
         }
         popBlankPage(url);
 }
+
+function dynamicOverview(){
+        var url = "/show/analysisdynamicoverview?";
+        var chooseItem = false;
+        $('input[name="resultshow"]:checked').each(function(i, e){
+                chooseItem = true;
+                url = url + "ids=" + $(e).val() + "&";
+        });
+        if(!chooseItem){
+                alert('PLEASE CHOOSE A TEST');
+                return;
+        }
+        url = url + "start=0";
+        popBlankPage(url);
+}
+
+function loadDynamicDatas(qtables, starts, next){
+        var url = "/show/loaddynamicdatas?";
+        var id = $("#id").val();
+        var context = {"id":id, "starts":starts, "qtables":qtables, "next":next};
+        loadShowTable(context, 'json', url, loadDynamicDatasCallback);
+}
+
+function loadDynamicDatasCallback(result){
+        var container = $("#dynamicContainer");
+        for(var i=0; i<result.length; i++){
+                var name = result[i][0];
+                var attrs = result[i][1];
+                var avgdatas = result[i][2];
+                var datas = result[i][3];
+                var times = result[i][4];
+                var start = result[i][5];
+                var div = $("#"+name.replace(/ /g, ''));
+                if(div.html()==undefined){
+                        div = $("<div id='"+name.replace(/ /g, '')+"' class='row-fluid'></div>");
+                        container.append(div);
+                }
+                div.html("");
+                var h3 = $("<h3 class='pull-left'></h3>");
+                h3.html(name);
+                div.append(h3);
+                var chartContainer = $("<div id='chart"+name.replace(/ /g, '')+"' ></div>");
+                div.append(chartContainer);
+                var buttonsContainer = $("<div></div>");
+                var next = $("<button class='btn btn-inverse btn-large pull-right' style='margin-right:90px; margin-bottom:30px;' name='"+name.replace(/ /g, '')+"' onclick='dynamicNext(this)'>next</button>");
+                buttonsContainer.append(next);
+                var previous = $("<button class='btn btn-inverse btn-large pull-right' style='margin-right:60px;margin-bottom:30px;' name='"+name.replace(/ /g, '')+"' onclick='dynamicPrevious(this)'>previous</button>");
+                buttonsContainer.append(previous);
+                div.append(buttonsContainer);
+                div.append(createTable(attrs, avgdatas));
+                var input = $("<input id='start"+name.replace(/ /g, '')+"' type='hidden' value='"+start+"'>");
+                div.append(input);
+        }
+        for(var i=0; i<result.length; i++){
+                var name = result[i][0];
+                var attrs = result[i][1];
+                var datas = result[i][3];
+                var times = result[i][4];
+                createSimpleLine(datas, times, attrs, "chart"+name.replace(/ /g, ''), 1200, 570);
+        }       
+}
+
+function dynamicNext(element){
+        var tableName = $(element).attr('name');
+        var start = $("#start"+tableName).val();
+        loadDynamicDatas([tableName], [start], 1);
+}
+
+function dynamicPrevious(element){
+        var tableName = $(element).attr('name');
+        var start = $("#start"+tableName).val();
+        loadDynamicDatas([tableName], [start], 0);
+}
+
+function createTable(attrs, avgdatas){
+        var table = $("<table id='table"+name+"' class='table table-striped table-hover table-bordered table-condensed'></table>");
+        var thead = $("<thead></thead>");
+        for(var i=0; i<attrs.length; i++){
+                thead.append($("<th>"+attrs[i]+"</th>"));
+        }
+        table.append(thead);
+        var tbody = $("<tbody></tbody>");
+        var tr = $("<tr></tr>");
+        for(var i=0; i<avgdatas.length; i++){
+                tr.append($("<td>"+avgdatas[i]+"</td>"));
+        }
+        tbody.append(tr);
+        table.append(tbody);
+        return table;
+}
+
+
 function analysis(){
         var url = "/show/analysisanalysis?";
         var chooseItem = false;

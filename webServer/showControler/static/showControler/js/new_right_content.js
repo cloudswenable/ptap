@@ -79,6 +79,16 @@ function deleteItem(){
     dic["item"] = item;
     submitform("/show/delete/", dic);
 }
+function stopTest(){
+        var id = $("input[name='rowchoose']:checked").val();
+        if( !id){
+                alert("must choose a object");
+                return;
+        }
+        var dic = {};
+        dic['id'] = id;
+        submitform("/show/stop/", dic);
+}
 function addOrModify(url, is_modify){
     var valid = 1;
     var dic = {};

@@ -159,9 +159,6 @@ class RunTestHandler(MessageHandler):
     def __init__(self):
         super(RunTestHandler, self).__init__()
 
-    def enqueue(self, message):
-        self.responseQueue.put(message)
-
     """
 	1: frontend client to server
 	2: server to background client
@@ -184,10 +181,6 @@ class RunTestHandler(MessageHandler):
                                         fileno)
             connection.server.switchToClient(message.switchFileno, newMessage)
         elif dir == 2:
-            self.jobDispatcher = JobDispatcher(self)
-            self.jobDispatcher.start()
-            self.responseQueue = Queue.Queue()
-
             rPath = message.rPath
             target = message.target
             pid = message.pid
@@ -203,13 +196,13 @@ class RunTestHandler(MessageHandler):
             rmon = {'duration': duration}
             job = Job(path=rPath, source_path=sourcePath, pid=-1, sar_paras=sar, pmu_paras=pmu, hotspots_paras=hotspots,
                       perf_list_paras=perf, rmon_paras=rmon)
-            self.jobDispatcher.dispatch(job)
-            responseMessage = self.responseQueue.get()
-            if responseMessage:
-                status = responseMessage['status']
-                newMessage = TestSuccessMessage(1, status, message.resultId, message.switchFileno, rPath, 1, 'test',
-                                                '/AllSource/ServerOutput', '/AllSource/ClientOutput')
-                connection.enqueue(newMessage)
+            connection.server.jobDispatcher.dispatch(job)
+            #responseMessage = self.responseQueue.get()
+            #if responseMessage:
+            #    status = responseMessage['status']
+            #    newMessage = TestSuccessMessage(1, status, message.resultId, message.switchFileno, rPath, 1, 'test',
+            #                                    '/AllSource/ServerOutput', '/AllSource/ClientOutput')
+            #    connection.enqueue(newMessage)
 
 
 class TestSuccessHandler(MessageHandler):
@@ -475,3 +468,40 @@ class QueryModelsResultsHandler(MessageHandler):
                 datas = ResultAdapter().getModelsAnalysisResults(rPath)
                 newMessage = ResponseResultsMessage(datas)
                 connection.enqueue(newMessage)
+
+class StopHandler(MessageHandler):
+        def __init__(self):
+                super(StopHandler, self).__init__()
+
+        def handleMessage(self, connection, message):
+                direction = message.direction
+                id = message.id
+                fileno = message.fileno
+                if direction == 0:
+                        newMessage = StopMessage(1, id, connection.sock.fileno())
+                        #newMessage = StopMessage(1, id, 99999)
+                        connection.server.switchToClient(fileno, newMessage)
+                elif direction == 1:
+                        print 'client server id = ', id
+                        server = connection.server
+                        server.jobDispatcher.stopMonitor()
+                        rMessage = server.response_queue.get()
+                        status = rMessage['status']
+                        rPath = rMessage['rPath']
+                        newMessage = TestSuccessMessage(1, status, id, fileno, rPath, 1, 'test','/AllSource/ServerOutput', '/AllSource/ClientOutput')
+                        connection.enqueue(newMessage)
+
+class QueryDynamicOverviewHandler(MessageHandler):
+        def __init__(self):
+                super(QueryDynamicOverviewHandler, self).__init__()
+
+        def handleMessage(self, connection, message):
+                rPath = message.rPath
+                qtables = message.qtables
+                starts = message.starts
+                next = message.next
+                datas = ResultAdapter().getDynamicOverviewResults(rPath, qtables, starts, next)
+                newMessage = ResponseResultsMessage(datas)
+                connection.enqueue(newMessage)
+                
+        

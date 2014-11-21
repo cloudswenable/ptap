@@ -2,21 +2,28 @@ __author__ = 'ysun49'
 
 from Processor import *
 from Util import *
+import shutil
 
 
 class SARProcessorConfig(ProcessorConfig):
     def __init__(self):
         super(SARProcessorConfig, self).__init__()
-	self.rPath = ''
-    
+        self.rPath = ''
+
     def getInputPath(self):
-        tmp = 'AllSource/ClientOutput/' + self.rPath + '/Raw/Metrics/SAR/report.dat'
+        tmp = 'AllSource/ClientOutput/' + self.rPath + '/Raw/Metrics/SAR/'
         return self.root_path + '/' + tmp
 
     def getOutputPath(self):
         tmp = 'AllSource/ClientOutput/' + self.rPath + '/Process/Metrics/SAR/'
-        path = createPaths(self.root_path, tmp) + '/report.dat'
-        return path
+        try:
+            shutil.rmtree(tmp)
+        except:
+            pass
+        if not os.path.exists(tmp):
+            os.makedirs(tmp)
+        #path = createPaths(self.root_path, tmp) + '/'
+        return tmp
 
 
 class SARProcessor(Processor):
@@ -25,6 +32,7 @@ class SARProcessor(Processor):
         self.config = config
 
     def process(self, inputPath, outputPath):
+        timestamp = os.path.basename(inputPath)
         inChunk = False
         multiline = False
         prefix = ''
@@ -69,24 +77,33 @@ class SARProcessor(Processor):
                 formatDatas.append((name, datas[i]))
                 metricsNames.append(name)
                 metricsDatas.append(float(datas[i]))
-        metricsResult = CommonDictResult('sar metrics', outputPath)
+        metricsResult = CommonDictResult('sar metrics', outputPath, timestamp)
         metricsResult.names = metricsNames
         metricsResult.datas = metricsDatas
-        return [metricsResult]
 
+        outfile = open(metricsResult.path, 'w')
+        outfile.write(metricsResult.dumps())
+        outfile.close()
+        subprocess.call('sudo chmod 777 '+metricsResult.path, shell=True)
 
     def handle(self, job):
         self.config.rPath = job.path
         inputPath = self.config.getInputPath()
         outputPath = self.config.getOutputPath()
-        return self.process(inputPath, outputPath)
+        for file in os.listdir(inputPath):
+            self.process(inputPath+'/'+file, outputPath+'/'+file)
+        return [] 
+
 
 def main():
-        from tmp import Job
-        rPath = '/project1/sourcecode1/source/1/test1'
-        job = Job(path=rPath, pid='-1', sar_paras={'interval':0,'loops':0}, pmu_paras={}, hotspots_paras={'duration':5}, perf_list_paras={})
-        process = SARProcessor()
-        process.run(job)
+    from tmp import Job
+
+    rPath = '/project1/sourcecode1/source/1/test1'
+    job = Job(path=rPath, pid='-1', sar_paras={'interval': 0, 'loops': 0}, pmu_paras={}, hotspots_paras={'duration': 5},
+              perf_list_paras={})
+    process = SARProcessor()
+    process.run(job)
+
 
 if __name__ == '__main__':
-        main()
+    main()

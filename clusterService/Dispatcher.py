@@ -30,6 +30,8 @@ class Dispatcher(threading.Thread):
         self.register(20, AnalysisServiceHandler())
         self.register(22, QueryAResultOverviewHandler())
         self.register(23, QueryModelsResultsHandler())
+        self.register(24, StopHandler())
+        self.register(25, QueryDynamicOverviewHandler())
 
     def register(self, handleID, handler=MessageHandler()):
         self.handlers[handleID] = handler

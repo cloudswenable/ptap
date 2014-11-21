@@ -13,9 +13,11 @@ urlpatterns = patterns(
     url(r'^analysiscompare$', AnalysisCompareView.as_view(), name='analysiscompare'),
     url(r'^analysismodelsanalysis$', AnalysisModelsAnalysisView.as_view(), name='analysismodelsanalysis'),
     url(r'^analysisoverview$', AnalysisOverviewView.as_view(), name='analysisoverview'),
+    url(r'^analysisdynamicoverview$', AnalysisDynamicOverviewView.as_view(), name='analysisdynamicoverview'),
     url(r'^analysisanalysis$', AnalysisAnalysisView.as_view(), name='analysisanalysis'),
     url(r'^analysisanalysisrightpage$', AnalysisAnalysisRightPageView.as_view(), name='analysisanalysisrightpage'),
     url(r'^loadcomparetable$', LoadCompareTableView.as_view(), name='loadcomparetable'),
+    url(r'^loaddynamicdatas$', LoadDynamicDatasView.as_view(), name='loaddynamicdatas'),
 
     url(r'^new/$', NewView.as_view(), name='new'),
     url(r'^new/(?P<chooseItem>.+)$', NewView.as_view(),name='redirectnew'),
@@ -26,6 +28,7 @@ urlpatterns = patterns(
     url(r'^modify/$', ModifyModelsView.as_view(), name='modify'),
     url(r'^getpoptable/$', PopContentView.as_view(), name='getpoptable'),
     url(r'^run/$', RunView.as_view(), name='run'),
+    url(r'^stop/$', StopView.as_view(), name='stop'),
     url(r'^showresult/$', ShowView.as_view(), name='showresult'),
 
     url(r'^system/$', SystemShowView.as_view(), name='system'),

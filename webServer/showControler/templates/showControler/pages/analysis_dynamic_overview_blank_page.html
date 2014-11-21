@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<link rel="icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<link rel="shortcut icon" href="{% static 'showControler/images/header.ico' %}" type="image/x-icon" />
+<script type="text/javascript" src="{% static 'showControler/js/jquery.min.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.core.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.key.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.drawing.rect.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.common.dynamic.js' %}"></script>
+<script src="{% static 'showControler/js/RGraph/RGraph.line.js' %}"></script>
+<script src="{% static 'showControler/js/content_base.js' %}"></script>
+<script src="{% static 'showControler/js/draw_picture.js' %}"></script>
+<script src="{% static 'showControler/js/analysis_right_content.js' %}"></script>
+
+<link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}" />
+<script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+                loadDynamicDatas([], [], 1);
+        });
+</script>
+</head>
+<body>
+<div class='navbar navbar-inverse'>
+<div class = 'navbar-inner'>
+<div class = 'container-fluid'>
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+        </a>
+        <a class='brand' href='#'>Dynamic Overview All Tables</a>
+</div>
+</div>
+</div>
+
+<input id='id' type='hidden' value="{{id}}"/>
+<input id='start1' type='hidden' value="{{start1}}"/>
+<input id='start2' type='hidden' value="{{start2}}"/>
+<div id='dynamicContainer' class='container-fluid'>
+        <div id='perf' class='row-fluid'></div>
+        <div id='pmu' class='row-fluid'></div>
+</div>
+
+</body>
+</html>

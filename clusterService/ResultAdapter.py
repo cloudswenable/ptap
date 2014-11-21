@@ -125,4 +125,56 @@ class ResultAdapter(object):
                                         if not results[i][1][j]: results[i][1][j].append(itemsResults[j][0])
                                         results[i][1][j].append(itemsResults[j][1])
                 return results
+        
+        def getDynamicOverviewResults(self, rPath, qtables=None, starts=None, next=1):
+                size =3 
+                tables = [('micro-arch performance',['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'], 0),('os level performance',['cswch/s','INTR_sum_intr/s','tps','IFACE_lo_rxkB/s','IFACE_lo_txkB/s','IFACE_eth0_rxkB/s','IFACE_eth0_txkB/s','IFACE_eth1_rxkB/s','IFACE_eth1_txkB/s'], 0)]
+                results = []
+                manager = ClassifyResultManager(rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process')
+                manager.getOutputResults(rPath)
+                if not qtables:
+                        qtables = ['micro-archperformance', 'oslevelperformance']
+                        starts = [0, 0]
+                for i in range(len(qtables)):
+                        table = None
+                        for tmpTable in tables:
+                                if tmpTable[0].replace(' ', '') == qtables[i]:
+                                        table = tmpTable
+                                        break
+                        if not table: continue
+                        if int(next):
+                                tmpStart = int(starts[i])
+                                tmpEnd = int(starts[i])+size
+                        else:
+                                tmpStart = int(starts[i])-2*size
+                                if tmpStart<0: tmpStart = 0
+                                tmpEnd = tmpStart+size
+                        tmpDatas = manager.queryResultsByNames(table[1], tmpStart, tmpEnd)
+                        tmpavg = []
+                        for items in tmpDatas:
+                                tmpSum = 0
+                                for item in items:
+                                        tmpSum += item
+                                if len(items):
+                                        tmpavg.append(tmpSum/len(items))
+                                else:
+                                        tmpavg.append(0)
+                        times = []
+                        tmptmpStart = tmpStart
+                        if tmpDatas:
+                                for j in range(len(tmpDatas[0])):
+                                        tmptmp = str(tmptmpStart+j)
+                                        times.append(tmptmp+'s')
+                        results.append([table[0], table[1], tmpavg, tmpDatas, times, tmpEnd])
+                return results
 
+def main():
+        rPath = 'project1/sourcecode1/source/1/test5/'
+        adapter = ResultAdapter()
+        results = adapter.getDynamicOverviewResults(rPath)
+        print results
+
+if __name__ == '__main__':
+        main()
+
+                

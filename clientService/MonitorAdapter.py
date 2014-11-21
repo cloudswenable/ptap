@@ -2,11 +2,22 @@ __author__ = 'jimmy'
 
 from Monitor import *
 
-class MonitorAdapter(object):
+class MonitorAdapter(threading.Thread):
 
     def __init__(self, monitor, processor):
+        threading.Thread.__init__(self)
         self.monitor = monitor
         self.processor = processor
+        self.job = None
+
+    def run(self):
+        self.monitor.job = self.job
+        self.monitor.start()
+        self.monitor.join()
+
+        self.processor.job = self.job
+        self.processor.start()
+        self.processor.join()
 
     def startMonitor(self, job):
         self.monitor.run(job)

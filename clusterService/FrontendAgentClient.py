@@ -26,7 +26,7 @@ class FrontendAgentSender(threading.Thread):
 		self.serverPort = self.config.serverPort
 		self.parser = MessageParser()
 		self.taskQueue = Queue.Queue()
-		self.dispachMap = {1: self.runTest, 2: self.deleteOutput, 3: self.registerMachinesListener, 4: self.runService, 5:self.analysisService}
+		self.dispachMap = {1: self.runTest, 2: self.deleteOutput, 3: self.registerMachinesListener, 4: self.runService, 5:self.analysisService, 6:self.stopTest}
 
 	def isCenterServer(self):
 		return False
@@ -102,7 +102,28 @@ class FrontendAgentSender(threading.Thread):
 		except: 
 			traceback.print_exc()
 		self.sock.close()
-
+        
+        def stopTest(self, parameters):
+                print 'STOP TEST'
+                resultId = parameters[0]
+                clientFileno = parameters[1]
+                message = StopMessage(0, resultId, clientFileno)
+		self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.sock.connect((self.serverIp, self.serverPort))
+                self.sock.send(message.toString())
+                try:
+		        data = self.sock.recv(1024)
+                        testSuccessMessage = self.parser.parse(data)
+                        result = Result.objects.get(pk=int(testSuccessMessage.resultId))
+                        if testSuccessMessage.status == 'done':
+                                result.status = 'done'
+                        else:
+                                result.status = 'fail'
+                        result.save()
+                except:
+                        traceback.print_exc()
+                self.sock.close()
+        
         def runService(self, parameters):
                 print 'RUN SERVICE'    
                 self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -211,6 +232,15 @@ class FrontendAgentSender(threading.Thread):
                 print 'QUERY SERVICE RESULTS'
                 queryServiceResultsMessage = QueryServiceResultsMessage(rPath)
 		return self.query(queryServiceResultsMessage)
+             
+        def queryDynamicOverviews(self, parameters):
+                rPath = parameters[0]
+                qtables = parameters[1]
+                starts = parameters[2]
+                next = parameters[3]
+                print 'QUERY DYNAMIC OVERVIEWS'
+                queryMessage = QueryDynamicOverviewMessage(rPath, qtables, starts, next)
+                return self.query(queryMessage)
 
 	def registerMachinesListener(self, parameters):
 		ip = parameters[0]

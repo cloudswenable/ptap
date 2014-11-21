@@ -17,11 +17,24 @@ class PMUMetricsManager(MetricsManager):
     def getMetrics(self):
         return self.metricsDict.keys()
 
-    def getAllEvents(self):
+    def getRawEventName(self, rawCode):
+	rawCode = '0x'+rawCode[1:]
+	for name, event in self.eventsDict.items():
+		if event.configs[0] == rawCode:
+			return name
+	return 'null'
+
+    def getAllEvents(self, raw=False):
         str = ''
+        rawCodesMap = {}
         for name, event in self.eventsDict.items():
-            str += event.getEvent() + ','
-        return str[:-1]
+            if raw:
+                tmpName = event.getRawEvent()
+                rawCodesMap[tmpName] = name
+            else:
+                tmpName = event.getEvent()
+            str += tmpName + ','
+        return str[:-1], rawCodesMap
 
     def getMetricEvents(self, metricName):
         metric = self.metricsDict.get(metricName)
@@ -74,6 +87,6 @@ class PMUMetricsManager(MetricsManager):
 
 def main():
         manager = PMUMetricsManager()
-        print manager.getMetrics()
+	print manager.getRawEventName('r5300c0')
 if __name__ == '__main__':
         main()

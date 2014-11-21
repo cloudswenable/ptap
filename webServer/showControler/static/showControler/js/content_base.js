@@ -77,8 +77,7 @@ function new_modify_pop_table(result){
         $('#poptable').modal('show');
 }
 
-function loadShowTable(data, datatype, url, callback)
-{
+function loadShowTable(data, datatype, url, callback){
     $.ajax({
 	type: "GET",
 	traditional: true,

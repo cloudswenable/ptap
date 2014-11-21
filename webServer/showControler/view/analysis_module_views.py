@@ -134,6 +134,29 @@ class AnalysisModelsAnalysisView(View):
                 context = {'cpus': cpus, 'mems': mems, 'ios': ios, 'nets': nets, 'powers':powers, 'chooseModel':chooseModel, 'summary': summary, 'metrics': metrics}
                 return render(request, self.analysis_modelsAnalysis_blank_page, context)
 
+class AnalysisDynamicOverviewView(View):
+        analysis_dynamic_overview_blank_page = 'showControler/pages/analysis_dynamic_overview_blank_page.html'
+        def get(self, request, *args, **kwargs):
+                ids = request.GET.getlist('ids')
+                context = {'id':ids[0]}
+                return render(request, self.analysis_dynamic_overview_blank_page, context)
+
+class LoadDynamicDatasView(View):
+        def get(self, request, *args, **kwargs):
+                id = request.GET['id']
+                qtables = request.GET.getlist('qtables')
+                starts = request.GET.getlist('starts')
+                next = request.GET['next']
+                allResults = []
+                if id:
+                        result = Result.objects.get(pk=int(id))
+                        rPath = result.result_path
+                        allResults = frontendAgent.queryDynamicOverviews([rPath, qtables, starts, next]);
+                        
+                #allResults = [['perf', ['a', 'b', 'c'], [1,2,3], [[1,2,3,4,5],[2,0,4, 10, 11],[5,6,7,2,1]], ['1s', '2s', '3s', '4s', '5s']], ['pmu', ['a', 'b', 'c'], [3,4,5], [[1,2,3,4,5],[2,3,4,3,2],[3,4,5,0,1]], ['1s', '2s', '3s', '4s', '5s']]]
+                return HttpResponse(json.dumps(allResults),content_type='text/json')
+                
+
 class AnalysisOverviewView(View):
         analysis_overview_blank_page = 'showControler/pages/analysis_overview_blank_page.html'
         
