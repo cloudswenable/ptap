@@ -87,7 +87,7 @@ class JobHandler(threading.Thread):
             PerfListMonitorAdapter(PerfListMonitor(), PerfListProcessor()),
             SARMonitorAdapter(SARMonitor(), SARProcessor()),
             HotspotsMonitorAdapter(HotspotsMonitor(), HotspotsProcessor()),
-            BaiduMonitorAdapter(BaiduMonitor(), BaiduProcessor())
+            #BaiduMonitorAdapter(BaiduMonitor(), BaiduProcessor())
         ]
 
     def run(self):
