@@ -77,6 +77,27 @@ function new_modify_pop_table(result){
         $('#poptable').modal('show');
 }
 
+function clone_pop_table(result){
+	for(var item in result){
+		if(item == "machine"){
+			$("input[name='machine']").val(result[item][1]);
+			$("input[name='machineForeignId']").val(result[item][0]);
+			continue;
+		}
+		if(item == "description"){
+			$("textarea").text(result[item]);
+			continue;
+		}
+        if(item == "version"){
+			$("input[name='version']").val(result[item] + 1);
+			continue;
+		}
+		$("input[name='"+item+"']").val(result[item]);
+	}
+        $('#poptable').modal('show');
+}
+
+
 function loadShowTable(data, datatype, url, callback){
     $.ajax({
 	type: "GET",

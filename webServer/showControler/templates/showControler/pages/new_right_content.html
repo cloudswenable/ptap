@@ -41,6 +41,7 @@
     <div id='buttons' class='row'>
 	<div id='addbutton' onclick='add()' data-target="#poptable" data-toggle="modal" style='margin-left:20px;' class='btn btn-inverse pull-left {%ifequal itemName 'results' %} hide {%endifequal%}'><i class="icon-plus icon-white"></i> add</div>
 	<div id='delete' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='deleteItem()'><i class="icon-trash icon-white"></i> delete</div>
+	<div id='delete' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='clone()'><i class="icon-repeat icon-white"></i> clone</div>
 	<div id='modify' style='margin-left:20px;' class='btn btn-inverse pull-left {%ifequal itemName 'results' %} hide {%endifequal%}' onclick='modify()'><i class="icon-pencil icon-white"></i> modify</div>
 	{% ifequal itemName 'tests' %}
 	<div id='runTest' style='margin-left:20px;' class='btn btn-inverse pull-left' onclick='run()'><i class="icon-play icon-white"></i> run</div>

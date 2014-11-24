@@ -24,6 +24,7 @@ urlpatterns = patterns(
     url(r'^showtable/$', ShowTableView.as_view(), name='showtable'),
     url(r'^add/$', AddModelsView.as_view(), name='add'),
     url(r'^delete/$', DeleteModelsView.as_view(), name='delete'),
+    url(r'^clone/$', CloneModelsView.as_view(), name='clone'),
     url(r'^loadtestdatas/$', LoadTestDatasView.as_view(), name='loadtestdatas'),
     url(r'^modify/$', ModifyModelsView.as_view(), name='modify'),
     url(r'^getpoptable/$', PopContentView.as_view(), name='getpoptable'),
