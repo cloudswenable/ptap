@@ -127,12 +127,52 @@ function addOrModify(url, is_modify){
         submitform(url, dic, 1, files);
     }
 }
+
+function doClone(url) {
+    var valid = 1;
+    var dic = {};
+    $("#poptable div.firstcolumn").each(function (i, n) {
+        var name = $(n).text();
+        name = name.substring(0, name.length - 1).trim();
+        var tmp;
+        var value = "";
+        if (name == "description") {
+            tmp = "textarea";
+            value = $(tmp).val();
+        } else if (name == "machine") {
+            tmp = "input[name='" + name + "ForeignId']";
+            value = $(tmp).val();
+        } else {
+            tmp = "input[name=\"" + name + "\"]";
+            value = $('input[name="' + name + '"]').val();
+        }
+        if (name == "version" || name == "repeat" || name == "duration" || name == "delaytime") {
+            if (isNaN(parseInt(value)) || value.indexOf(".") != -1) {
+                alert("Version, Repeat, Duration and Delaytime must be Integer");
+                valid = 0;
+                return;
+            }
+        }
+        dic[name] = value;
+    });
+    var files = []
+    if (valid) {
+        var item = $("#leftcontent li.active").text().trim();
+        dic["item"] = item;
+        submitform(url, dic, 1, files);
+    }
+}
+
 function addObjects(){
     addOrModify('/show/add/', false);
 }
 function modifyObject(){
     addOrModify('/show/modify/', true);
 }
+function cloneObject() {
+    doClone('/show/clone/');
+}
+
 function add(){
     var item = $("#leftcontent li.active").text().trim();
     $("#poptable div.modal-header h3").text("Add "+item);
@@ -151,6 +191,21 @@ function modify(){
     var context = {"testId": id}
     loadShowTable(context, "json", "/show/loadtestdatas/", new_modify_pop_table);
 }
+
+function clone() {
+    var choose_input = $("input[name='rowchoose']:checked");
+    var id = $(choose_input).val();
+    var item = $("#leftcontent li.active").text().trim();
+    if (!id || !item) {
+        alert("must choose a object");
+        return;
+    }
+    $("#poptable div.modal-header h3").text("Clone " + item);
+    $("#poptable div.modal-footer button").removeAttr("onclick").attr("onclick", "cloneObject()");
+    var context = {"testId": id}
+    loadShowTable(context, "json", "/show/loadtestdatas/", clone_pop_table);
+}
+
 function run(){
     var choose_input = $("input[name='rowchoose']:checked");
     var id = $(choose_input).val();

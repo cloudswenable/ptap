@@ -232,6 +232,72 @@ class AddModelsView(View):
         else:
             raise Http404
 
+class CloneModelsView(View):
+    def post(
+            self,
+            request,
+            *args,
+            **kwargs
+    ):
+        item = request.POST['item']
+
+        if item == 'tests':
+            project_name = request.POST['project name']
+            team_name = request.POST['team name']
+            try:
+                project = Project.objects.get(project_name=project_name, team_name=team_name)
+            except:
+                project = None
+            if not project:
+                project = Project(project_name=project_name, team_name=team_name)
+                project.save()
+
+            source_code_name = request.POST['source code name']
+            source_path = request.POST['source path']
+            version = request.POST['version']
+            try:
+                sourceCode = SourceCode.objects.get(source_code_name=source_code_name, source_path=source_path,
+                                                    version=version)
+            except:
+                sourceCode = None
+            changed = False
+            oldPath = ''
+            if sourceCode:
+                oldPath = sourceCode.getPath()
+                sourceCode.project = project
+                sourceCode.save()
+                changed = True
+            else:
+                sourceCode = SourceCode(source_code_name=source_code_name, project=project, source_path=source_path,
+                                        version=version)
+                sourceCode.save()
+            files = request.FILES.getlist('upload')
+            handle_upload_files(sourceCode.getPath(), files)
+            if changed:
+                ifDelete = copyPath(base_path + '/' + oldPath, '.', base_path + '/' + sourceCode.getPath())
+                if ifDelete: deletePath(base_path, oldPath)
+
+            test_name = request.POST['test name']
+            machine_id = request.POST['machine']
+            repeat = request.POST['repeat']
+            duration = request.POST['duration']
+            delaytime = request.POST['delaytime']
+            description = request.POST['description']
+
+            try:
+                machine = MachineModel.objects.get(pk=int(machine_id))
+            except:
+                machine = None
+
+            test = Test(test_name=test_name, project=project, target='platform', sourceCode=sourceCode, pid=-1,
+                        machine=machine, repeat=repeat, duration=duration, delaytime=delaytime, description=description)
+            test.save()
+            return HttpResponseRedirect(reverse('showControler:redirectnew', args=(item, )))
+
+        else:
+            raise Http404
+
+
 class LoadTestDatasView(View):
     def get(self, request, *args, **kwargs):
 	testId = int(request.GET['testId'])
