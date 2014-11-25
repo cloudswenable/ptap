@@ -58,10 +58,10 @@ def handleTestDatas(tests):
     columnNames += pColumnNames
     allColumnNames.append('Project')
     allColumnNames += Project.getColumns()
-    sColumnNames = SourceCode.getShowColumns()
+    sColumnNames = AppBinary.getShowColumns()
     columnNames += sColumnNames
-    allColumnNames.append('Source Code')
-    allColumnNames += SourceCode.getColumns()
+    allColumnNames.append('ApplicationBinary')
+    allColumnNames += AppBinary.getColumns()
     tColumnNames = Test.getShowColumns()
     columnNames += tColumnNames
     allColumnNames.append('Test')
@@ -119,8 +119,8 @@ def handle_new_request(item='tests', starts=[0, 0, 0, 0, 0], pop=False):
     elif item == 'source codes':
 	s = starts[4]
 	e = s + size
-	rawDatas = SourceCode.objects.order_by('-id')[s:e]
-	columnNames = SourceCode.getColumns()
+	rawDatas = AppBinary.objects.order_by('-id')[s:e]
+	columnNames = AppBinary.getColumns()
 	allColumnNames = []
 	datas = handleDatas(columnNames, rawDatas)
 
@@ -136,7 +136,7 @@ def handle_new_request(item='tests', starts=[0, 0, 0, 0, 0], pop=False):
     foreignColumns = ['machine',]
     uploadColumns = ['source path', ]
     textAreaInputs = ['description', ]
-    headColumns = ['Project', 'Source Code', 'Test']
+    headColumns = ['Project', 'ApplicationBinary', 'Test']
     columnsInfo = []
     for column in allCleanNames:
 	lineType = 'normal'

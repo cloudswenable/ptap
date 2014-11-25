@@ -69,12 +69,12 @@ class RunView(View):
             id = int(id)
             test = Test.objects.get(pk=id)
             old_results = test.result_set.all()
-            for old_result in old_results:
-                old_result.delete()
+            #for old_result in old_results:
+             #   old_result.delete()
 
             curr_date = timezone.now()
             rName = test.test_name + ' result'
-            rPath = test.getBasePath()
+            rPath = test.getBasePath(curr_date)
 	    target = test.target
 	    sourcePath = ''
 	    pid = -1
@@ -87,7 +87,8 @@ class RunView(View):
 	    ip = machine.ip
 	    fileno = machine.fileno
 	    duration = test.duration
-	    repeat = test.repeat
+	    #repeat = test.repeat
+            repeat = 1
 	    delaytime = test.delaytime
 	    if machine.active:
 		frontendAgent.enqueue((1, [rPath,target,duration,repeat,delaytime,sourceCodeId,ip,sourcePath,pid,resultId,fileno]))
@@ -216,7 +217,8 @@ class AddModelsView(View):
 
 	    test_name = request.POST['test name']
 	    machine_id = request.POST['machine']
-	    repeat = request.POST['repeat']
+	    #repeat = request.POST['repeat']
+	    repeat = 1
 	    duration = request.POST['duration']
 	    delaytime = request.POST['delaytime']
 	    description = request.POST['description']
@@ -397,7 +399,7 @@ class ModifyModelsView(View):
             testId = int(request.POST['id'])
 	    test_name = request.POST['test name']
 	    machine_id = request.POST['machine']
-	    repeat = request.POST['repeat']
+	    #repeat = request.POST['repeat']
 	    duration = request.POST['duration']
 	    delaytime = request.POST['delaytime']
 	    description = request.POST['description']
@@ -413,7 +415,7 @@ class ModifyModelsView(View):
 		test.project = project
 		test.sourceCode = sourceCode
 		test.machine = machine
-		test.repeat = repeat
+		#test.repeat = repeat
 		test.duration = duration
 		test.delaytime = delaytime
 		test.description = description
