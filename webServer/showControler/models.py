@@ -24,7 +24,7 @@ class Project(models.Model):
 	return tmp
 
 
-class SourceCode(models.Model):
+class AppBinary(models.Model):
 
     source_code_name = models.CharField(max_length=200)
     project = models.ForeignKey(Project)
@@ -33,11 +33,11 @@ class SourceCode(models.Model):
 
     @staticmethod
     def getColumns():
-        return ['source_code_name', 'project', 'source_path', 'version']
+        return ['app_binary', 'project', 'source_path', 'version']
 
     @staticmethod
     def getShowColumns():
-	return ['source_code_name', 'version']
+	return ['app_binary', 'version']
 
     def __unicode__(self):
         return self.source_code_name
@@ -50,7 +50,7 @@ class SourceCode(models.Model):
         return  tmp
 
     def getInfo(self):
-	tmp = [['source code name', self.source_code_name], ['source code version', self.version]]
+	tmp = [['app binary ', self.source_code_name], ['app binary version', self.version]]
 	return tmp
 
 
@@ -89,7 +89,7 @@ class Test(models.Model):
     test_name = models.CharField(max_length=200)
     project = models.ForeignKey(Project)
     target = models.CharField(max_length=50)
-    sourceCode = models.ForeignKey(SourceCode, null=True)
+    sourceCode = models.ForeignKey(AppBinary, null=True)
     pid = models.IntegerField(default=-1)
     machine = models.ForeignKey(MachineModel)
     repeat = models.IntegerField(default=1)
