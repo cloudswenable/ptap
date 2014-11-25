@@ -69,12 +69,12 @@ class RunView(View):
             id = int(id)
             test = Test.objects.get(pk=id)
             old_results = test.result_set.all()
-            for old_result in old_results:
-                old_result.delete()
+            #for old_result in old_results:
+             #   old_result.delete()
 
             curr_date = timezone.now()
             rName = test.test_name + ' result'
-            rPath = test.getBasePath()
+            rPath = test.getBasePath(curr_date)
 	    target = test.target
 	    sourcePath = ''
 	    pid = -1

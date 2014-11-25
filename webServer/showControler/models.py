@@ -118,7 +118,7 @@ class Test(models.Model):
     def __unicode__(self):
         return self.test_name
 
-    def getBasePath(self):
+    def getBasePath(self, timestamp):
 	tmp = ''
 	tmp = tmp + ''.join(self.project.project_name.split(' ')) + '/'
         sc = self.sourceCode
@@ -127,6 +127,7 @@ class Test(models.Model):
             tmp = tmp + ''.join(sc.source_path.split(' ')) + '/'
             tmp = tmp + str(sc.version) + '/'
         tmp = tmp + ''.join(self.test_name.split(' ')) + '/'
+        tmp = tmp + timestamp.strftime("%Y%M%d%H%m%s") + '/'
         return tmp
 
     def getInfo(self):

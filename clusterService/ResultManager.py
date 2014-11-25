@@ -169,14 +169,22 @@ class ResultManager(AbstractResultManager):
                 
 
 def main():
+        manager = ResultManager()
+        '''
         manager = ClassifyResultManager()
-        rPath = '/project1/sourcecode1/source/1/test5/'
+        rPath = '/'
         print '+++++++++++++++++++++++++++++++++++++++++'
         manager.getOutputResults(rPath)
         print manager.results
         names = ['CPI', 'cache-misses(% of all cache refs )', 'cswch/s']
         datas = manager.queryResultsByNames(names)
         print datas
-
+        '''
+        manager.getOutputResults('/sssssssss/SSSs/source/1.0/Sssssssss/')
+        for result in manager.results:
+            print result.name
+            print result.datas
+        datas = manager.queryResultsByIndexes('/sssssssss/SSSs/source/1.0/Sssssssss/','hotspots',[1,2,3,4])
+        print datas
 if __name__ == '__main__':
         main()
