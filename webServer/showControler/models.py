@@ -106,7 +106,6 @@ class Test(models.Model):
             'sourceCode',
 	    'pid',
             'machine',
-            'repeat',
             'duration',
             'delaytime',
 	    'description',
@@ -114,7 +113,7 @@ class Test(models.Model):
 
     @staticmethod
     def getShowColumns():
-	return ['test_name', 'machine','repeat','duration','delaytime','description',]
+	return ['test_name', 'machine','duration','delaytime','description',]
 
     def __unicode__(self):
         return self.test_name

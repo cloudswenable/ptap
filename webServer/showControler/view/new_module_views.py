@@ -87,7 +87,8 @@ class RunView(View):
 	    ip = machine.ip
 	    fileno = machine.fileno
 	    duration = test.duration
-	    repeat = test.repeat
+	    #repeat = test.repeat
+            repeat = 1
 	    delaytime = test.delaytime
 	    if machine.active:
 		frontendAgent.enqueue((1, [rPath,target,duration,repeat,delaytime,sourceCodeId,ip,sourcePath,pid,resultId,fileno]))
@@ -216,7 +217,8 @@ class AddModelsView(View):
 
 	    test_name = request.POST['test name']
 	    machine_id = request.POST['machine']
-	    repeat = request.POST['repeat']
+	    #repeat = request.POST['repeat']
+	    repeat = 1
 	    duration = request.POST['duration']
 	    delaytime = request.POST['delaytime']
 	    description = request.POST['description']
@@ -397,7 +399,7 @@ class ModifyModelsView(View):
             testId = int(request.POST['id'])
 	    test_name = request.POST['test name']
 	    machine_id = request.POST['machine']
-	    repeat = request.POST['repeat']
+	    #repeat = request.POST['repeat']
 	    duration = request.POST['duration']
 	    delaytime = request.POST['delaytime']
 	    description = request.POST['description']
@@ -413,7 +415,7 @@ class ModifyModelsView(View):
 		test.project = project
 		test.sourceCode = sourceCode
 		test.machine = machine
-		test.repeat = repeat
+		#test.repeat = repeat
 		test.duration = duration
 		test.delaytime = delaytime
 		test.description = description
