@@ -29,7 +29,7 @@ class SourceCode(models.Model):
     source_code_name = models.CharField(max_length=200)
     project = models.ForeignKey(Project)
     source_path = models.CharField(max_length=200)
-    version = models.IntegerField(default=0)
+    version = models.FloatField(default=0)
 
     @staticmethod
     def getColumns():

@@ -107,9 +107,14 @@ function addOrModify(url, is_modify){
             tmp = "input[name=\""+name+"\"]";
 	    value = $('input[name="'+name+'"]').val();
         }
-        if(name=="version" || name=="repeat" || name=="duration" || name=="delaytime"){
+        if(name=="version" ){
+                if(isNaN(parseFloat(value)) ) {
+                        alsert("version must not be null")
+                }
+        }
+        if(name=="repeat" || name=="duration" || name=="delaytime"){
             if(isNaN(parseInt(value)) || value.indexOf(".")!=-1){
-                alert("Version, Repeat, Duration and Delaytime must be Integer");
+                alert("Repeat, Duration and Delaytime must be Integer");
                 valid = 0;
                 return;
             }
