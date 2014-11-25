@@ -320,6 +320,36 @@ class LoadTestDatasView(View):
 		data['description'] = test.description
 	return HttpResponse(json.dumps(data), content_type='text/json')
 
+from django.db import connection
+class LoadCloneDatasView(View):
+    def get(self, request, *args, **kwargs):
+	testId = int(request.GET['testId'])
+	data = {}
+	if testId:
+		test = Test.objects.get(pk=testId)
+		project = test.project
+		sourceCode = test.sourceCode
+		machine = test.machine
+		data['project name'] = project.project_name
+		data['team name'] = project.team_name
+		data['source code name'] = sourceCode.source_code_name
+		data['source path'] = 'source'
+		data['version'] = sourceCode.version
+		data['test name'] = test.test_name
+		data['machine'] = (machine.id, machine.name)
+		data['repeat'] = test.repeat
+		data['duration'] = test.duration
+		data['delaytime'] = test.delaytime
+		data['description'] = test.description
+        cursor = connection.cursor()
+
+        sqlcmd = "select max(version) from showControler_sourcecode where source_code_name='" + sourceCode.source_code_name + \
+                 "' and project_id="+ str(sourceCode.project_id) + " and source_path='" + sourceCode.source_path + "'"
+        cursor.execute(sqlcmd)
+        data['version'] = cursor.fetchone()[0]
+
+	return HttpResponse(json.dumps(data), content_type='text/json')
+
 class ModifyModelsView(View):
 
     def post(

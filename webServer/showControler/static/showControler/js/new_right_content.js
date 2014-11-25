@@ -208,7 +208,7 @@ function clone() {
     $("#poptable div.modal-header h3").text("Clone " + item);
     $("#poptable div.modal-footer button").removeAttr("onclick").attr("onclick", "cloneObject()");
     var context = {"testId": id}
-    loadShowTable(context, "json", "/show/loadtestdatas/", clone_pop_table);
+    loadShowTable(context, "json", "/show/loadclonedatas/", clone_pop_table);
 }
 
 function run(){
