@@ -69,13 +69,13 @@ def handleTestDatas(tests):
 
     for test in tests:
 	project = test.project
-	sourceCode = test.sourceCode
+	appBinary = test.appBinary
 	data = [] 
 	for column in pColumnNames:
 		cdata = str(project.__getattribute__(column))
 		data.append(cdata)
 	for column in sColumnNames:
-		cdata = str(sourceCode.__getattribute__(column))
+		cdata = str(appBinary.__getattribute__(column))
 		data.append(cdata)
 	for column in tColumnNames:
 		cdata = str(test.__getattribute__(column))
@@ -132,7 +132,7 @@ def handle_new_request(item='tests', starts=[0, 0, 0, 0, 0], pop=False):
     for name in allColumnNames:
 	allCleanNames.append(name.replace('_', ' '))
 
-    excludeColumns = ['target', 'project', 'sourceCode', 'pid']
+    excludeColumns = ['target', 'project', 'appBinary', 'pid']
     foreignColumns = ['machine',]
     uploadColumns = ['source path', ]
     textAreaInputs = ['description', ]

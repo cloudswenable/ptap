@@ -22,7 +22,7 @@ function serviceConfirm(){
         if(m_type=="Select machines"){
                 column_name = "machine";
         }else if(m_type=="Select source codes"){
-                column_name="sourceCode";
+                column_name="appBinary";
         }else if(m_type=="Select projects"){
                 column_name="project";
         }
