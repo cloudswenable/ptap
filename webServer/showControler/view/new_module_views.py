@@ -257,7 +257,7 @@ class CloneModelsView(View):
                 project = Project(project_name=project_name, team_name=team_name)
                 project.save()
 
-            binary_name = request.POST['source code name']
+            binary_name = request.POST['binary name']
             source_path = request.POST['source path']
             version = request.POST['version']
             try:
@@ -284,7 +284,7 @@ class CloneModelsView(View):
 
             test_name = request.POST['test name']
             machine_id = request.POST['machine']
-            repeat = request.POST['repeat']
+            repeat = 1
             duration = request.POST['duration']
             delaytime = request.POST['delaytime']
             description = request.POST['description']
@@ -337,7 +337,7 @@ class LoadCloneDatasView(View):
 		machine = test.machine
 		data['project name'] = project.project_name
 		data['team name'] = project.team_name
-		data['source code name'] = appBinary.binary_name
+		data['binary name'] = appBinary.binary_name
 		data['source path'] = 'source'
 		data['version'] = appBinary.version
 		data['test name'] = test.test_name
@@ -348,7 +348,7 @@ class LoadCloneDatasView(View):
 		data['description'] = test.description
         cursor = connection.cursor()
 
-        sqlcmd = "select max(version) from showControler_sourcecode where binary_name='" + appBinary.binary_name + \
+        sqlcmd = "select max(version) from showControler_appbinary where binary_name='" + appBinary.binary_name + \
                  "' and project_id="+ str(appBinary.project_id) + " and source_path='" + appBinary.source_path + "'"
         cursor.execute(sqlcmd)
         data['version'] = cursor.fetchone()[0]
