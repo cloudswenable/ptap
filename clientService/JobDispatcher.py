@@ -82,13 +82,17 @@ class JobHandler(threading.Thread):
         threading.Thread.__init__(self)
         self.job_queue = Queue.Queue()
         self.responseQueue = responseQueue
-        self.process_steps = [
+        self.process_steps = []
+
+    def generateSteps(self):
+        process_steps = [
             PMUMonitorAdapter(PMUMonitor(), PMUProcessor()),
             PerfListMonitorAdapter(PerfListMonitor(), PerfListProcessor()),
             SARMonitorAdapter(SARMonitor(), SARProcessor()),
             HotspotsMonitorAdapter(HotspotsMonitor(), HotspotsProcessor()),
             #BaiduMonitorAdapter(BaiduMonitor(), BaiduProcessor())
         ]
+        return process_steps
 
     def run(self):
         while True:
@@ -97,6 +101,7 @@ class JobHandler(threading.Thread):
                 #Start source code project
                 sourceCodeControler = SourceDeploymentControler()
                 pid = sourceCodeControler.run(self.job.source_path)
+                self.process_steps = self.generateSteps()
                 print 'START SOURCE CODE PROCESS PID : ', pid
                 if self.job:
                     self.job.pid = pid
