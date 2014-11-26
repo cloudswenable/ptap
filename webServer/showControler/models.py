@@ -26,31 +26,31 @@ class Project(models.Model):
 
 class AppBinary(models.Model):
 
-    source_code_name = models.CharField(max_length=200)
+    binary_name= models.CharField(max_length=200)
     project = models.ForeignKey(Project)
     source_path = models.CharField(max_length=200)
     version = models.FloatField(default=0)
 
     @staticmethod
     def getColumns():
-        return ['app_binary', 'project', 'source_path', 'version']
+        return ['binary_name', 'project', 'source_path', 'version']
 
     @staticmethod
     def getShowColumns():
-	return ['app_binary', 'version']
+	return ['binary_name', 'version']
 
     def __unicode__(self):
-        return self.source_code_name
+        return self.binary_name
 
     def getPath(self):
 	tmp = ''.join(self.project.project_name.split(' ')) + '/'
-	tmp += ''.join(self.source_code_name.split(' ')) + '/'
+	tmp += ''.join(self.binary_name.split(' ')) + '/'
 	tmp += ''.join(self.source_path.split(' ')) + '/'
 	tmp += str(self.version) + '/'
         return  tmp
 
     def getInfo(self):
-	tmp = [['app binary ', self.source_code_name], ['app binary version', self.version]]
+	tmp = [['binary name', self.binary_name], ['app binary version', self.version]]
 	return tmp
 
 
@@ -89,7 +89,7 @@ class Test(models.Model):
     test_name = models.CharField(max_length=200)
     project = models.ForeignKey(Project)
     target = models.CharField(max_length=50)
-    sourceCode = models.ForeignKey(AppBinary, null=True)
+    appBinary= models.ForeignKey(AppBinary, null=True)
     pid = models.IntegerField(default=-1)
     machine = models.ForeignKey(MachineModel)
     repeat = models.IntegerField(default=1)
@@ -103,7 +103,7 @@ class Test(models.Model):
             'test_name',
 	    'target',
 	    'project',
-            'sourceCode',
+            'appBinary',
 	    'pid',
             'machine',
             'duration',
@@ -121,9 +121,9 @@ class Test(models.Model):
     def getBasePath(self, timestamp):
 	tmp = ''
 	tmp = tmp + ''.join(self.project.project_name.split(' ')) + '/'
-        sc = self.sourceCode
+        sc = self.appBinary
 	if sc:
-            tmp = tmp + ''.join(sc.source_code_name.split(' ')) + '/'
+            tmp = tmp + ''.join(sc.binary_name.split(' ')) + '/'
             tmp = tmp + ''.join(sc.source_path.split(' ')) + '/'
             tmp = tmp + str(sc.version) + '/'
         tmp = tmp + ''.join(self.test_name.split(' ')) + '/'

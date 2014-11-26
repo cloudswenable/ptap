@@ -29,7 +29,7 @@ function confirmSelect(){
         $('#selectpop').modal('hide')
 }
 function chooseForeign(element){
-    var name_map = {'project':'projects', 'sourceCode':'source codes', 'machine':'machines'};
+    var name_map = {'project':'projects', 'appBinary':'app binary', 'machine':'machines'};
     var m_name = $(element).find("input").val();
     var item = name_map[m_name];
     context = {"item":item, "tps": 0, "mps":0, "rps":0,"pps":0,"sps":0};
@@ -231,7 +231,7 @@ function selectItem(){
     if(m_type=="Select machines"){
 	column_name = "machine";
     }else if(m_type=="Select source codes"){
-	column_name="sourceCode";
+	column_name="appBinary";
     }else if(m_type=="Select projects"){
 	column_name="project";
     }

@@ -78,8 +78,8 @@ class RunView(View):
 	    target = test.target
 	    sourcePath = ''
 	    pid = -1
-	    sourcePath = test.sourceCode.getPath()
-	    sourceCodeId = test.sourceCode.id
+	    sourcePath = test.appBinary.getPath()
+	    appBinaryId = test.appBinary.id
             result = Result(result_name=rName, test=test, test_date=curr_date, result_path=rPath, status='undone')
             result.save()
 	    resultId = result.id
@@ -91,7 +91,7 @@ class RunView(View):
             repeat = 1
 	    delaytime = test.delaytime
 	    if machine.active:
-		frontendAgent.enqueue((1, [rPath,target,duration,repeat,delaytime,sourceCodeId,ip,sourcePath,pid,resultId,fileno]))
+		frontendAgent.enqueue((1, [rPath,target,duration,repeat,delaytime,appBinaryId,ip,sourcePath,pid,resultId,fileno]))
 
 	    return HttpResponseRedirect(reverse('showControler:redirectnew', args=('results',)))
 
@@ -189,29 +189,32 @@ class AddModelsView(View):
 		project.save()
 		project_id = project.id
 
-	    source_code_name = request.POST['source code name']
+	    binary_name = request.POST['binary name']
 	    source_path = request.POST['source path']
 	    version = request.POST['version']
 	    try:
-		sourceCode = SourceCode.objects.get(source_code_name=source_code_name, source_path=source_path, version=version)
+		appBinary = AppBinary.objects.get(binary_name=binary_name, source_path=source_path, version=version)
 	    except:
-		sourceCode = None
+		appBinary = None
 	    changed = False
 	    oldPath = ''
-	    if sourceCode:
-		oldPath = sourceCode.getPath()
+	    if appBinary:
+		oldPath = appBinary.getPath()
 		changed = True
-		sourceCode.project = project
-		sourceCode.save()
-		sourceCode_id = sourceCode.id
+		appBinary.project = project
+		appBinary.save()
+		appBinary_id = appBinary.id
 	    else:
-		sourceCode = SourceCode(source_code_name=source_code_name, project=project, source_path=source_path, version=version)
-		sourceCode.save()
-		sourceCode_id = sourceCode.id
+		appBinary = AppBinary(binary_name=binary_name, project=project, source_path=source_path, version=version)
+		appBinary.save()
+		appBinary_id = appBinary.id
+            print source_path
+            print appBinary.getPath()
+
 	    files = request.FILES.getlist('upload')
-	    handle_upload_files(sourceCode.getPath(), files)
+	    handle_upload_files(appBinary.getPath(), files)
 	    if changed:
-		ifDelete = copyPath(base_path+'/'+oldPath, '.', base_path+'/'+sourceCode.getPath())
+		ifDelete = copyPath(base_path+'/'+oldPath, '.', base_path+'/'+appBinary.getPath())
 		if ifDelete:
 			deletePath(base_path, oldPath)
 
@@ -227,7 +230,7 @@ class AddModelsView(View):
 	    except:
 		machine = None
 	    
-	    test = Test(test_name=test_name,project=project,target='platform',sourceCode=sourceCode,pid=-1,machine=machine,repeat=repeat,duration=duration,delaytime=delaytime,description=description)
+	    test = Test(test_name=test_name,project=project,target='platform',appBinary=appBinary,pid=-1,machine=machine,repeat=repeat,duration=duration,delaytime=delaytime,description=description)
 	    test.save()
 	    return HttpResponseRedirect(reverse('showControler:redirectnew', args=(item, )))
 	
@@ -254,29 +257,29 @@ class CloneModelsView(View):
                 project = Project(project_name=project_name, team_name=team_name)
                 project.save()
 
-            source_code_name = request.POST['source code name']
+            binary_name = request.POST['source code name']
             source_path = request.POST['source path']
             version = request.POST['version']
             try:
-                sourceCode = SourceCode.objects.get(source_code_name=source_code_name, source_path=source_path,
+                appBinary = AppBianry.objects.get(binary_name=binary_name, source_path=source_path,
                                                     version=version)
             except:
-                sourceCode = None
+                appBinary = None
             changed = False
             oldPath = ''
-            if sourceCode:
-                oldPath = sourceCode.getPath()
-                sourceCode.project = project
-                sourceCode.save()
+            if appBinary:
+                oldPath = appBinary.getPath()
+                appBinary.project = project
+                appBinary.save()
                 changed = True
             else:
-                sourceCode = SourceCode(source_code_name=source_code_name, project=project, source_path=source_path,
+                appBinary = AppBinary(binary_name=binary_name, project=project, source_path=source_path,
                                         version=version)
-                sourceCode.save()
+                appBinary.save()
             files = request.FILES.getlist('upload')
-            handle_upload_files(sourceCode.getPath(), files)
+            handle_upload_files(appBinary.getPath(), files)
             if changed:
-                ifDelete = copyPath(base_path + '/' + oldPath, '.', base_path + '/' + sourceCode.getPath())
+                ifDelete = copyPath(base_path + '/' + oldPath, '.', base_path + '/' + appBinary.getPath())
                 if ifDelete: deletePath(base_path, oldPath)
 
             test_name = request.POST['test name']
@@ -291,7 +294,7 @@ class CloneModelsView(View):
             except:
                 machine = None
 
-            test = Test(test_name=test_name, project=project, target='platform', sourceCode=sourceCode, pid=-1,
+            test = Test(test_name=test_name, project=project, target='platform', appBinary=appBinary, pid=-1,
                         machine=machine, repeat=repeat, duration=duration, delaytime=delaytime, description=description)
             test.save()
             return HttpResponseRedirect(reverse('showControler:redirectnew', args=(item, )))
@@ -307,13 +310,13 @@ class LoadTestDatasView(View):
 	if testId:
 		test = Test.objects.get(pk=testId)
 		project = test.project
-		sourceCode = test.sourceCode
+		appBinary = test.appBinary
 		machine = test.machine
 		data['project name'] = project.project_name
 		data['team name'] = project.team_name
-		data['source code name'] = sourceCode.source_code_name
+		data['source code name'] = appBinary.binary_name
 		data['source path'] = 'source'
-		data['version'] = sourceCode.version
+		data['version'] = appBinary.version
 		data['test name'] = test.test_name
 		data['machine'] = (machine.id, machine.name)
 		data['repeat'] = test.repeat
@@ -330,13 +333,13 @@ class LoadCloneDatasView(View):
 	if testId:
 		test = Test.objects.get(pk=testId)
 		project = test.project
-		sourceCode = test.sourceCode
+		appBinary = test.appBinary
 		machine = test.machine
 		data['project name'] = project.project_name
 		data['team name'] = project.team_name
-		data['source code name'] = sourceCode.source_code_name
+		data['source code name'] = appBinary.binary_name
 		data['source path'] = 'source'
-		data['version'] = sourceCode.version
+		data['version'] = appBinary.version
 		data['test name'] = test.test_name
 		data['machine'] = (machine.id, machine.name)
 		data['repeat'] = test.repeat
@@ -345,8 +348,8 @@ class LoadCloneDatasView(View):
 		data['description'] = test.description
         cursor = connection.cursor()
 
-        sqlcmd = "select max(version) from showControler_sourcecode where source_code_name='" + sourceCode.source_code_name + \
-                 "' and project_id="+ str(sourceCode.project_id) + " and source_path='" + sourceCode.source_path + "'"
+        sqlcmd = "select max(version) from showControler_sourcecode where binary_name='" + appBinary.binary_name + \
+                 "' and project_id="+ str(appBinary.project_id) + " and source_path='" + appBinary.source_path + "'"
         cursor.execute(sqlcmd)
         data['version'] = cursor.fetchone()[0]
 
@@ -373,27 +376,27 @@ class ModifyModelsView(View):
 		project = Project(project_name=project_name,team_name=team_name)
 		project.save()
 
-	    source_code_name = request.POST['source code name']
+	    binary_name = request.POST['binary name']
 	    source_path = request.POST['source path']
 	    version = request.POST['version']
 	    try:
-		sourceCode = SourceCode.objects.get(source_code_name=source_code_name, source_path=source_path, version=version)
+		appBinary = AppBinary.objects.get(binary_name=binary_name, source_path=source_path, version=version)
 	    except:
-		sourceCode = None
+		appBinary = None
 	    changed = False
 	    oldPath = ''
-	    if sourceCode:
-		oldPath = sourceCode.getPath()
-		sourceCode.project = project
-		sourceCode.save()
+	    if appBinary:
+		oldPath = appBinary.getPath()
+		appBinary.project = project
+		appBinary.save()
 		changed = True	
 	    else:
-		sourceCode = SourceCode(source_code_name=source_code_name, project=project, source_path=source_path, version=version)
-		sourceCode.save()
+		appBinary = AppBinary(binary_name=binary_name, project=project, source_path=source_path, version=version)
+		appBinary.save()
 	    files = request.FILES.getlist('upload')
-            handle_upload_files(sourceCode.getPath(), files)
+            handle_upload_files(appBinary.getPath(), files)
 	    if changed:
-		ifDelete = copyPath(base_path+'/'+oldPath, '.', base_path+'/'+sourceCode.getPath())
+		ifDelete = copyPath(base_path+'/'+oldPath, '.', base_path+'/'+appBinary.getPath())
 		if ifDelete: deletePath(base_path, oldPath)
 	
             testId = int(request.POST['id'])
@@ -413,7 +416,7 @@ class ModifyModelsView(View):
             if test:
                 test.test_name = test_name
 		test.project = project
-		test.sourceCode = sourceCode
+		test.appBinary = appBinary
 		test.machine = machine
 		#test.repeat = repeat
 		test.duration = duration
@@ -464,28 +467,28 @@ class DeleteModelsView(View):
             results = test.result_set.all()
             if not results:
 		project = test.project
-		sourceCode = test.sourceCode
+		appBinary = test.appBinary
 
-		tmpTestSet = sourceCode.test_set.all()
-		testWantDeleteSourceCode = False
+		tmpTestSet = appBinary.test_set.all()
+		testWantDeleteAppBinary = False
 		if len(tmpTestSet) <= 1:# current test
-			testWantDeleteSourceCode = True
+			testWantDeleteAppBinary = True
 
 		testWantDeleteProject = False
 		tmpTestSet2 = project.test_set.all()
 		if len(tmpTestSet2) <= 1: # only current test
 			testWantDeleteProject = True
 		
-		sourceCodeWantDeleteProject = False
-		tmpSourceCodeSet = project.sourcecode_set.all()
-		if len(tmpSourceCodeSet) <= 1 and testWantDeleteSourceCode: # only current source code
-			sourceCodeWantDeleteProject = True
+		appBinaryWantDeleteProject = False
+		tmpAppBinarySet = project.sourcecode_set.all()
+		if len(tmpAppBinarySet) <= 1 and testWantDeleteAppBinary: # only current source code
+			appBinaryWantDeleteProject = True
 
                 test.delete()
-		if testWantDeleteSourceCode:
-			handle_file_delete(sourceCode.getPath())
-			sourceCode.delete()
-		if testWantDeleteProject and sourceCodeWantDeleteProject:
+		if testWantDeleteAppBinary:
+			handle_file_delete(appBinary.getPath())
+			appBinary.delete()
+		if testWantDeleteProject and appBinaryWantDeleteProject:
 			project.delete()
 	elif item == 'results':
 	    r = Result.objects.get(pk=id)

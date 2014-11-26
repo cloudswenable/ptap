@@ -64,15 +64,15 @@ class AnalysisRightContentView(View):
         id = request.GET['id']
         project = Project.objects.get(pk=int(id))
 	projectInfo = project.getInfo()
-        sourcecodes = project.sourcecode_set.all()
+        sourcecodes = project.appbinary_set.all()
 	allResults = []
 	alltests = project.test_set.order_by('-id')
 	for test in alltests:
 	    testInfo = test.getInfo()
-	    sourceCode = test.sourceCode
+	    appBinary= test.appBinary
 	    sourcecodeInfo = []
-	    if sourceCode:
-		sourcecodeInfo = sourceCode.getInfo()
+	    if appBinary:
+		sourcecodeInfo = appBinary.getInfo()
 	    machineInfo = test.machine.getInfo()
 	    results = test.result_set.all()
 	    for result in results:
