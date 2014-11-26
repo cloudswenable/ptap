@@ -76,7 +76,12 @@ class SARProcessor(Processor):
                     name = titles[i]
                 formatDatas.append((name, datas[i]))
                 metricsNames.append(name)
-                metricsDatas.append(float(datas[i]))
+                data = 0.0
+                try:
+                    data = float(datas[i])
+                except:
+                    pass
+                metricsDatas.append(data)
         metricsResult = CommonDictResult('sar metrics', outputPath, timestamp)
         metricsResult.names = metricsNames
         metricsResult.datas = metricsDatas

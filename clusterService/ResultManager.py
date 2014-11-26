@@ -112,26 +112,24 @@ class ResultManager(AbstractResultManager):
         def queryResultsByIndexes(self, rPath, tableName, indexes):
                 self.getOutputResults(rPath)
                 result = None      
+                datas=[]
                 for result in self.results:
                         if result.name == tableName:
-                                break;
-                datas = []
-                if not result: return datas
-                for index in indexes:
-                        datas.append((result.names[index], result.datas[index]))
+                            for index in indexes:
+                                datas.append((result.names[index], result.datas[index]))
+                            return datas
                 return datas
-      
+
         def queryTable(self, rPath, tableName, start, end):
                 self.getOutputResults(rPath)
                 result = None
+                datas = []
                 for result in self.results:
                         if result.name == tableName:
-                                break
-                datas = []
-                if not result: return datas
-                for i in range(end-start):
-                        if start+i < len(result.names):
-                                datas.append((result.names[start+i], result.datas[start+i]))
+                            for i in range(end-start):
+                                if start+i < len(result.names):
+                                    datas.append((result.names[start+i], result.datas[start+i]))
+                            break;
                 return datas
 
         def queryResultByFormula(self, rPath, formula, parameters):
