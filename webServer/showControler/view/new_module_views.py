@@ -450,6 +450,37 @@ class PopContentView(View):
 
 class DeleteModelsView(View):
 
+    def deleteResult(self, result):
+        rPath = result.result_path
+	frontendAgent.enqueue((2, [rPath,'AllSource/ServerOutput']))
+	result.delete()
+    
+    def deleteTest(self, test):
+	    project = test.project
+	    appBinary = test.appBinary
+
+            tmpTestSet = appBinary.test_set.all()
+	    testWantDeleteAppBinary = False
+	    if len(tmpTestSet) <= 1:# current test
+		    testWantDeleteAppBinary = True
+
+	    testWantDeleteProject = False
+	    tmpTestSet2 = project.test_set.all()
+	    if len(tmpTestSet2) <= 1: # only current test
+		    testWantDeleteProject = True
+		
+	    appBinaryWantDeleteProject = False
+	    tmpAppBinarySet = project.appbinary_set.all()
+	    if len(tmpAppBinarySet) <= 1 and testWantDeleteAppBinary: # only current source code
+		    appBinaryWantDeleteProject = True
+
+            test.delete()
+	    if testWantDeleteAppBinary:
+		    handle_file_delete(appBinary.getPath())
+		    appBinary.delete()
+	    if testWantDeleteProject and appBinaryWantDeleteProject:
+		    project.delete()
+
     def get(
         self,
         request,
@@ -466,36 +497,15 @@ class DeleteModelsView(View):
             test = Test.objects.get(pk=id)
             results = test.result_set.all()
             if not results:
-		project = test.project
-		appBinary = test.appBinary
-
-		tmpTestSet = appBinary.test_set.all()
-		testWantDeleteAppBinary = False
-		if len(tmpTestSet) <= 1:# current test
-			testWantDeleteAppBinary = True
-
-		testWantDeleteProject = False
-		tmpTestSet2 = project.test_set.all()
-		if len(tmpTestSet2) <= 1: # only current test
-			testWantDeleteProject = True
-		
-		appBinaryWantDeleteProject = False
-		tmpAppBinarySet = project.sourcecode_set.all()
-		if len(tmpAppBinarySet) <= 1 and testWantDeleteAppBinary: # only current source code
-			appBinaryWantDeleteProject = True
-
-                test.delete()
-		if testWantDeleteAppBinary:
-			handle_file_delete(appBinary.getPath())
-			appBinary.delete()
-		if testWantDeleteProject and appBinaryWantDeleteProject:
-			project.delete()
+                self.deleteTest(test)
+            else:
+                #detete results first
+                for result in results:
+                    self.deleteResult(result)
+                self.deleteTest(test)
 	elif item == 'results':
 	    r = Result.objects.get(pk=id)
-	    rPath = r.result_path
-	    frontendAgent.enqueue((2, [rPath,'AllSource/ServerOutput']))
-	    r.delete()
-
+            self.deleteResult(r)
         else:
             raise Http404
         return HttpResponseRedirect(reverse('showControler:redirectnew'
