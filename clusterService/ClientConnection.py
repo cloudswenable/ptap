@@ -47,7 +47,7 @@ class ClientConnection(object):
         self.enqueue(message)
 
     def sendMachineInfo(self):
-        machineInfos = collectMachineInfo()
+        machineInfos, otherdict = collectMachineInfo()
         machine = Machine()
 	machine.name = machineInfos['name']
         machine.os_info = machineInfos['os_info']
@@ -55,6 +55,7 @@ class ClientConnection(object):
         machine.cpu_info = machineInfos['cpu_info']
         machine.mem_info = machineInfos['mem_info']
         machine.disk_info = machineInfos['disk_info']
+        machine.others = otherdict
 	self.enqueue(MachineInfoMessage(machine))
 
     def close(self):

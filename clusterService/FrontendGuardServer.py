@@ -64,9 +64,10 @@ class FrontendGuardServer(threading.Thread):
 				cpu_info = machineInfo['cpu_info']
 				mem_info = machineInfo['mem_info']
 				disk_info = machineInfo['disk_info']
+                                others = machineInfo['others']
 				ht = machineInfo['ht']
 				turbo = machineInfo['turbo']
-				machine = MachineModel(name=name, active=True, mac=mac, ip=ip, fileno=fileno, os_info=os_info, cpu_info=cpu_info, mem_info=mem_info, disk_info=disk_info, ht=ht, turbo=turbo)
+				machine = MachineModel(name=name, others=others, active=True, mac=mac, ip=ip, fileno=fileno, os_info=os_info, cpu_info=cpu_info, mem_info=mem_info, disk_info=disk_info, ht=ht, turbo=turbo)
 				machine.save()
 		elif type == 1: # set machine active to False
 			ip = machineInfo['ip_addr']

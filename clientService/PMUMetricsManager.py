@@ -1,4 +1,5 @@
 from MetricsManager import *
+import re
 
 class PMUMetricsManagerConfig(MetricsManagerConfig):
         def __init__(self):
@@ -13,6 +14,29 @@ class PMUMetricsManager(MetricsManager):
             EventsParser(configFile=self.eventsFile).getElements()
         self.metricsDict = \
             MetricsParser(configFile=self.metricsFile).getElements()
+        self.constDict = self.getConstValues()
+
+    def getConstValues(self):
+        tmpDict = {}
+        lscpus = os.popen('lscpu').readlines()
+        sockets = None
+        for line in lscpus:
+            if line.startswith('Socket'):
+                sockets = int((line.split(':')[1]).strip())
+        if sockets:
+            tmpDict['system.sockets.count'] = sockets
+        cpuinfo = open('/proc/cpuinfo').read()
+        pa = re.compile('model name.*:(.*)\n')
+        ma = pa.search(cpuinfo)
+        cpu_info = ma.group(1).strip()
+        start = cpu_info.rfind('@')
+        end = cpu_info.rfind('GHz')
+        if start > 0 and end > 0:
+            cpu_freq = float(cpu_info[start+1:end])
+        tmpDict['system.tsc_freq'] = cpu_freq * 1000000000
+        return tmpDict
+    def getConstValue(self, constName):
+        return self.constDict.get(constName)
 
     def getMetrics(self):
         return self.metricsDict.keys()

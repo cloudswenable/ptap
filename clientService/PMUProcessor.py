@@ -78,11 +78,16 @@ class PMUProcessor(Processor):
         metricsDatas = []
         for metric in allMetrics:
             aliasEventDict = self.metricsManager.getMetricAliasEventDict(metric)
+            aliasConstantDict = self.metricsManager.getMetricAliasConstantDict(metric)
             formula = self.metricsManager.getMetricFormula(metric)
             for (alias, eventName) in aliasEventDict.iteritems():
                 aliasData = eventsDatasDict.get(eventName)
                 if not aliasData: continue
                 formula = formula.replace(alias, aliasData)
+            for (alias, constName) in aliasConstantDict.iteritems():
+                aliasData = self.metricsManager.getConstValue(constName)
+                if not aliasData: continue
+                formula = formula.replace(alias, str(aliasData))
             data = self.calculater.calculate(formula)
             if data == -1: continue
             metricsNames.append(metric)

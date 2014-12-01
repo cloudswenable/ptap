@@ -5,6 +5,15 @@ import os
 import shutil
 import traceback
 from ClusterConfig import *
+
+def dictToString(datas):
+    ret = '{'
+    for key,value in datas.items():
+        ret += ('%s:%s,') % (key, value)
+    ret.rstrip(',')
+    ret += '}'
+    return ret
+
 def collectMachineInfo():
 	name = open('/proc/sys/kernel/hostname').read().strip()
         config = AgentClientConfig()
@@ -15,7 +24,10 @@ def collectMachineInfo():
 	pa = re.compile('model name.*:(.*)\n')
 	ma = pa.search(cpuinfo)
 	cpu_info = ma.group(1).strip()
-
+        start = cpu_info.rfind('@')
+        end = cpu_info.rfind('GHz')
+        if start > 0 and end > 0:
+            cpu_freq = float(cpu_info[start+1:end])
 	meminfo = open('/proc/meminfo').read()
 	pa = re.compile('MemTotal:(.*)\n')
 	ma = pa.search(meminfo)
@@ -24,7 +36,17 @@ def collectMachineInfo():
 	disk =  os.statvfs("/")
 	disk_info = str(disk.f_bsize * disk.f_blocks / 1024) + ' kB'
 
-	return {'name': name, 'ip_addr': ip_addr, 'os_info': os_info, 'cpu_info': cpu_info, 'mem_info': mem_info, 'disk_info': disk_info}
+        orignal = {'name': name, 'ip_addr': ip_addr, 'os_info': os_info, 'cpu_info': cpu_info,  'mem_info': mem_info, 'disk_info': disk_info}
+
+        added = {}
+        lscpu = os.popen("lscpu").readlines()
+        for line in lscpu:
+            key, value = line.split(':')
+            added[key] = value.strip('\n').strip(' ')
+        added['cpu_freq'] = cpu_freq
+
+        return[orignal, dictToString(added)]
+
 
 def createPaths(base, rPath):
 	tmp = base + '/'
@@ -179,6 +201,7 @@ class Calculater:
 def main():
     cal = Calculater()
     print cal.calculate('100-99.94')
+    print collectMachineInfo() 
 
 if __name__ == '__main__':
     main()

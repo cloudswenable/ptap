@@ -50,13 +50,14 @@ class ScanMessageHandler(MessageHandler):
         super(ScanMessageHandler, self).__init__()
 
     def handleMessage(self, connection, message):
-        machineInfos = collectMachineInfo()
+        machineInfos, otherdict = collectMachineInfo()
         machine = Machine()
         machine.os_info = machineInfos['os_info']
         machine.ip_addr = machineInfos['ip_addr']
         machine.cpu_info = machineInfos['cpu_info']
         machine.mem_info = machineInfos['mem_info']
         machine.disk_info = machineInfos['disk_info']
+        machine.others = otherdict
         connection.enqueue(MachineInfoMessage(machine))
 
 

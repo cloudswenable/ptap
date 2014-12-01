@@ -58,7 +58,7 @@ class ManagerServer(threading.Thread):
     def addMachine(self, machine):
 	fileno = str(machine.fileno)
 	self.machines[fileno] = machine
-	machineInfo = {'name':machine.name, 'mac':machine.mac, 'ip_addr':machine.ip_addr, 'fileno': machine.fileno, 'os_info':machine.os_info, 'cpu_info':machine.cpu_info, 'mem_info':machine.mem_info, 'disk_info':machine.disk_info, 'ht':machine.ht, 'turbo':machine.turbo}
+        machineInfo = {'name':machine.name, 'mac':machine.mac, 'ip_addr':machine.ip_addr, 'fileno': machine.fileno, 'os_info':machine.os_info, 'cpu_info':machine.cpu_info, 'mem_info':machine.mem_info, 'disk_info':machine.disk_info, 'ht':machine.ht, 'turbo':machine.turbo, 'others':machine.others}
 	self.notifyAllListeners([0, machineInfo])
 		
     def removeMachine(self, fileno):

@@ -12,16 +12,16 @@ class Machine(object):
     disk_info = ''
     ht = False
     turbo = False
-
+    others = ''
 
     def toString(self):
-        fmt = '%ss%ss%ss%ss%ss%ss%ss%ss??' % (len(self.name), len(self.mac), len(self.ip_addr), len(self.fileno), 
+        fmt = '%ss%ss%ss%ss%ss%ss%ss%ss%ss??' % (len(self.name), len(self.mac), len(self.ip_addr), len(self.fileno), 
                                         len(self.os_info), len(self.cpu_info),
-                                        len(self.mem_info), len(self.disk_info))
+                                        len(self.mem_info), len(self.disk_info), len(self.others))
         pack_fmt = struct.pack('i%ds'% len(fmt), len(fmt), fmt)
 
         return pack_fmt + struct.pack(fmt, self.name, self.mac, self.ip_addr, self.fileno, self.os_info,
-                           self.cpu_info, self.mem_info, self.disk_info, self.ht, self.turbo)
+                           self.cpu_info, self.mem_info, self.disk_info, self.others, self.ht, self.turbo)
 
     #TODO finish it
     def fromString(self, fmt_str, str):
@@ -64,7 +64,13 @@ class Machine(object):
         disk_info_len = int(fmts[7])
         if disk_info_len:
             self.disk_info = struct.unpack('%ds'%(disk_info_len), str[start:start+disk_info_len])[0]
+
         start += disk_info_len
+        others_len = int(fmts[8])
+        if others_len:
+            self.others = struct.unpack('%ds'%(others_len), str[start:start+others_len])[0]
+
+        start += others_len
         self.ht = struct.unpack('?', str[start:start+1])[0]
         start += 1
         self.turbo = struct.unpack('?', str[start:start+1])[0]
