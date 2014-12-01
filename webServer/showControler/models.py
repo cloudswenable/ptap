@@ -65,6 +65,7 @@ class MachineModel(models.Model):
     cpu_info = models.CharField(max_length=200)
     mem_info = models.CharField(max_length=200)
     disk_info = models.CharField(max_length=200)
+    others = models.CharField(max_length=1000)
     ht = models.BooleanField(default=False)
     turbo = models.BooleanField(default=False)
 
