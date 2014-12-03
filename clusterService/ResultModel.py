@@ -100,3 +100,32 @@ class AppModelResult(Result):
                 self.disk_usage, self.mem_usage, self.net_usage, self.cpuDatas, \
                 self.memBandwidthDatas, self.ioUtilDatas, self.netBandwidthDatas, self.powerDatas = json.loads(data)
 
+
+class SARModelResult(Result):
+    '''
+
+    '''
+    def __init__(self, name=None, path=None, time=None):
+        Result.__init__(self, 4, name, path, time)
+        self.cpuMetrics = None
+        self.netMetrics = None
+        self.memoryMetrics = None
+        self.diskMetrics = None
+        self.tps= None
+        self.tcpMetrics = None
+        self.othterMetrics = None
+        self.cpuMetricsData = None
+        self.netMetricsData = None
+        self.memoryMetricsData = None
+        self.diskMetricsData = None
+        self.tpsData = None
+        self.tcpMetricsData = None
+        self.otherMetricsData = None
+
+    def dumps(self):
+        tmp = [self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.otherMetricsData]
+        return json.dumps(tmp)
+    
+    def loads(self, data):
+        self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.otherMetricsData = json.loads(data)
+

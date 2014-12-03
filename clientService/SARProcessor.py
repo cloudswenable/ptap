@@ -30,6 +30,99 @@ class SARProcessor(Processor):
     def __init__(self, config=SARProcessorConfig()):
         super(SARProcessor, self).__init__()
         self.config = config
+        self.indexs = {
+            'cpuMetrics': 0,
+            'netMetrics': 1,
+            'memoryMetrics': 2,
+            'diskMetrics': 3,
+            'tps': 4,
+            'tcpMetrics': 5,
+            'others': 6
+        }
+    
+    def getIndex(self, key):
+        if key.lower() == "cpu":
+            return 0 
+        if key.lower() == "dev":
+            return 3
+        if key.lower() == "iface":
+            return 1
+        if key.lower().startswith('kb') or key.lower().startswith('pg'):
+            return 2
+        if key.lower() == "tps":
+            return 4
+        if key.lower().startswith('tcp') or key.lower().startswith('totsck'):
+            return 5
+        return 6
+    def process1(self, inputPath, outputPath):
+        timestamp = os.path.basename(inputPath)
+        discard = True
+        newBlock = True
+        names = [[],[],[],[],[],[],[]]
+        datas = [[],[],[],[],[],[],[]]
+        index = 0
+        linenum = 0
+        for line in open(inputPath):
+            linenum += 1
+            if line.startswith('Average'):
+                discard = False
+            if not discard:
+                if not line.strip(' ').rstrip('\n'):
+                    newBlock = True
+                    continue
+                if newBlock:
+                    newBlock = False
+                    linenum = 0
+                    keys = line.split()[1:]
+                    index = self.getIndex(keys[0])
+                    for key in keys: 
+                        if key not in names[index]:
+                            names[index].append(key)
+                else:
+                    #nomal data line
+                    #TODO still not deal multi line
+                    innerIndex = -1
+                    if  len(datas[index]) >= linenum:
+                        innerIndex = linenum - 1
+                        again = True
+                    else:
+                        innerIndex = linenum - 1
+                        datas[index].append([])
+                        again = False
+                    if again:
+                        dataList = line.split()[2:]
+                        for data in dataList:
+                            datas[index][innerIndex].append(data)
+                    else:
+                        dataList = line.split()[1:]
+                        for data in dataList:
+                            datas[index][innerIndex].append(data)
+        sarresult = SARModelResult('sar metrics', outputPath, timestamp) 
+        sarresult.cpuMetrics = names[0]
+        sarresult.netMetrics = names[1]
+        sarresult.memoryMetrics = names[2]
+        sarresult.diskMetrics = names[3]
+        sarresult.tps = names[4]
+        sarresult.tcpMetrics = names[5]
+        sarresult.otherMetrics = names[6]
+        sarresult.cpuMetricsData = datas[0]
+        sarresult.netMetricsData = datas[1]
+        sarresult.memoryMetricsData = datas[2]
+        sarresult.diskMetricsData = datas[3]
+        sarresult.tpsData = datas[4]
+        sarresult.tcpMetricsData = datas[5]
+        sarresult.otherMetricsData = datas[6]
+
+        outfile = open(sarresult.path, 'w')
+        outfile.write(sarresult.dumps())
+        outfile.close()
+        subprocess.call('sudo chmod 777 '+sarresult.path, shell=True)
+'''
+        for i in range(0, 7):
+            print names[i]
+            for j in range(0, len(datas[i])):
+                print datas[i][j]
+                '''
 
     def process(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)
@@ -107,7 +200,7 @@ def main():
     job = Job(path=rPath, pid='-1', sar_paras={'interval': 0, 'loops': 0}, pmu_paras={}, hotspots_paras={'duration': 5},
               perf_list_paras={})
     process = SARProcessor()
-    process.run(job)
+    process.process1("/home/jimmy/result.sar", None)
 
 
 if __name__ == '__main__':
