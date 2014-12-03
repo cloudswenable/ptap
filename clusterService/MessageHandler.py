@@ -470,6 +470,17 @@ class QueryModelsResultsHandler(MessageHandler):
                 newMessage = ResponseResultsMessage(datas)
                 connection.enqueue(newMessage)
 
+class QuerySARResultsHandler(MessageHandler):
+        def __init__(self):
+                super(QuerySARResultsHandler, self).__init__()
+
+        def handleMessage(self, connection, message):
+                rPath = message.rPath
+                datas = ResultAdapter().getSARResult(rPath)
+                newMessage = ResponseResultsMessage(datas)
+                connection.enqueue(newMessage)
+
+
 class StopHandler(MessageHandler):
         def __init__(self):
                 super(StopHandler, self).__init__()

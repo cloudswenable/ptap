@@ -23,7 +23,7 @@ class ClientConnection(object):
     def receive(self):
         message = self.receiver.receive()
         if message:
-	    print 'SERVER %s , RECEIVE FROM %s MESSAGE %s' % (self.server.serverName, self.sock.fileno(), repr(message.body))
+	    #print 'SERVER %s , RECEIVE FROM %s MESSAGE %s' % (self.server.serverName, self.sock.fileno(), repr(message.body))
             self.last_read_time = int(time.time())
             self.server.enqueue((self, message))
 	elif self.server.isCenterServer():
@@ -32,7 +32,7 @@ class ClientConnection(object):
     def send(self):
         try:
             message = self.send_queue.get(block=False, timeout=0.5)
-	    print 'SERVER %s, SEND TO %s MESSAGE %s' % (self.server.serverName, self.sock.fileno(), repr(message.body))
+	    #print 'SERVER %s, SEND TO %s MESSAGE %s' % (self.server.serverName, self.sock.fileno(), repr(message.body))
             if message:
                 self.sock.send(message.toString())
         except Exception as e:

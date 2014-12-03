@@ -94,6 +94,11 @@ class ResultAdapter(object):
                                         if not results[i][2][j]: results[i][2][j].append(datas[j][0])
                                         results[i][2][j].append(datas[j][1])
                 return results
+        
+        def getSARResult(self, rpath):
+            manager = ResultManager()
+            names, datas= manager.querySARModelResult(rpath)
+            return [names, datas]
 
         def getOverviewResults(self, rPaths):
                 tables = [('application performance',[], 0),('micro-arch performance',['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'], 0),('os level performance',['cswch/s','INTR_sum_intr/s','tps','IFACE_lo_rxkB/s','IFACE_lo_txkB/s','IFACE_eth0_rxkB/s','IFACE_eth0_txkB/s','IFACE_eth1_rxkB/s','IFACE_eth1_txkB/s'], 0),('application hotspots', [0,1,2,3,4], 1, 'hotspots')]

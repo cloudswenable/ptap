@@ -178,7 +178,10 @@ class MessageParser(object):
             tmp_buffer = buffer[8:]
             rPath, qtables, starts, next = json.loads(tmp_buffer)
             message = QueryDynamicOverviewMessage(rPath, qtables, starts, next)
-
+        elif type == 26:
+            tmp_buffer = buffer[8:]
+            rPath = json.loads(tmp_buffer)[0]
+            message = QuerySARResultMessage(rPath)
         return message
 
 

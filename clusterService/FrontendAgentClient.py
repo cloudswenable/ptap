@@ -220,6 +220,11 @@ class FrontendAgentSender(threading.Thread):
                 queryOverviewsMessage = QueryOverviewsMessage(rPaths)
 		return self.query(queryOverviewsMessage)
         
+        def querySARResult(self, rpath):
+            print 'Query SAR results'
+            message = QuerySARResultMessage(rpath[0])
+            return self.query(message)
+
         def queryAnalysis(self, parameters):
                 rPaths = parameters[0]
                 metricName = parameters[1]

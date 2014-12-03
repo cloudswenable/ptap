@@ -20,6 +20,9 @@ class AbstractResultManager(object):
                 elif content.startswith('[3'):
                         result = AppModelResult()
                         result.loads(content)
+                elif content.startswith('[4'):
+                        result = SARModelResult()
+                        result.loads(content)
                 return result
 
         def initResults(self, path):
@@ -164,8 +167,35 @@ class ResultManager(AbstractResultManager):
                         usages.append(result.disk_usage)
                         usages.append(result.net_usage)
                 return datas, usages
-                
+        
+        def querySARModelResult(self, rPath):
+            self.getOutputResults(rPath)
+            result = None
+            found = 0
+            for result in self.results:
+                if result.type == 4:
+                    found = 1
+                    break
 
+            metricsName = []
+            metricsData = []
+            
+            if found:
+                metricsName.append(result.cpuMetrics)
+                metricsName.append(result.netMetrics)
+                metricsName.append(result.memoryMetrics)
+                metricsName.append(result.diskMetrics)
+                metricsName.append(result.otherMetrics)
+                metricsName.append(result.tcpMetrics)
+                metricsName.append(result.tps)
+                metricsData.append(result.cpuMetricsData)
+                metricsData.append(result.netMetricsData)
+                metricsData.append(result.memoryMetricsData)
+                metricsData.append(result.diskMetricsData)
+                metricsData.append(result.otherMetricsData)
+                metricsData.append(result.tcpMetricsData)
+                metricsData.append(result.tpsData)
+            return metricsName, metricsData
 def main():
         manager = ResultManager()
         '''

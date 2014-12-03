@@ -104,8 +104,12 @@ class AnalysisCompareView(View):
             resultsPaths.append(result.result_path)
 	    resultsNames.append(result.result_name)
         if resultsPaths:
-	    results = frontendAgent.queryResults([resultsPaths, ['pmu metrics', 'pmu events', 'perf list metrics', 'perf list events', 'hotspots', 'sar metrics'], [(0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize)]])
+	    #results = frontendAgent.queryResults([resultsPaths, ['pmu metrics', 'pmu events', 'perf list metrics', 'perf list events', 'hotspots', 'sar metrics'], [(0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize)]])
+	    results = frontendAgent.queryResults([resultsPaths, ['pmu metrics', 'pmu events', 'perf list metrics', 'perf list events', 'hotspots'], [(0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize)]])
+            sarresult = frontendAgent.querySARResult(resultsPaths)
 	    context = {'names': resultsNames, 'datas': results, 'ids': ids, 'start':1, 'end':self.tableSize}
+            print "xxxxxxxxxxxxxxxxxxxxx"
+            print sarresult 
         else:
 	    context = []
         return render(request, self.analysis_compare_blank_page, context)

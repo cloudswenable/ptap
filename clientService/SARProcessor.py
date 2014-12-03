@@ -54,7 +54,8 @@ class SARProcessor(Processor):
         if key.lower().startswith('tcp') or key.lower().startswith('totsck'):
             return 5
         return 6
-    def process1(self, inputPath, outputPath):
+
+    def process(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)
         discard = True
         newBlock = True
@@ -62,6 +63,7 @@ class SARProcessor(Processor):
         datas = [[],[],[],[],[],[],[]]
         index = 0
         linenum = 0
+        again = None
         for line in open(inputPath):
             linenum += 1
             if line.startswith('Average'):
@@ -80,7 +82,6 @@ class SARProcessor(Processor):
                             names[index].append(key)
                 else:
                     #nomal data line
-                    #TODO still not deal multi line
                     innerIndex = -1
                     if  len(datas[index]) >= linenum:
                         innerIndex = linenum - 1
@@ -112,19 +113,12 @@ class SARProcessor(Processor):
         sarresult.tpsData = datas[4]
         sarresult.tcpMetricsData = datas[5]
         sarresult.otherMetricsData = datas[6]
-
         outfile = open(sarresult.path, 'w')
         outfile.write(sarresult.dumps())
         outfile.close()
         subprocess.call('sudo chmod 777 '+sarresult.path, shell=True)
-'''
-        for i in range(0, 7):
-            print names[i]
-            for j in range(0, len(datas[i])):
-                print datas[i][j]
-                '''
 
-    def process(self, inputPath, outputPath):
+    def process1(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)
         inChunk = False
         multiline = False
@@ -200,7 +194,7 @@ def main():
     job = Job(path=rPath, pid='-1', sar_paras={'interval': 0, 'loops': 0}, pmu_paras={}, hotspots_paras={'duration': 5},
               perf_list_paras={})
     process = SARProcessor()
-    process.process1("/home/jimmy/result.sar", None)
+    process.process("/home/jimmy/result.sar", None)
 
 
 if __name__ == '__main__':

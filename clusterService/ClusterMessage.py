@@ -31,6 +31,7 @@ class ClusterMessage(object):
                          23 "QueryModelsResultsMessage"
                          24 "StopMessage"
                          25 "QueryDynamicOverviewMessage"
+                         26 "QuerySARResultMessage"
     	'''
 	def __init__(self, type=0):
         	self.type = type
@@ -337,3 +338,11 @@ class QueryDynamicOverviewMessage(ClusterMessage):
         self.body = tmp
         self.msg_len = len(self.body)
 
+
+class QuerySARResultMessage(ClusterMessage):
+    def __init__(self, rPath):
+        ClusterMessage.__init__(self, 26)
+        self.rPath = rPath
+        tmp = json.dumps([rPath])
+        self.body = tmp
+        self.msg_len = len(self.body)
