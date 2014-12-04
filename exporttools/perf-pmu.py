@@ -3,6 +3,7 @@
 import sys, getopt
 import time
 import subprocess
+import pickle
 sys.path.append('../')
 from clientService.PMUProcessor import PMUProcessor
 from clientService.PMUMetricsManager import *
@@ -48,14 +49,59 @@ for i in range(0, int(repeat)):
 processor = PMUProcessor()
 events, maps = processor.metricsManager.getAllEvents(True)
 for fname in outfiles:
-    raw = open(fname, 'r').read()
-    for code,name in maps.items():
-        code = code.replace('r', 'raw 0x')
+    rawfile = open(fname, 'r')
+    resultvalue = {}
+    #resultname = {}
+    lines = []
         #print code
-        raw = raw.replace(code, name)
-        raw = raw.replace('<not counted>', '0')
-    for line in raw:
-        pass
+    for line in rawfile.readlines():
+        for code,name in maps.items():
+            code = code.replace('r', 'raw 0x')
+            line = line.replace(code, name)
+            line = line.replace('<not counted>', '0')
+            #line = line.replace('colon', ':')
+            #line = line.replace('equal', '=')
+            line = line.rstrip('\n')
+        lines.append(line)
+    
+    for line in lines:
+        if not line.startswith('CPU'):
+            continue
+        datas = line.split(',')
+        cpu = datas[0]
+        if  resultvalue.get(cpu, None):
+            resultvalue[cpu][datas[2]]  = datas[1]
+        else:
+            resultvalue[cpu] = {}
+            resultvalue[cpu][datas[2]]  = datas[1]
+    rawfile.close()
+    outfile = open(fname+".out", 'w')
+    pickle.dump(resultvalue, outfile)
+    outfile.close()
 
-
-    raw.close()
+    cpuMetrics = {}
+    allMetrics = processor.metricsManager.getMetrics()
+    outputfile = open(fname+ "-metric.csv", 'w')
+    for cpuid,values in resultvalue.iteritems():
+        #print values
+        outputfile.write(cpuid+"\n")
+        for metric in allMetrics:
+            aliasEventDict = processor.metricsManager.getMetricAliasEventDict(metric)
+            aliasConstantDict = processor.metricsManager.getMetricAliasConstantDict(metric)
+            formula = processor.metricsManager.getMetricFormula(metric)
+            for (alias, eventName) in aliasEventDict.iteritems():
+                aliasData = values.get(eventName)
+                if not aliasData:
+                    continue
+                formula = formula.replace(alias, aliasData)
+            for (alias, constName) in aliasConstantDict.iteritems():
+                aliasData = processor.metricsManager.getConstValue(constName)
+                if not aliasData: continue
+                formula = formula.replace(alias, str(aliasData))
+            data = processor.calculater.calculate(formula)
+            if data == -1: continue
+            if not cpuMetrics.get(cpuid):
+                cpuMetrics[cpuid] = {}
+            cpuMetrics[cpuid][metric] = data
+            outputfile.write(metric + "," + str(data) + "\n")
+    outputfile.close() 
