@@ -1,0 +1,650 @@
+# started on Thu Dec  4 12:53:26 2014
+
+CPU0,246455895,raw 0x5300c0
+CPU1,22512678,raw 0x5300c0
+CPU2,17557069442,raw 0x5300c0
+CPU3,15227920,raw 0x5300c0
+CPU4,79531963,raw 0x5300c0
+CPU5,80316836,raw 0x5300c0
+CPU6,23552486235,raw 0x5300c0
+CPU7,154855104,raw 0x5300c0
+CPU0,1386385468,raw 0x5302c2
+CPU1,227376141,raw 0x5302c2
+CPU2,10081574161,raw 0x5302c2
+CPU3,36827792,raw 0x5302c2
+CPU4,122028598,raw 0x5302c2
+CPU5,6583680166,raw 0x5302c2
+CPU6,12673826355,raw 0x5302c2
+CPU7,238391742,raw 0x5302c2
+CPU0,0,raw 0x5302a1
+CPU1,0,raw 0x5302a1
+CPU2,0,raw 0x5302a1
+CPU3,0,raw 0x5302a1
+CPU4,0,raw 0x5302a1
+CPU5,0,raw 0x5302a1
+CPU6,0,raw 0x5302a1
+CPU7,0,raw 0x5302a1
+CPU0,251719,raw 0x530208
+CPU1,759875,raw 0x530208
+CPU2,277910,raw 0x530208
+CPU3,33380,raw 0x530208
+CPU4,113701,raw 0x530208
+CPU5,848523,raw 0x530208
+CPU6,264246,raw 0x530208
+CPU7,211124,raw 0x530208
+CPU0,0,raw 0x531010
+CPU1,0,raw 0x531010
+CPU2,0,raw 0x531010
+CPU3,0,raw 0x531010
+CPU4,0,raw 0x531010
+CPU5,0,raw 0x531010
+CPU6,0,raw 0x531010
+CPU7,0,raw 0x531010
+CPU0,0,raw 0x1
+CPU1,0,raw 0x1
+CPU2,0,raw 0x1
+CPU3,0,raw 0x1
+CPU4,0,raw 0x1
+CPU5,0,raw 0x1
+CPU6,0,raw 0x1
+CPU7,0,raw 0x1
+CPU0,105244325,raw 0x5200c0
+CPU1,129581631,raw 0x5200c0
+CPU2,21819973409,raw 0x5200c0
+CPU3,64863604,raw 0x5200c0
+CPU4,45338357,raw 0x5200c0
+CPU5,243278201,raw 0x5200c0
+CPU6,9316045879,raw 0x5200c0
+CPU7,157654970,raw 0x5200c0
+CPU0,0,raw 0x14
+CPU1,0,raw 0x14
+CPU2,0,raw 0x14
+CPU3,0,raw 0x14
+CPU4,0,raw 0x14
+CPU5,0,raw 0x14
+CPU6,0,raw 0x14
+CPU7,0,raw 0x14
+CPU0,327000804,raw 0x5301c2
+CPU1,74374413,raw 0x5301c2
+CPU2,28552905371,raw 0x5301c2
+CPU3,58699583,raw 0x5301c2
+CPU4,48229265,raw 0x5301c2
+CPU5,28165462,raw 0x5301c2
+CPU6,26626982939,raw 0x5301c2
+CPU7,179174788,raw 0x5301c2
+CPU0,0,raw 0xff
+CPU1,0,raw 0xff
+CPU2,0,raw 0xff
+CPU3,0,raw 0xff
+CPU4,0,raw 0xff
+CPU5,0,raw 0xff
+CPU6,0,raw 0xff
+CPU7,0,raw 0xff
+CPU0,68560026,raw 0x5200c0
+CPU1,16420827,raw 0x5200c0
+CPU2,17582718640,raw 0x5200c0
+CPU3,43836977,raw 0x5200c0
+CPU4,26751746,raw 0x5200c0
+CPU5,16681345,raw 0x5200c0
+CPU6,22160273406,raw 0x5200c0
+CPU7,14581554,raw 0x5200c0
+CPU0,8584075,raw 0x5304c4
+CPU1,4230961,raw 0x5304c4
+CPU2,3728549126,raw 0x5304c4
+CPU3,12207192,raw 0x5304c4
+CPU4,4816500,raw 0x5304c4
+CPU5,4484548,raw 0x5304c4
+CPU6,4990908315,raw 0x5304c4
+CPU7,4034360,raw 0x5304c4
+CPU0,0,raw 0x5301a1
+CPU1,0,raw 0x5301a1
+CPU2,0,raw 0x5301a1
+CPU3,0,raw 0x5301a1
+CPU4,0,raw 0x5301a1
+CPU5,0,raw 0x5301a1
+CPU6,0,raw 0x5301a1
+CPU7,0,raw 0x5301a1
+CPU0,0,raw 0xc01
+CPU1,0,raw 0xc01
+CPU2,0,raw 0xc01
+CPU3,0,raw 0xc01
+CPU4,0,raw 0xc01
+CPU5,0,raw 0xc01
+CPU6,0,raw 0xc01
+CPU7,0,raw 0xc01
+CPU0,0,raw 0x5301b7
+CPU1,0,raw 0x5301b7
+CPU2,0,raw 0x5301b7
+CPU3,0,raw 0x5301b7
+CPU4,0,raw 0x5301b7
+CPU5,0,raw 0x5301b7
+CPU6,0,raw 0x5301b7
+CPU7,0,raw 0x5301b7
+CPU0,318819513,raw 0x5301d1
+CPU1,45479888,raw 0x5301d1
+CPU2,62467293165,raw 0x5301d1
+CPU3,<not counted>,raw 0x5301d1
+CPU4,100466181,raw 0x5301d1
+CPU5,26134666,raw 0x5301d1
+CPU6,61751365243,raw 0x5301d1
+CPU7,34848710,raw 0x5301d1
+CPU0,0,raw 0x135
+CPU1,0,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,0,raw 0x135
+CPU5,0,raw 0x135
+CPU6,0,raw 0x135
+CPU7,0,raw 0x135
+CPU0,31089069,raw 0x15301c2
+CPU1,5508768,raw 0x15301c2
+CPU2,1708348614,raw 0x15301c2
+CPU3,<not counted>,raw 0x15301c2
+CPU4,6602544,raw 0x15301c2
+CPU5,2890870,raw 0x15301c2
+CPU6,9573638524,raw 0x15301c2
+CPU7,4158387,raw 0x15301c2
+CPU0,0,raw 0x85
+CPU1,0,raw 0x85
+CPU2,0,raw 0x85
+CPU3,<not counted>,raw 0x85
+CPU4,0,raw 0x85
+CPU5,0,raw 0x85
+CPU6,0,raw 0x85
+CPU7,0,raw 0x85
+CPU0,92813973,raw 0x5381d0
+CPU1,11176676,raw 0x5381d0
+CPU2,3290862082,raw 0x5381d0
+CPU3,<not counted>,raw 0x5381d0
+CPU4,14202742,raw 0x5381d0
+CPU5,<not counted>,raw 0x5381d0
+CPU6,11246468792,raw 0x5381d0
+CPU7,6096396,raw 0x5381d0
+CPU0,0,raw 0x6
+CPU1,0,raw 0x6
+CPU2,0,raw 0x6
+CPU3,<not counted>,raw 0x6
+CPU4,0,raw 0x6
+CPU5,<not counted>,raw 0x6
+CPU6,0,raw 0x6
+CPU7,<not counted>,raw 0x6
+CPU0,0,raw 0x5380a1
+CPU1,<not counted>,raw 0x5380a1
+CPU2,0,raw 0x5380a1
+CPU3,<not counted>,raw 0x5380a1
+CPU4,0,raw 0x5380a1
+CPU5,<not counted>,raw 0x5380a1
+CPU6,0,raw 0x5380a1
+CPU7,<not counted>,raw 0x5380a1
+CPU0,71911757,raw 0x530151
+CPU1,<not counted>,raw 0x530151
+CPU2,11115183,raw 0x530151
+CPU3,<not counted>,raw 0x530151
+CPU4,670823,raw 0x530151
+CPU5,<not counted>,raw 0x530151
+CPU6,18298874,raw 0x530151
+CPU7,<not counted>,raw 0x530151
+CPU0,0,raw 0x0
+CPU1,<not counted>,raw 0x0
+CPU2,0,raw 0x0
+CPU3,<not counted>,raw 0x0
+CPU4,0,raw 0x0
+CPU5,<not counted>,raw 0x0
+CPU6,0,raw 0x0
+CPU7,<not counted>,raw 0x0
+CPU0,0,raw 0x5330a1
+CPU1,<not counted>,raw 0x5330a1
+CPU2,0,raw 0x5330a1
+CPU3,<not counted>,raw 0x5330a1
+CPU4,0,raw 0x5330a1
+CPU5,<not counted>,raw 0x5330a1
+CPU6,0,raw 0x5330a1
+CPU7,<not counted>,raw 0x5330a1
+CPU0,0,raw 0x43
+CPU1,<not counted>,raw 0x43
+CPU2,0,raw 0x43
+CPU3,<not counted>,raw 0x43
+CPU4,0,raw 0x43
+CPU5,<not counted>,raw 0x43
+CPU6,0,raw 0x43
+CPU7,<not counted>,raw 0x43
+CPU0,0,raw 0x335
+CPU1,<not counted>,raw 0x335
+CPU2,0,raw 0x335
+CPU3,<not counted>,raw 0x335
+CPU4,0,raw 0x335
+CPU5,<not counted>,raw 0x335
+CPU6,0,raw 0x335
+CPU7,<not counted>,raw 0x335
+CPU0,246482208,raw 0x53003c
+CPU1,<not counted>,raw 0x53003c
+CPU2,2264439685,raw 0x53003c
+CPU3,<not counted>,raw 0x53003c
+CPU4,116112463,raw 0x53003c
+CPU5,<not counted>,raw 0x53003c
+CPU6,8960720179,raw 0x53003c
+CPU7,<not counted>,raw 0x53003c
+CPU0,92633324,raw 0x5321d0
+CPU1,<not counted>,raw 0x5321d0
+CPU2,3626256005,raw 0x5321d0
+CPU3,<not counted>,raw 0x5321d0
+CPU4,89996634,raw 0x5321d0
+CPU5,<not counted>,raw 0x5321d0
+CPU6,11894264564,raw 0x5321d0
+CPU7,<not counted>,raw 0x5321d0
+CPU0,899760,raw 0x5301b0
+CPU1,<not counted>,raw 0x5301b0
+CPU2,519741,raw 0x5301b0
+CPU3,<not counted>,raw 0x5301b0
+CPU4,642177,raw 0x5301b0
+CPU5,<not counted>,raw 0x5301b0
+CPU6,1368816,raw 0x5301b0
+CPU7,<not counted>,raw 0x5301b0
+CPU0,5066854,raw 0x304
+CPU1,<not counted>,raw 0x304
+CPU2,66337017,raw 0x304
+CPU3,<not counted>,raw 0x304
+CPU4,4152569,raw 0x304
+CPU5,<not counted>,raw 0x304
+CPU6,142285901,raw 0x304
+CPU7,<not counted>,raw 0x304
+CPU0,0,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,0,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,1148520,raw 0x532024
+CPU1,<not counted>,raw 0x532024
+CPU2,851768,raw 0x532024
+CPU3,<not counted>,raw 0x532024
+CPU4,654951,raw 0x532024
+CPU5,<not counted>,raw 0x532024
+CPU6,1089795,raw 0x532024
+CPU7,<not counted>,raw 0x532024
+CPU0,3477957,raw 0x52013c
+CPU1,<not counted>,raw 0x52013c
+CPU2,495264616,raw 0x52013c
+CPU3,<not counted>,raw 0x52013c
+CPU4,5245372,raw 0x52013c
+CPU5,<not counted>,raw 0x52013c
+CPU6,524863867,raw 0x52013c
+CPU7,<not counted>,raw 0x52013c
+CPU0,369,raw 0x532010
+CPU1,<not counted>,raw 0x532010
+CPU2,1136,raw 0x532010
+CPU3,<not counted>,raw 0x532010
+CPU4,1074,raw 0x532010
+CPU5,<not counted>,raw 0x532010
+CPU6,134,raw 0x532010
+CPU7,<not counted>,raw 0x532010
+CPU0,0,raw 0x53015e
+CPU1,<not counted>,raw 0x53015e
+CPU2,0,raw 0x53015e
+CPU3,<not counted>,raw 0x53015e
+CPU4,0,raw 0x53015e
+CPU5,<not counted>,raw 0x53015e
+CPU6,0,raw 0x53015e
+CPU7,<not counted>,raw 0x53015e
+CPU0,6104336,raw 0x53013c
+CPU1,<not counted>,raw 0x53013c
+CPU2,74605920,raw 0x53013c
+CPU3,<not counted>,raw 0x53013c
+CPU4,6276772,raw 0x53013c
+CPU5,<not counted>,raw 0x53013c
+CPU6,524446156,raw 0x53013c
+CPU7,<not counted>,raw 0x53013c
+CPU0,0,raw 0x5382d0
+CPU1,<not counted>,raw 0x5382d0
+CPU2,0,raw 0x5382d0
+CPU3,<not counted>,raw 0x5382d0
+CPU4,0,raw 0x5382d0
+CPU5,<not counted>,raw 0x5382d0
+CPU6,0,raw 0x5382d0
+CPU7,<not counted>,raw 0x5382d0
+CPU0,0,raw 0x335
+CPU1,<not counted>,raw 0x335
+CPU2,0,raw 0x335
+CPU3,<not counted>,raw 0x335
+CPU4,0,raw 0x335
+CPU5,<not counted>,raw 0x335
+CPU6,0,raw 0x335
+CPU7,<not counted>,raw 0x335
+CPU0,941350,raw 0x530408
+CPU1,<not counted>,raw 0x530408
+CPU2,4227979,raw 0x530408
+CPU3,<not counted>,raw 0x530408
+CPU4,1153476,raw 0x530408
+CPU5,<not counted>,raw 0x530408
+CPU6,10059182,raw 0x530408
+CPU7,<not counted>,raw 0x530408
+CPU0,0,raw 0x335
+CPU1,<not counted>,raw 0x335
+CPU2,0,raw 0x335
+CPU3,<not counted>,raw 0x335
+CPU4,0,raw 0x335
+CPU5,<not counted>,raw 0x335
+CPU6,0,raw 0x335
+CPU7,<not counted>,raw 0x335
+CPU0,0,raw 0x530ca1
+CPU1,<not counted>,raw 0x530ca1
+CPU2,0,raw 0x530ca1
+CPU3,<not counted>,raw 0x530ca1
+CPU4,0,raw 0x530ca1
+CPU5,<not counted>,raw 0x530ca1
+CPU6,0,raw 0x530ca1
+CPU7,<not counted>,raw 0x530ca1
+CPU0,0,raw 0x533079
+CPU1,<not counted>,raw 0x533079
+CPU2,0,raw 0x533079
+CPU3,<not counted>,raw 0x533079
+CPU4,0,raw 0x533079
+CPU5,<not counted>,raw 0x533079
+CPU6,0,raw 0x533079
+CPU7,<not counted>,raw 0x533079
+CPU0,26170182,raw 0x15301c2
+CPU1,<not counted>,raw 0x15301c2
+CPU2,2512307098,raw 0x15301c2
+CPU3,<not counted>,raw 0x15301c2
+CPU4,45970779,raw 0x15301c2
+CPU5,<not counted>,raw 0x15301c2
+CPU6,2469841744,raw 0x15301c2
+CPU7,<not counted>,raw 0x15301c2
+CPU0,1145764,raw 0x5304c5
+CPU1,<not counted>,raw 0x5304c5
+CPU2,46208805,raw 0x5304c5
+CPU3,<not counted>,raw 0x5304c5
+CPU4,2312784,raw 0x5304c5
+CPU5,<not counted>,raw 0x5304c5
+CPU6,76802871,raw 0x5304c5
+CPU7,<not counted>,raw 0x5304c5
+CPU0,215142832,raw 0x530160
+CPU1,<not counted>,raw 0x530160
+CPU2,23839034266,raw 0x530160
+CPU3,<not counted>,raw 0x530160
+CPU4,<not counted>,raw 0x530160
+CPU5,<not counted>,raw 0x530160
+CPU6,13735670287,raw 0x530160
+CPU7,<not counted>,raw 0x530160
+CPU0,0,raw 0x137
+CPU1,<not counted>,raw 0x137
+CPU2,0,raw 0x137
+CPU3,<not counted>,raw 0x137
+CPU4,<not counted>,raw 0x137
+CPU5,<not counted>,raw 0x137
+CPU6,0,raw 0x137
+CPU7,<not counted>,raw 0x137
+CPU0,0,raw 0x5302ab
+CPU1,<not counted>,raw 0x5302ab
+CPU2,0,raw 0x5302ab
+CPU3,<not counted>,raw 0x5302ab
+CPU4,<not counted>,raw 0x5302ab
+CPU5,<not counted>,raw 0x5302ab
+CPU6,0,raw 0x5302ab
+CPU7,<not counted>,raw 0x5302ab
+CPU0,57054881,raw 0x53010e
+CPU1,<not counted>,raw 0x53010e
+CPU2,22471607702,raw 0x53010e
+CPU3,<not counted>,raw 0x53010e
+CPU4,<not counted>,raw 0x53010e
+CPU5,<not counted>,raw 0x53010e
+CPU6,10828228971,raw 0x53010e
+CPU7,<not counted>,raw 0x53010e
+CPU0,0,raw 0x301
+CPU1,<not counted>,raw 0x301
+CPU2,0,raw 0x301
+CPU3,<not counted>,raw 0x301
+CPU4,<not counted>,raw 0x301
+CPU5,<not counted>,raw 0x301
+CPU6,0,raw 0x301
+CPU7,<not counted>,raw 0x301
+CPU0,0,raw 0x86
+CPU1,<not counted>,raw 0x86
+CPU2,0,raw 0x86
+CPU3,<not counted>,raw 0x86
+CPU4,<not counted>,raw 0x86
+CPU5,<not counted>,raw 0x86
+CPU6,0,raw 0x86
+CPU7,<not counted>,raw 0x86
+CPU0,0,raw 0x335
+CPU1,<not counted>,raw 0x335
+CPU2,0,raw 0x335
+CPU3,<not counted>,raw 0x335
+CPU4,<not counted>,raw 0x335
+CPU5,<not counted>,raw 0x335
+CPU6,0,raw 0x335
+CPU7,<not counted>,raw 0x335
+CPU0,45609,raw 0x530285
+CPU1,<not counted>,raw 0x530285
+CPU2,86399,raw 0x530285
+CPU3,<not counted>,raw 0x530285
+CPU4,<not counted>,raw 0x530285
+CPU5,<not counted>,raw 0x530285
+CPU6,62032,raw 0x530285
+CPU7,<not counted>,raw 0x530285
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x102
+CPU1,<not counted>,raw 0x102
+CPU2,472331648,raw 0x102
+CPU3,<not counted>,raw 0x102
+CPU4,<not counted>,raw 0x102
+CPU5,<not counted>,raw 0x102
+CPU6,1827209758,raw 0x102
+CPU7,<not counted>,raw 0x102
+CPU0,<not counted>,raw 0x533024
+CPU1,<not counted>,raw 0x533024
+CPU2,51219102,raw 0x533024
+CPU3,<not counted>,raw 0x533024
+CPU4,<not counted>,raw 0x533024
+CPU5,<not counted>,raw 0x533024
+CPU6,234963096,raw 0x533024
+CPU7,<not counted>,raw 0x533024
+CPU0,<not counted>,raw 0x5307f1
+CPU1,<not counted>,raw 0x5307f1
+CPU2,7663676,raw 0x5307f1
+CPU3,<not counted>,raw 0x5307f1
+CPU4,<not counted>,raw 0x5307f1
+CPU5,<not counted>,raw 0x5307f1
+CPU6,34351254,raw 0x5307f1
+CPU7,<not counted>,raw 0x5307f1
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x4
+CPU1,<not counted>,raw 0x4
+CPU2,0,raw 0x4
+CPU3,<not counted>,raw 0x4
+CPU4,<not counted>,raw 0x4
+CPU5,<not counted>,raw 0x4
+CPU6,0,raw 0x4
+CPU7,<not counted>,raw 0x4
+CPU0,<not counted>,raw 0x530479
+CPU1,<not counted>,raw 0x530479
+CPU2,0,raw 0x530479
+CPU3,<not counted>,raw 0x530479
+CPU4,<not counted>,raw 0x530479
+CPU5,<not counted>,raw 0x530479
+CPU6,0,raw 0x530479
+CPU7,<not counted>,raw 0x530479
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x153030d
+CPU1,<not counted>,raw 0x153030d
+CPU2,0,raw 0x153030d
+CPU3,<not counted>,raw 0x153030d
+CPU4,<not counted>,raw 0x153030d
+CPU5,<not counted>,raw 0x153030d
+CPU6,0,raw 0x153030d
+CPU7,<not counted>,raw 0x153030d
+CPU0,<not counted>,raw 0x52003c
+CPU1,<not counted>,raw 0x52003c
+CPU2,5047456951,raw 0x52003c
+CPU3,<not counted>,raw 0x52003c
+CPU4,<not counted>,raw 0x52003c
+CPU5,<not counted>,raw 0x52003c
+CPU6,13989570902,raw 0x52003c
+CPU7,<not counted>,raw 0x52003c
+CPU0,<not counted>,raw 0x53019c
+CPU1,<not counted>,raw 0x53019c
+CPU2,0,raw 0x53019c
+CPU3,<not counted>,raw 0x53019c
+CPU4,<not counted>,raw 0x53019c
+CPU5,<not counted>,raw 0x53019c
+CPU6,0,raw 0x53019c
+CPU7,<not counted>,raw 0x53019c
+CPU0,<not counted>,raw 0x534010
+CPU1,<not counted>,raw 0x534010
+CPU2,72,raw 0x534010
+CPU3,<not counted>,raw 0x534010
+CPU4,<not counted>,raw 0x534010
+CPU5,<not counted>,raw 0x534010
+CPU6,121,raw 0x534010
+CPU7,<not counted>,raw 0x534010
+CPU0,<not counted>,raw 0x538010
+CPU1,<not counted>,raw 0x538010
+CPU2,0,raw 0x538010
+CPU3,<not counted>,raw 0x538010
+CPU4,<not counted>,raw 0x538010
+CPU5,<not counted>,raw 0x538010
+CPU6,0,raw 0x538010
+CPU7,<not counted>,raw 0x538010
+CPU0,<not counted>,raw 0xc04
+CPU1,<not counted>,raw 0xc04
+CPU2,9538928,raw 0xc04
+CPU3,<not counted>,raw 0xc04
+CPU4,<not counted>,raw 0xc04
+CPU5,<not counted>,raw 0xc04
+CPU6,4636199,raw 0xc04
+CPU7,<not counted>,raw 0xc04
+CPU0,<not counted>,raw 0x530879
+CPU1,<not counted>,raw 0x530879
+CPU2,0,raw 0x530879
+CPU3,<not counted>,raw 0x530879
+CPU4,<not counted>,raw 0x530879
+CPU5,<not counted>,raw 0x530879
+CPU6,0,raw 0x530879
+CPU7,<not counted>,raw 0x530879
+CPU0,<not counted>,raw 0x5301a2
+CPU1,<not counted>,raw 0x5301a2
+CPU2,1242994415,raw 0x5301a2
+CPU3,<not counted>,raw 0x5301a2
+CPU4,<not counted>,raw 0x5301a2
+CPU5,<not counted>,raw 0x5301a2
+CPU6,499779128,raw 0x5301a2
+CPU7,<not counted>,raw 0x5301a2
+CPU0,<not counted>,raw 0x530124
+CPU1,<not counted>,raw 0x530124
+CPU2,22876591,raw 0x530124
+CPU3,<not counted>,raw 0x530124
+CPU4,<not counted>,raw 0x530124
+CPU5,<not counted>,raw 0x530124
+CPU6,9358445,raw 0x530124
+CPU7,<not counted>,raw 0x530124
+CPU0,<not counted>,raw 0x5
+CPU1,<not counted>,raw 0x5
+CPU2,0,raw 0x5
+CPU3,<not counted>,raw 0x5
+CPU4,<not counted>,raw 0x5
+CPU5,<not counted>,raw 0x5
+CPU6,0,raw 0x5
+CPU7,<not counted>,raw 0x5
+CPU0,<not counted>,raw 0x5302d1
+CPU1,<not counted>,raw 0x5302d1
+CPU2,39964256,raw 0x5302d1
+CPU3,<not counted>,raw 0x5302d1
+CPU4,<not counted>,raw 0x5302d1
+CPU5,<not counted>,raw 0x5302d1
+CPU6,37862944,raw 0x5302d1
+CPU7,<not counted>,raw 0x5302d1
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x530449
+CPU1,<not counted>,raw 0x530449
+CPU2,11771700,raw 0x530449
+CPU3,<not counted>,raw 0x530449
+CPU4,<not counted>,raw 0x530449
+CPU5,<not counted>,raw 0x530449
+CPU6,13276391,raw 0x530449
+CPU7,<not counted>,raw 0x530449
+CPU0,<not counted>,raw 0x530324
+CPU1,<not counted>,raw 0x530324
+CPU2,25422883,raw 0x530324
+CPU3,<not counted>,raw 0x530324
+CPU4,<not counted>,raw 0x530324
+CPU5,<not counted>,raw 0x530324
+CPU6,26860634,raw 0x530324
+CPU7,<not counted>,raw 0x530324
+CPU0,<not counted>,raw 0x135
+CPU1,<not counted>,raw 0x135
+CPU2,0,raw 0x135
+CPU3,<not counted>,raw 0x135
+CPU4,<not counted>,raw 0x135
+CPU5,<not counted>,raw 0x135
+CPU6,0,raw 0x135
+CPU7,<not counted>,raw 0x135
+CPU0,<not counted>,raw 0x5340a1
+CPU1,<not counted>,raw 0x5340a1
+CPU2,0,raw 0x5340a1
+CPU3,<not counted>,raw 0x5340a1
+CPU4,<not counted>,raw 0x5340a1
+CPU5,<not counted>,raw 0x5340a1
+CPU6,0,raw 0x5340a1
+CPU7,<not counted>,raw 0x5340a1
+CPU0,<not counted>,raw 0x530249
+CPU1,<not counted>,raw 0x530249
+CPU2,276847,raw 0x530249
+CPU3,<not counted>,raw 0x530249
+CPU4,<not counted>,raw 0x530249
+CPU5,<not counted>,raw 0x530249
+CPU6,231724,raw 0x530249
+CPU7,<not counted>,raw 0x530249
+CPU0,<not counted>,raw 0x53400d
+CPU1,<not counted>,raw 0x53400d
+CPU2,0,raw 0x53400d
+CPU3,<not counted>,raw 0x53400d
+CPU4,<not counted>,raw 0x53400d
+CPU5,<not counted>,raw 0x53400d
+CPU6,0,raw 0x53400d
+CPU7,<not counted>,raw 0x53400d
+CPU0,<not counted>,raw 0x336
+CPU1,<not counted>,raw 0x336
+CPU2,0,raw 0x336
+CPU3,<not counted>,raw 0x336
+CPU4,<not counted>,raw 0x336
+CPU5,<not counted>,raw 0x336
+CPU6,0,raw 0x336
+CPU7,<not counted>,raw 0x336
