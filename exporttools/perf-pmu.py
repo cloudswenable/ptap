@@ -84,7 +84,7 @@ for fname in outfiles:
     outputfile = open(fname+ "-metric.csv", 'w')
     for cpuid,values in resultvalue.iteritems():
         #print values
-        outputfile.write(cpuid+"\n")
+        #outputfile.write(cpuid+"\n")
         for metric in allMetrics:
             aliasEventDict = processor.metricsManager.getMetricAliasEventDict(metric)
             aliasConstantDict = processor.metricsManager.getMetricAliasConstantDict(metric)
@@ -103,5 +103,16 @@ for fname in outfiles:
             if not cpuMetrics.get(cpuid):
                 cpuMetrics[cpuid] = {}
             cpuMetrics[cpuid][metric] = data
-            outputfile.write(metric + "," + str(data) + "\n")
+            #outputfile.write(metric + "," + str(data) + "\n")
+    outputfile.write("metric_per_core")
+    indexs = []
+    for cpuid in cpuMetrics.keys():
+        outputfile.write("," + cpuid)
+        indexs.append(cpuid)
+    outputfile.write("\n")
+    for metric in allMetrics:
+        outputfile.write(metric)
+        for index in indexs:
+            outputfile.write("," + str(cpuMetrics[index].get(metric, 0)))
+        outputfile.write("\n")
     outputfile.close() 

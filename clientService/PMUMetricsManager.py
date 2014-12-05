@@ -18,13 +18,16 @@ class PMUMetricsManager(MetricsManager):
 
     def getConstValues(self):
         tmpDict = {}
-        lscpus = os.popen('lscpu').readlines()
-        sockets = None
-        for line in lscpus:
-            if line.startswith('Socket'):
-                sockets = int((line.split(':')[1]).strip())
-        if sockets:
-            tmpDict['system.sockets.count'] = sockets
+        try:
+            lscpus = os.popen('lscpu').readlines()
+            sockets = None
+            for line in lscpus:
+                if line.startswith('Socket'):
+                    sockets = int((line.split(':')[1]).strip())
+            if sockets:
+                tmpDict['system.sockets.count'] = sockets
+        except:
+            pass
         cpuinfo = open('/proc/cpuinfo').read()
         pa = re.compile('model name.*:(.*)\n')
         ma = pa.search(cpuinfo)
