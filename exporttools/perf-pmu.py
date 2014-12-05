@@ -9,51 +9,18 @@ from clientService.PMUProcessor import PMUProcessor
 from clientService.PMUMetricsManager import *
 command = "perf stat -o %s -a -A -x , -e %s %s sleep %s"
 
+processor = None
+events = None
+maps = None
 
-def usage():
-    print "perf-pmu -h -o outfile -r repeatnum [-d delaysecond] [-p pid] -i interval [-n]"
+def init(flag):
+    global processor 
+    global events
+    global maps
+    processor = PMUProcessor()
+    events, maps = processor.metricsManager.getAllEvents(old)
 
-interval = None
-output = None
-delay = None
-repeat = None
-pid = None
-old = True
-opts, args = getopt.getopt(sys.argv[1:], "ho:r:d:i:p:n")
-for op, value in opts:
-    if op == "-i":
-        interval = value
-    if op == "-o":
-        output = value
-    if op == "-d":
-        delay = value
-    if op == "-r":
-        repeat = value
-    if op == "-p":
-        pid = value
-    if op == "-n":
-        old = False
-    if op == "-h":
-        usage()
-        sys.exit
-
-outfiles = []
-pidstr = ""
-if pid:
-    pidstr = " -p %s" % pid
-
-processor = PMUProcessor()
-events, maps = processor.metricsManager.getAllEvents(old)
-for i in range(0, int(repeat)):
-    if delay:
-        time.sleep(int(delay))
-    timestamp =  time.strftime("%Y%m%d%H%M%S", time.localtime())   
-    outfile = output+"-"+timestamp
-    outfiles.append(outfile)
-    cmd = command % (outfile, events, pidstr, interval)
-    subprocess.call(cmd, shell=True)
-
-for fname in outfiles:
+def parseFile(fname):
     rawfile = open(fname, 'r')
     resultvalue = {}
     #resultname = {}
@@ -61,12 +28,14 @@ for fname in outfiles:
         #print code
     for line in rawfile.readlines():
         for code,name in maps.items():
-            code = code.replace('r', 'raw 0x')
+            if line.find('raw'):
+                code = code.replace('r', 'raw 0x')
             line = line.replace(code, name)
             line = line.replace('<not counted>', '0')
             #line = line.replace('colon', ':')
             #line = line.replace('equal', '=')
             line = line.rstrip('\n')
+            line = line.rstrip('\r')
         lines.append(line)
     
     for line in lines:
@@ -83,7 +52,7 @@ for fname in outfiles:
     outfile = open(fname+".out", 'w')
     pickle.dump(resultvalue, outfile)
     outfile.close()
-
+    #print resultvalue
     cpuMetrics = {}
     allMetrics = processor.metricsManager.getMetrics()
     outputfile = open(fname+ "-metric.csv", 'w')
@@ -121,3 +90,58 @@ for fname in outfiles:
             outputfile.write("," + str(cpuMetrics[index].get(metric, 0)))
         outputfile.write("\n")
     outputfile.close() 
+
+def parse(infiles):
+    if not processor:
+        init(old)
+    filelist = infiles.split(',')
+    for fname in filelist:
+        parseFile(fname)
+
+def usage():
+    print "perf-pmu -h -o outfile -r repeatnum [-d delaysecond] [-p pid] -i interval [-n]"
+
+interval = None
+output = None
+delay = None
+repeat = None
+pid = None
+old = True
+opts, args = getopt.getopt(sys.argv[1:], "ho:r:d:i:p:nl:")
+for op, value in opts:
+    if op == "-i":
+        interval = value
+    if op == "-o":
+        output = value
+    if op == "-d":
+        delay = value
+    if op == "-r":
+        repeat = value
+    if op == "-p":
+        pid = value
+    if op == "-n":
+        old = False
+        init(old)
+    if op == "-l":
+        parse(value)
+        sys.exit()
+    if op == "-h":
+        usage()
+        sys.exit()
+
+outfiles = []
+pidstr = ""
+if pid:
+    pidstr = " -p %s" % pid
+if not processor:
+    init(old)
+for i in range(0, int(repeat)):
+    if delay:
+        time.sleep(int(delay))
+    timestamp =  time.strftime("%Y%m%d%H%M%S", time.localtime())   
+    outfile = output+"-"+timestamp
+    outfiles.append(outfile)
+    cmd = command % (outfile, events, pidstr, interval)
+    subprocess.call(cmd, shell=True)
+for fname in outfiles:
+    parse(fname)
