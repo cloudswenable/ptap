@@ -90,7 +90,7 @@ class SARProcessor(Processor):
                         innerIndex = linenum - 1
                         datas[index].append([])
                         again = False
-                    if again:
+                    if again and index != 2:
                         dataList = line.split()[2:]
                         for data in dataList:
                             datas[index][innerIndex].append(data)
