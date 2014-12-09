@@ -123,9 +123,9 @@ class SARModelResult(Result):
         self.otherMetricsData = None
 
     def dumps(self):
-        tmp = [self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.otherMetricsData]
+        tmp = [self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.tcpMetrics, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.tcpMetricsData, self.otherMetricsData]
         return json.dumps(tmp)
     
     def loads(self, data):
-        self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.otherMetricsData = json.loads(data)
+        self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.tcpMetrics, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.tcpMetricsData, self.otherMetricsData = json.loads(data)
 

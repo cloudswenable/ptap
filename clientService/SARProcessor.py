@@ -172,7 +172,7 @@ class SARProcessor(Processor):
         metricsResult = CommonDictResult('sar metrics', outputPath, timestamp)
         metricsResult.names = metricsNames
         metricsResult.datas = metricsDatas
-
+        
         outfile = open(metricsResult.path, 'w')
         outfile.write(metricsResult.dumps())
         outfile.close()

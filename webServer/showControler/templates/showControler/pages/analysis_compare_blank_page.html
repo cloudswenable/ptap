@@ -83,7 +83,47 @@
                 </div>
         </div>
         {% endfor %}
-          
+
+        {% for tableName, metric, tableDatas in sardatas%}
+        <div id='row{{tableName}}' class='row-fluid'>
+                <h3 class='pull-left' id='{{tableName}}'>{{tableName}}</h3>
+                <div id='rightChart{{tableName}}'></div>
+                <div id='leftTable{{tableName}}'>
+                <div class='compareTableContainer' id='compareTableContainer{{tableName}}'>
+                <div class='compareTableBody'>
+                        <div class='showingtable pull-right text-info' style='padding-top:10px;margin-right:20px;'>showing 1 to {{end}}</div>
+                        <div class='realTableContainer'>
+                                <table id='compareTable{{tableName}}' class='table table-striped table-hover table-bordered table-condensed'>
+                                <thead>
+                                        <tr>
+                                        {% for name in metric%}
+                                        <th>{{name}}</th>
+                                        {% endfor %}
+                                        </tr>
+                                </thead>
+                                <tbody>
+                                        {% for data in tableDatas %}
+                                        <tr onclick='addTrListener(this)'>
+                                                {% for item in data %}
+                                                <td>{{item}}</td>
+                                                {% endfor %}
+                                        </tr>
+                                        {% endfor %}
+                                </tbody>
+                                </table>
+                        <input type='hidden' value='{{start}}' name='compareStart' />
+                        <input type='hidden' value='{{end}}' name='compareEnd' />
+                        </div>
+                        <div class='btn btn-inverse pull-right' style='margin-right:10px;' onclick='compareNext(this)'>next <i class="icon-forward icon-white"></i></div>
+                        <div class='btn btn-inverse disabled pull-right' style='margin-right:10px;' onclick='comparePrevious(this)'><i class="icon-backward icon-white"></i> Previous</div>
+                        <div class='btn btn-inverse pull-right' style='margin-right:10px;' onclick='showCompareSelectedDatas(this)'><i class="icon-adjust icon-white"></i> Compare</div>
+                        <div class='lastline' style='clear:both;margin-bottom:10px;'></div>
+                </div>
+                </div>
+                </div>
+        </div>
+        {% endfor %}
+
 </div>
 
 </div>

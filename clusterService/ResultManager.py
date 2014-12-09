@@ -179,23 +179,27 @@ class ResultManager(AbstractResultManager):
 
             metricsName = []
             metricsData = []
-            
+            #TODO to display more modify here
+            tags = ['sar cpu', 'sar net', 'sar memory', 'sar disk', 'sar tps']
+            ret = [[],[],[],[],[]]
             if found:
-                metricsName.append(result.cpuMetrics)
-                metricsName.append(result.netMetrics)
-                metricsName.append(result.memoryMetrics)
-                metricsName.append(result.diskMetrics)
-                metricsName.append(result.otherMetrics)
-                metricsName.append(result.tcpMetrics)
-                metricsName.append(result.tps)
-                metricsData.append(result.cpuMetricsData)
-                metricsData.append(result.netMetricsData)
-                metricsData.append(result.memoryMetricsData)
-                metricsData.append(result.diskMetricsData)
-                metricsData.append(result.otherMetricsData)
-                metricsData.append(result.tcpMetricsData)
-                metricsData.append(result.tpsData)
-            return metricsName, metricsData
+                ret[0].append(tags[0])
+                ret[0].append(result.cpuMetrics)
+                ret[0].append(result.cpuMetricsData)
+                ret[1].append(tags[1])
+                ret[1].append(result.netMetrics)
+                ret[1].append(result.netMetricsData)
+                ret[2].append(tags[2])
+                ret[2].append(result.memoryMetrics)
+                ret[2].append(result.memoryMetricsData)
+                ret[3].append(tags[3])
+                ret[3].append(result.diskMetrics)
+                ret[3].append(result.diskMetricsData)
+                ret[4].append(tags[4])
+                ret[4].append(result.tps)
+                ret[4].append(result.tpsData)
+
+            return ret 
 def main():
         manager = ResultManager()
         '''
