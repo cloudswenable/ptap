@@ -40,31 +40,31 @@ So 3 key config files: web portal: frontendagentclient.cfg,  manage server: serv
 the three config files are in $ROOT_CODE_DIR/clusterService/config
 
 #sample agentclient config
-[remote-server]
-server_ip = 1.1.1.1
-server_port = 54321
-
-[dispatcher]
-
-[heartbeat-checker]
-interval = 10
-[client]
-client_ip = 2.2.2.2
+             [remote-server]
+             server_ip = 1.1.1.1
+             server_port = 54321
+             
+             [dispatcher]
+             
+             [heartbeat-checker]
+             interval = 10
+             [client]
+             client_ip = 2.2.2.2
 
 in the config, we set the central server IP and port for tcp layer and interval 10 seconds for heartbeat check. Current client ip is specific by "client_ip"
 
 #sample server config
-[basic]
-bind_addr = 0.0.0.0
-bind_port = 54321
-epoll_interval = 2
-listen_max = 50
-interval = 20
+             [basic]
+             bind_addr = 0.0.0.0
+             bind_port = 54321
+             epoll_interval = 2
+             listen_max = 50
+             interval = 20
 
 #sample frontendagentclient config
-[remote-server]
-server_ip = 1.1.1.1
-server_port = 54321
+             [remote-server]
+             server_ip = 1.1.1.1
+             server_port = 54321
 
 #How to install it.
 install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
