@@ -68,23 +68,23 @@ in the config, we set the central server IP and port for tcp layer and interval 
 
 #How to install it.
 install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
-tar xzvf Django-1.6.2.tar.gz
-cd Django-1.6.2
-sudo python setup.py install
+             tar xzvf Django-1.6.2.tar.gz
+             cd Django-1.6.2
+             sudo python setup.py install
 
 install mysql and create a database "performancedb"
 
 run setup.py
-./setup.py mysql_username mysql_passwd
+             ./setup.py mysql_username mysql_passwd
 
 #Deploy on one server for a try
 start server
-bin/startall.py
+             bin/startall.py
 
 stop server
-bin/stopall.py
+             bin/stopall.py
 
 #Deploy on multiple server:
-copy code to each server and run command in "bin/" 
+             copy code to each server and run command in "bin/" 
 Copyright notice:
   Some license files are include in the root path. PTAP self use the intel sample code license. 
