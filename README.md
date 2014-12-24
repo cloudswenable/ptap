@@ -25,12 +25,12 @@ For easily using ptap, we provide some script in "bin", for a try usage, you can
                    |
                    |
     -------------------------------          
-    |              |              |
-    |              |              |
- ------         ------         ------
- -test-         -test-         -test-
- -node-         -node-         -node-
- ------         ------         ------
+     |              |              |
+     |              |              |
+  ------         ------         ------
+  -test-         -test-         -test-
+  -node-         -node-         -node-
+  ------         ------         ------
 
 1. web portal can be deply in one server, inside the web portal, it has a tcp client to communicate with the manage server
 2. manager server can be deploy in one server, it can dispatch the jobs and collect data from test node for web portal query and display
@@ -41,30 +41,30 @@ the three config files are in $ROOT_CODE_DIR/clusterService/config
 
 #sample agentclient config
 [remote-server]
-server_ip = 1.1.1.1
-server_port = 54321
+ server_ip = 1.1.1.1
+ server_port = 54321
 
 [dispatcher]
 
 [heartbeat-checker]
-interval = 10
+ interval = 10
 [client]
-client_ip = 2.2.2.2
+ client_ip = 2.2.2.2
 
 in the config, we set the central server IP and port for tcp layer and interval 10 seconds for heartbeat check. Current client ip is specific by "client_ip"
 
 #sample server config
 [basic]
-bind_addr = 0.0.0.0
-bind_port = 54321
-epoll_interval = 2
-listen_max = 50
-interval = 20
+ bind_addr = 0.0.0.0
+ bind_port = 54321
+ epoll_interval = 2
+ listen_max = 50
+ interval = 20
 
 #sample frontendagentclient config
 [remote-server]
-server_ip = 1.1.1.1
-server_port = 54321
+ server_ip = 1.1.1.1
+ server_port = 54321
 
 #How to install it.
 install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
