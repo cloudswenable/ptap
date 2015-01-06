@@ -1,6 +1,7 @@
 import os
 from ResultModel import *
 from Util import Calculater
+import re
 
 class AbstractResultManager(object):
         def __init__(self, rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process'):
@@ -25,7 +26,8 @@ class AbstractResultManager(object):
                         result.loads(content)
                 return result
 
-        def initResults(self, path):
+        def initResults(self, path, scope=None):
+                print "real path: ", path
                 files = []
                 try:
                         files = os.listdir(path)
@@ -34,7 +36,10 @@ class AbstractResultManager(object):
                 for file in files:
                         realPath = path + '/' + file
                         if os.path.isdir(realPath):
-                                self.initResults(realPath)
+                                self.initResults(realPath,scope)
+                                continue
+                        if scope:
+                            if realPath.find(scope) == -1:
                                 continue
                         content = open(realPath).read()
                         result = self.createResult(content)
@@ -43,9 +48,9 @@ class AbstractResultManager(object):
 
         def addResults(self, result): pass
 
-        def getOutputResults(self, rPath): 
+        def getOutputResults(self, rPath, scope=None): 
                 tmpPath = self.resultPath+'/'+rPath+'/'+self.tailSubPath
-                self.initResults(tmpPath)
+                self.initResults(tmpPath, scope)
 
 class ClassifyResultManager(AbstractResultManager):
         def __init__(self, rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process'):
@@ -97,14 +102,41 @@ class ResultManager(AbstractResultManager):
                 mergeResult.datas = datas
                 return mergeResult
 
-        def queryResultsByNames(self, rPath, items):
-                self.getOutputResults(rPath)
+        def getCPUFreq(self):
+            cpuinfo = open('/proc/cpuinfo').read()
+            pa = re.compile('model name.*:(.*)\n')
+            ma = pa.search(cpuinfo)
+            cpu_info = ma.group(1).strip()
+            start = cpu_info.rfind('@')
+            end = cpu_info.rfind('GHz')
+            cpu_freq = 0
+            if start > 0 and end > 0:
+                cpu_freq = float(cpu_info[start+1:end])
+            return cpu_freq 
+
+        def queryResultsByNames(self, rPath, items, scope=None):
+                self.getOutputResults(rPath, scope)
                 datas = []
+                print "query: ", items
                 for item in items:
+                        if item == "CPU_all_MHz":
+                            freq = self.getCPUFreq() * 1000
+                            datas.append((item, freq))
+                            continue
                         found = False
                         for result in self.results:
-                                data = result.query(item)
-                                if data: 
+                                data = result.query(item, scope)
+                                if data and scope == "Hotspots":
+                                    return data
+                                    break
+                                if data and type(data)==list:
+                                    for d in data:
+                                        d = float(d)
+                                        datas.append((item, d))
+                                    found = True
+                                    break
+
+                                elif data: 
                                         data = float(data)
                                         datas.append((item, data))
                                         found = True
@@ -135,8 +167,8 @@ class ResultManager(AbstractResultManager):
                             break;
                 return datas
 
-        def queryResultByFormula(self, rPath, formula, parameters):
-                rawdatas = self.queryResultsByNames(rPath, parameters)
+        def queryResultByFormula(self, rPath, formula, parameters, scope=None):
+                rawdatas = self.queryResultsByNames(rPath, parameters, scope)
                 datas = [item[1] for item in rawdatas]
                 formula = (formula % tuple(datas)).strip()
                 try:

@@ -16,7 +16,7 @@ class Result(object):
                 self.time = time
         def dumps(self): pass
         def loads(self, data): pass
-        def query(self, item): pass
+        def query(self, item, scope=None): pass
 
 class CommonDictResult(Result):
         def __init__(self, name=None, path=None, time=None):
@@ -27,7 +27,9 @@ class CommonDictResult(Result):
                 return json.dumps([self.type, self.name, self.path, self.time, self.names, self.datas])
         def loads(self, data):
                 self.type, self.name, self.path, self.time, self.names, self.datas = json.loads(data)
-        def query(self, item):
+        def query(self, item, scope=None):
+                if scope == "Hotspots":
+                    return [(self.names[i], self.datas[i]) for i in range(0,10)]
                 count = None
                 try:
                         count = self.names.index(item)
@@ -121,6 +123,46 @@ class SARModelResult(Result):
         self.tpsData = None
         self.tcpMetricsData = None
         self.otherMetricsData = None
+
+    def getIndex(self, metric):
+        if self.cpuMetrics.count(metric) > 0:
+            return self.cpuMetricsData, self.cpuMetrics.index(metric)
+        if self.netMetrics.count(metric) > 0:
+            return self.netMetricsData, self.netMetrics.index(metric)
+        if self.memoryMetrics.count(metric) > 0:
+            return self.memoryMetricsData, self.memoryMetrics.index(metric)
+        if self.diskMetrics.count(metric) > 0:
+            return self.diskMetricsData, self.diskMetrics.index(metric)
+        if self.tps.count(metric) > 0:
+            return self.tpsData, self.tps.index(metric)
+        if self.tcpMetrics.count(metric) > 0:
+            return self.tcpMetricsData, self.tcpMetrics.index(metric)
+        for metrics in self.otherMetrics:
+            if metrics.count(metric) > 0:
+                return self.otherMetricsData[self.otherMetrics.index(metrics)], metrics.index(metric)
+        return None, -1
+
+    def dumpOther(self):
+        for i in range(len(self.otherMetrics)):
+            print self.otherMetrics[i]
+            print self.otherMetricsData[i]
+            print "======================="
+
+    def query(self, item, scope=None):
+        metric = item
+        datas, index = self.getIndex(metric)
+        #self.dumpOther()
+        if index == -1:
+            print "not found metric: ", metric
+            return None
+        if metric == "%usr":
+            value = []
+            for vals in datas:
+                value.append(vals[index])
+            return value
+        else:
+            return datas[0][index]
+
 
     def dumps(self):
         tmp = [self.type, self.name, self.path, self.time, self.cpuMetrics, self.netMetrics, self.memoryMetrics, self.diskMetrics, self.tps, self.tcpMetrics, self.otherMetrics, self.cpuMetricsData, self.netMetricsData, self.memoryMetricsData, self.diskMetricsData, self.tpsData, self.tcpMetricsData, self.otherMetricsData]

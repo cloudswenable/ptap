@@ -47,7 +47,8 @@ class SARProcessor(Processor):
             return 3
         if key.lower() == "iface":
             return 1
-        if key.lower().startswith('kb') or key.lower().startswith('pg'):
+        #if key.lower().startswith('kb') or key.lower().startswith('pg'):
+        if key.lower().startswith('kb'):
             return 2
         if key.lower() == "tps":
             return 4
@@ -64,6 +65,7 @@ class SARProcessor(Processor):
         index = 0
         linenum = 0
         again = None
+        other_index = 0
         for line in open(inputPath):
             linenum += 1
             if line.startswith('Average'):
@@ -77,19 +79,28 @@ class SARProcessor(Processor):
                     linenum = 0
                     keys = line.split()[1:]
                     index = self.getIndex(keys[0])
-                    for key in keys: 
-                        if key not in names[index]:
-                            names[index].append(key)
+                    if index == 6:
+                        other_index+=1;
+                        names[index].append(keys)
+                    else:
+                        for key in keys: 
+                            if key not in names[index]:
+                                names[index].append(key)
                 else:
                     #nomal data line
                     innerIndex = -1
                     if  len(datas[index]) >= linenum:
-                        innerIndex = linenum - 1
                         again = True
                     else:
-                        innerIndex = linenum - 1
                         datas[index].append([])
                         again = False
+                    innerIndex = linenum - 1
+                    if index == 6:
+                        if len(datas[index]) < other_index:
+                            datas[index].append([])
+                        dataList = line.split()[1:]
+                        datas[index][other_index-1].append(dataList)
+                        continue
                     if again and index != 2:
                         dataList = line.split()[2:]
                         for data in dataList:
@@ -98,6 +109,7 @@ class SARProcessor(Processor):
                         dataList = line.split()[1:]
                         for data in dataList:
                             datas[index][innerIndex].append(data)
+
         sarresult = SARModelResult('sar metrics', outputPath, timestamp) 
         sarresult.cpuMetrics = names[0]
         sarresult.netMetrics = names[1]
@@ -113,6 +125,7 @@ class SARProcessor(Processor):
         sarresult.tpsData = datas[4]
         sarresult.tcpMetricsData = datas[5]
         sarresult.otherMetricsData = datas[6]
+        #sarresult.dumpOther()
         outfile = open(sarresult.path, 'w')
         outfile.write(sarresult.dumps())
         outfile.close()

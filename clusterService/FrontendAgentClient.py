@@ -228,7 +228,7 @@ class FrontendAgentSender(threading.Thread):
         def queryAnalysis(self, parameters):
                 rPaths = parameters[0]
                 metricName = parameters[1]
-                print 'QUERY ANALYSIS'
+                print 'QUERY ANALYSIS: ', metricName
                 queryAnalysisMessage = QueryAnalysisMessge(rPaths, metricName)
 		return self.query(queryAnalysisMessage)
 

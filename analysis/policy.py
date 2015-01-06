@@ -3,7 +3,7 @@ from xml.etree import ElementTree
 
 class Policy(object):
 
-    def __init__(self, name=None, realMetric=None, summary=None, threshold_min=None, threshold_max=None, bigger_better=False, suggestion=None, type=None):
+    def __init__(self, name=None, realMetric=None, summary=None, threshold_min=None, threshold_max=None, bigger_better=False, suggestion=None, qtype=None):
         self.name = name
         self.realMetric = realMetric
         self.formula = None
@@ -13,7 +13,7 @@ class Policy(object):
         self.threshold_max = threshold_max
         self.bigger_better = bigger_better
         self.suggestion = suggestion
-        self.type = type
+        self.qtype = qtype
 
     def getSuggestion(self, value):
         if not value: return self.suggestion
@@ -72,7 +72,7 @@ class PolicyManager(object):
                 if element.tag == 'suggestion':
                     policy.suggestion = element.text.strip()
                 if element.tag == 'type':
-                    policy.type = element.text
+                    policy.qtype = element.text
                 if element.tag == 'summary':
                     policy.summary = element.text
                 if element.tag == 'realMetric':

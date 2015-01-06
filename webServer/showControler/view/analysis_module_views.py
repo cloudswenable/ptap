@@ -107,10 +107,10 @@ class AnalysisCompareView(View):
 	    results = frontendAgent.queryResults([resultsPaths, ['pmu metrics', 'pmu events', 'perf list metrics', 'perf list events', 'hotspots'], [(0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize), (0, self.tableSize)]])
             sarresult = frontendAgent.querySARResult(resultsPaths)
             #context = {'names': resultsNames, 'datas': results, 'sarnames': sarresult[0], 'sarmnames': sarresult[1], 'sardatas': sarresult[2], 'ids': ids, 'start':1, 'end':self.tableSize}
-            for table, m, datas in sarresult:
-                print "TABLE ", table
-                print "metrics", m
-                print "datas" , datas
+            #for table, m, datas in sarresult:
+             #   print "TABLE ", table
+              #  print "metrics", m
+               # print "datas" , datas
             context = {'names': resultsNames, 'datas': results, 'sardatas': sarresult, 'ids': ids, 'start':1, 'end':self.tableSize}
         else:
 	    context = []
@@ -188,7 +188,7 @@ class AnalysisOverviewView(View):
 
 class AnalysisAnalysisView(View):
         analysis_analysis_blank_page = 'showControler/pages/analysis_analysis_blank_page.html'
-        titles = [[0, 'groupOne', 'performance data overview', [[0, 'self-defined performance matrix'],[1,'cpu freq'],[2, 'cpu utilization'],[3, 'cpi'],[4, 'path length']]], [1, 'groupTwo', 'per-core analysis', [[0, 'per-core/socket cpu utilization']]], [2, 'groupThree', 'pmu related data analysis', [[0, 'numa locality'], [1, 'cache misses'], [2, 'qpi'], [3, 'memory']]], [3, 'groupFour', 'system data level analysis', [[0, 'interrupt/s'],[1,'cs/s'],[2, 'network io'], [3, 'disk io']]], [4, 'groupFive', 'hotspot analysis',[[0, 'hotspot']]]]
+        titles = [[0, 'groupOne', 'performance data overview', [[0, 'self-defined performance matrix'],[1,'cpu freq'],[2, 'cpu utilization'],[3, 'cpi'],[4, 'path length']]], [1, 'groupTwo', 'per-core analysis', [[0, 'per-core cpu utilization']]], [2, 'groupThree', 'pmu related data analysis', [[0, 'numa locality'], [1, 'cache misses'], [2, 'qpi'], [3, 'memory']]], [3, 'groupFour', 'system data level analysis', [[0, 'interrupt/s'],[1,'cs/s'],[2, 'network io'], [3, 'disk io']]], [4, 'groupFive', 'hotspot analysis',[[0, 'hotspot']]]]
 
         def get(self, request, *args, **kwargs):
                 ids = request.GET.getlist('ids')
@@ -219,14 +219,39 @@ class AnalysisAnalysisRightPageView(View):
                         rawDatas = rawResults['datas']
                         summary = rawResults['summary']
                         for i in range(len(resultsNames)):
-                                name = resultsNames[i]
-                                value = rawDatas[i][0]
-                                tmpRange = str(rawDatas[i][1]) + ' - ' + str(rawDatas[i][2])
-                                suggestion = rawDatas[i][3]
-                                tmp = [name, value, tmpRange, suggestion]
-                                datas.append(tmp)
+                                if len(rawDatas) > 1:
+                                    if metricName == "hotspot":
+                                        for j in range(0, len(rawDatas)):
+                                            name = rawDatas[j][0][0]
+                                            value = rawDatas[j][0][1]
+                                            #value = rawDatas
+                                            tmpRange = str(rawDatas[j][1]) + ' - ' + str(rawDatas[j][2])
+                                            suggestion = rawDatas[j][3]
+                                            tmp = [name, value, tmpRange, suggestion]
+                                            datas.append(tmp)
+                                        continue
+                                        
+                                    fix = "cpu core "
+                                    for j in range(1, len(rawDatas)):
+                                        name = resultsNames[i] + fix + str(j)
+                                        value = rawDatas[j][0]
+                                        #value = rawDatas
+                                        tmpRange = str(rawDatas[j][1]) + ' - ' + str(rawDatas[j][2])
+                                        suggestion = rawDatas[j][3]
+                                        tmp = [name, value, tmpRange, suggestion]
+                                        datas.append(tmp)
+                                else:
+                                    for j in range(len(rawDatas)):
+                                        name = resultsNames[i]
+                                        value = rawDatas[j][0]
+                                        #value = rawDatas
+                                        tmpRange = str(rawDatas[j][1]) + ' - ' + str(rawDatas[j][2])
+                                        suggestion = rawDatas[j][3]
+                                        tmp = [name, value, tmpRange, suggestion]
+                                        datas.append(tmp)
                 
                 context = {'title': metricName.upper(), 'tableHeads':tableHeads, 'datas': datas, 'summary': summary}
+                #print datas
                 return render(request, self.analysis_analysis_blank_right_page, context)
 
 class LoadCompareTableView(View):

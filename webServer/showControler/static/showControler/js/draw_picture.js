@@ -104,6 +104,7 @@ function createChart(resultDatas, container, w, h){
                 .set('colors', colors)
                 .set('labels', labels)
                 .set('key', groupNames)
+                .set('key.background', 'rgba(255,255,255,0.2)')
                 .set('key.interactive', true)
                 .set('gutter.left', 55)                
                 .set('gutter.bottom', 150)

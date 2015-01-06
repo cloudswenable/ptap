@@ -60,15 +60,24 @@ class ResultAdapter(object):
                                  'rawTests': result.rawTestsDatas}
                 return tmpStr
 
-        def getAnalysisResult(self, rPaths, metrics=None, formula=None):
+        def getAnalysisResult(self, rPaths, metrics=None, formula=None, scope=None):
                 datas = []
                 manager = ResultManager()
+                #print "metrics", metrics
+                #print "formula", formula
                 for rPath in rPaths:
                         if formula:
-                                value = manager.queryResultByFormula(rPath, formula, metrics)
+                                value = manager.queryResultByFormula(rPath, formula, metrics, scope)
+                                datas.append(value)
                         else:
-                                value = manager.queryResultsByNames(rPath, metrics)[0][1]
-                        datas.append(value)
+                                values = manager.queryResultsByNames(rPath, metrics, scope)
+                                if scope and scope == "Hotspots":
+                                    for value in values:
+                                        datas.append(value)
+                                else:
+                                    for value in values:
+                                        datas.append(value[1])
+                #print datas
                 return datas
         
         def getSingleResultOverview(self, rPath):

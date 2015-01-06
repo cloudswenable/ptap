@@ -360,16 +360,21 @@ class QueryAnalysisHandler(MessageHandler):
         else:
             metrics = [policy.realMetric]
         adapter = ResultAdapter()
-        rawDatas = adapter.getAnalysisResult(r_paths, metrics, formula)
+        rawDatas = adapter.getAnalysisResult(r_paths, metrics, formula, policy.qtype)
         datas = []
         for data in rawDatas:
             if data == None: data = 0
             min = policy.threshold_min
             max = policy.threshold_max
-            suggestion = policy.getSuggestion(data)
+            if policy.qtype == "Hotspots":
+                suggestion = policy.getSuggestion(data[1])
+            else:
+                suggestion = policy.getSuggestion(data)
+
             datas.append([data, min, max, suggestion])
 
         results = {'summary': policy.summary, 'datas': datas}
+        #print results
         resp = ResponseResultsMessage(results)
         connection.enqueue(resp)
 
