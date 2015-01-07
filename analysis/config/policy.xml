@@ -147,4 +147,16 @@
         </suggestion>
         <type>Hotspots</type>
     </policy>
+    <policy>
+        <metric>memory</metric>
+        <realMetric>memory bandwidth total (M/s)</realMetric>
+        <summary>total memory bandwidth </summary>
+        <min>0</min>
+        <max>800000</max>
+        <betterValue>smaller</betterValue>
+        <suggestion>
+            1. use better memory
+        </suggestion>
+        <type>PMU</type>
+    </policy>
 </root>
