@@ -122,7 +122,7 @@ function createChart(resultDatas, container, w, h){
         if(max > 1000000) bar.set('gutter.left', 120);
 
         if(min < 0) bar.set('xaxispos', 'center');
-        bar.grow();
+        bar.draw();
 }
 
 function showChart(){
