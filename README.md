@@ -21,12 +21,16 @@ interval = 10
 in the config, we set the central server IP and port for tcp layer and interval 10 seconds for heartbeat check.
 
 #How to install it.
-install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
+install [Django-1.6.2.tar.gz](https://www.djangoproject.com/download/)
 tar xzvf Django-1.6.2.tar.gz
 cd Django-1.6.2
 sudo python setup.py install
 
-install rabbitmq-server(http://www.rabbitmq.com/download.html)
+install [MySQL-python 1.2.5](https://pypi.python.org/pypi/MySQL-python/1.2.5)
+
+install [numpy 1.9.2](https://pypi.python.org/pypi/numpy/1.9.2)
+
+install [rabbitmq-server](http://www.rabbitmq.com/download.html)
 follow Installation Guides
 
 install mysql and create a database "performancedb"
@@ -35,7 +39,7 @@ run setup.py
 ./setup.py mysql_username mysql_passwd
 
 start server
-bin/startall.py
+bin/startAll.py
 
 stop server
 bin/stopall.py
