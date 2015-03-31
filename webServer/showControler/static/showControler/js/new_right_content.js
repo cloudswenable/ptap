@@ -109,7 +109,7 @@ function addOrModify(url, is_modify){
         }
         if(name=="version" ){
                 if(isNaN(parseFloat(value)) ) {
-                        alsert("version must not be null")
+                        alert("version must not be null")
                 }
         }
         if(name=="repeat" || name=="duration" || name=="delaytime"){

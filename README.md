@@ -4,7 +4,7 @@ PTAP 0.1 is a prototype platform for automate test your program, collect perform
 
 PTAP has a portal website and client site. A client is an agent runing on testing server response for taking action of test, collect data and pre-processing data. Portal server can create a new test task, dispatch the test job to target servers, collect data from agent and generate report on website.
 
-All function are writted by python. Website adopts the Django framework, bootstrap css.
+All function are written by python. Website adopts the Django framework, bootstrap css.
 
 For easily using ptap, we provide some script in "bin", for a try usage, you can deploy the web server and client on the same server and just run "bing/startAll.sh". Also you can deploy ptap on cluster mode with copying all code without the "webserver" to target machine and edit the conf file "clusterService/config/agentclient.cfg", the bellow is a sample:
 
@@ -32,8 +32,8 @@ For easily using ptap, we provide some script in "bin", for a try usage, you can
              -node-         -node-         -node-
              ------         ------         ------
 
-1. web portal can be deply in one server, inside the web portal, it has a tcp client to communicate with the manage server
-2. manager server can be deploy in one server, it can dispatch the jobs and collect data from test node for web portal query and display
+1. web portal can be deployed in one server, inside the web portal, it has a tcp client to communicate with the manage server
+2. manager server can be deployed in one server, it can dispatch the jobs and collect data from test node for web portal query and display
 3. Each test node has a agent, to communicate with manage server, to run test job, collect data, and return to manange server
 
 So 3 key config files: web portal: frontendagentclient.cfg,  manage server: server.cfg, test node: agentclient.conf
