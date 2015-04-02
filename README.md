@@ -72,6 +72,8 @@ install Django-1.6.2.tar.gz(https://www.djangoproject.com/download/)
              cd Django-1.6.2
              sudo python setup.py install
 
+You can install all the python requirements by run `pip install -r requirements.txt`.
+
 install mysql and create a database "performancedb"
 
 run setup.py
