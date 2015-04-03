@@ -6,6 +6,8 @@ import traceback
 
 from MonitorAdapter import *
 from SourceDeployment import *
+from DockerDeployment import DockerDeploymentControler
+from Deployment import DeploymentControler, DeploymentControlerConfig
 from PMUProcessor import *
 from PMUMonitor import *
 from SARProcessor import *
@@ -98,9 +100,18 @@ class JobHandler(threading.Thread):
         while True:
             try:
                 self.job = self.job_queue.get()
-                #Start source code project
-                sourceCodeControler = SourceDeploymentControler()
-                pid = sourceCodeControler.run(self.job.source_path)
+                deployment_type =DeploymentControler.getDeploymentType(self.job.source_path)
+                if deployment_type == DeploymentControler.DOCKER:
+                    dockerControler = DockerDeploymentControler(self.job.source_path)
+                    image_id = dockerControler.build_image()
+                    container_id = dockerControler.start(image_id)
+                    print "Container:", container_id, "started"
+                    pids = dockerControler.get_pids(container_id)
+                    pid = pids[0] if pids else None
+                elif deployment_type == DeploymentControler.BINARY:
+                    #Start source code project
+                    sourceCodeControler = SourceDeploymentControler()
+                    pid = sourceCodeControler.run(self.job.source_path)
                 self.process_steps = self.generateSteps()
                 print 'START SOURCE CODE PROCESS PID : ', pid
                 if self.job:
@@ -134,8 +145,10 @@ class JobHandler(threading.Thread):
 def test():
     dispatcher = JobDispatcher()
     dispatcher.start()
-    rPath = '/project1/sourcecode1/source/1/test1'
-    sPath = '/project1/sourcecode1/source/1'
+    #rPath = '/project1/sourcecode1/source/1/test1'
+    rPath = '/Hello_projectname:/Hello_sourcecodename/source/1/start.txt'
+    #sPath = '/project1/sourcecode1/source/1'
+    sPath = '/Hello_projectname:/Hello_sourcecodename/source/1'
     job = Job(rPath, sPath, pid='-1', sar_paras={'interval': 1, 'loops': 1}, pmu_paras={'duration': 10, 'delay': 0},
               hotspots_paras={'duration': 5}, perf_list_paras={'duration': 10, 'delay': 0})
     dispatcher.dispatch(job)

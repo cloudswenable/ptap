@@ -60,7 +60,7 @@ def handleTestDatas(tests):
     allColumnNames += Project.getColumns()
     sColumnNames = AppBinary.getShowColumns()
     columnNames += sColumnNames
-    allColumnNames.append('ApplicationBinary')
+    allColumnNames.append('ApplicationBinary/Dockerfile')
     allColumnNames += AppBinary.getColumns()
     tColumnNames = Test.getShowColumns()
     columnNames += tColumnNames
@@ -136,7 +136,7 @@ def handle_new_request(item='tests', starts=[0, 0, 0, 0, 0], pop=False):
     foreignColumns = ['machine',]
     uploadColumns = ['source path', ]
     textAreaInputs = ['description', ]
-    headColumns = ['Project', 'ApplicationBinary', 'Test']
+    headColumns = ['Project', 'ApplicationBinary/Dockerfile', 'Test']
     columnsInfo = []
     for column in allCleanNames:
 	lineType = 'normal'
