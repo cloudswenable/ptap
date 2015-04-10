@@ -6,8 +6,8 @@ import shutil
 
 
 class HotspotsProcessorConfig(ProcessorConfig):
-    def __init__(self):
-        super(HotspotsProcessorConfig, self).__init__()
+    def __init__(self, job_info=None):
+        super(HotspotsProcessorConfig, self).__init__(job_info=job_info)
         self.rPath = ''
 
     def getInputPath(self):
@@ -27,9 +27,8 @@ class HotspotsProcessorConfig(ProcessorConfig):
 
 
 class HotspotsProcessor(Processor):
-    def __init__(self):
-        super(HotspotsProcessor, self).__init__()
-        self.config = HotspotsProcessorConfig()
+    def __init__(self, config=HotspotsProcessorConfig()):
+        super(HotspotsProcessor, self).__init__(config=config)
 
     def process(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)
@@ -58,10 +57,16 @@ class HotspotsProcessor(Processor):
         outfile.close()
         subprocess.call('sudo chmod 777 '+result.path, shell=True)
 
-    def handle(self, job):
-        self.config.rPath = job.path
-        inputPath = self.config.getInputPath()
-        outputPath = self.config.getOutputPath()
+    def handle(self, job_or_job_info):
+        # if isinstance(job_or_job_info, Job): 
+        if isinstance(job_or_job_info, dict):
+            job_info = job_or_job_info
+            inputPath = outputPath = job_info.get("outpath")
+        else:
+            job = job_or_job_info
+            self.config.rPath = job.path
+            inputPath = self.config.getInputPath()
+            outputPath = self.config.getOutputPath()
         for file in os.listdir(inputPath):
             if file.startswith("report"):
                 self.process(inputPath+'/'+file, outputPath+'/'+ file[7:])
