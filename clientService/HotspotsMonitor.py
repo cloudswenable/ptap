@@ -34,17 +34,32 @@ class HotspotsMonitorConfig(MonitorConfig):
 class HotspotsMonitor(Monitor):
     def __init__(self, job_info=None):
         super(HotspotsMonitor, self).__init__(config=HotspotsMonitorConfig())
-        self.command = 'perf record -p %d -o %s'
-        self.recordCommand = 'sudo perf record -a -o %(output)s sleep %(duration)s'
-        self.recordCommandWithEvents = 'sudo perf record -a -e %(events)s -o %(output)s sleep %(duration)s'
+        self.command = 'perf record -p %d -o %s' # what does this used for
         self.useExe = True
-        self.recordCommandExe = 'sudo ' + self.config.root_path + '/tools/perf record -a -o %(output)s sleep %(duration)s'
-        self.recordCommandExeWithEvents = 'sudo ' + self.config.root_path + '/tools/perf record -a -e %(events)s -o %(output)s sleep %(duration)s'
-        self.reportCommand = 'sudo perf report -i %s >> %s'
-        self.reportCommandExe = 'sudo ' + self.config.root_path + '/tools/perf report -i %s >> %s'
         self.job_info = job_info
         # sometimes there is no job instance(e.g. we use the commandline tool perf-hotspots.py ), the job_info will be used
 
+    def generate_record_cmd_tpl(self, events, pid):
+        cmd = []
+        if self.useExe:
+            cmd.append('sudo ' + self.config.root_path + '/tools/perf record')
+        else:
+            cmd.append("sudo perf record")
+        if events:
+            cmd.append("-e %(events)s")
+        if pid:
+            cmd.append("-p %(pid)s")
+        cmd.append('-a -o %(output)s sleep %(duration)s')
+        return ' '.join(cmd)
+
+    def generate_report_cmd_tpl(self):
+        cmd = []
+        if self.useExe:
+            cmd.append('sudo ' + self.config.root_path + '/tools/perf')
+        else:
+            cmd.append('sudo perf')
+        cmd.append('report -i %s >> %s')
+        return ' '.join(cmd)
 
     def monitor(self, args):
         # TODO I think it will be better to use keyword arguments...
@@ -52,15 +67,12 @@ class HotspotsMonitor(Monitor):
         output1 = args[1]
         output2 = args[2]
         events = args[3]
+        pid = args[4]
 
-        if self.useExe:
-            tmpCommand = self.recordCommandExeWithEvents if events else self.recordCommandExe
-            tmpReportCommand = self.reportCommandExe
-        else:
-            tmpCommand = self.recordCommandWithEvents if events else self.recordCommand
-            tmpReportCommand = self.reportCommand
+        tmpCommand = self.generate_record_cmd_tpl(events, pid)
+        tmpReportCommand = self.generate_report_cmd_tpl()
 
-        recordCommand = tmpCommand % {"output": output1, "duration": duration, "events": events}
+        recordCommand = tmpCommand % {"output": output1, "duration": duration, "events": events, "pid": pid}
         p = subprocess.call(recordCommand, shell=True)
 
         reportCommand = tmpReportCommand % (output1, output2)
@@ -78,15 +90,17 @@ class HotspotsMonitor(Monitor):
             self.config.rPath = job.path
             duration = int(job.hotspots_paras['duration'])
             output1, output2 = self.config.getOutputPath()
+            pid = getattr(job, None)
         elif self.job_info:
             delay = self.job_info.get("delay")
             outpath = self.job_info.get("outpath")
             duration = int(self.job_info.get("duration"))
             repeat = int(self.job_info.get("repeat"))
             events = self.job_info.get("events", "")
+            pid = self.job_info.get("pid", None)
             output1, output2 = self.config.getOutputPath(outpath)
         prefix = os.path.dirname(output1)
-        args = [duration, output1, output2, events]
+        args = [duration, output1, output2, events, pid]
         while self.running:
             time.sleep(delay)
             self.config.file_name = 'perf-' + time.strftime('%Y%m%d%H%M%S', time.localtime())

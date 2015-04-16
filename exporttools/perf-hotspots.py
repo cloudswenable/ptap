@@ -28,6 +28,9 @@ def main():
     # TODO: process the events
     parser.add_option("-e", "--events", dest="events", default="",
                       help="which events it will monitor", metavar="EVENTS")
+
+    parser.add_option("-p", "--pid", dest="pid", default="",
+                      help="The pid of the process that the monitor will attach to", metavar="PID")
     # TODO: type checking. I think it's not safe because of CMD injection
     options, args = parser.parse_args()
 
