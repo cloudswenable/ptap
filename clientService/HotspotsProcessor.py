@@ -27,8 +27,9 @@ class HotspotsProcessorConfig(ProcessorConfig):
 
 
 class HotspotsProcessor(Processor):
-    def __init__(self, config=HotspotsProcessorConfig()):
+    def __init__(self, config=HotspotsProcessorConfig(), calc_metrics=False):
         super(HotspotsProcessor, self).__init__(config=config)
+        self.calc_metrics = calc_metrics
 
     def process(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)

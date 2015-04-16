@@ -5,6 +5,8 @@ from Monitor import *
 from Util import *
 import time
 import shutil
+# from HotspotsMetricsManager import HotspotsMetricsManager
+from PMUMetricsManager import PMUMetricsManager
 
 
 class HotspotsMonitorConfig(MonitorConfig):
@@ -38,47 +40,63 @@ class HotspotsMonitor(Monitor):
         self.useExe = True
         self.job_info = job_info
         # sometimes there is no job instance(e.g. we use the commandline tool perf-hotspots.py ), the job_info will be used
+        self.calc_metrics = job_info['metrics_mode']
+        self.metricsManager = PMUMetricsManager()
+        # PMUMetricsManager has provided all the functions we need
 
-    def generate_record_cmd_tpl(self, events, pid):
+    def generate_record_cmd(self, duration, events, pid, calc_metrics, output):
         cmd = []
         if self.useExe:
             cmd.append('sudo ' + self.config.root_path + '/tools/perf record')
         else:
             cmd.append("sudo perf record")
-        if events:
+
+        if calc_metrics:
+            events, maps = self.metricsManager.getAllEvents(self.useExe)
+            cmd.append("-e " + events)
+        elif events:
+            # The calc_metrics can't be used with specific events
             cmd.append("-e %(events)s")
+
         if pid:
             cmd.append("-p %(pid)s")
         cmd.append('-a -o %(output)s sleep %(duration)s')
-        return ' '.join(cmd)
+        return ' '.join(cmd) % {"output": output, "duration": duration, "events": events, "pid": pid}
 
-    def generate_report_cmd_tpl(self):
+    def generate_report_cmd(self, output1, output2, calc_metrics_mode):
         cmd = []
         if self.useExe:
-            cmd.append('sudo ' + self.config.root_path + '/tools/perf')
+            cmd.append('sudo ' + self.config.root_path + '/tools/perf report ')
         else:
-            cmd.append('sudo perf')
-        cmd.append('report -i %s >> %s')
-        return ' '.join(cmd)
+            cmd.append('sudo perf report ')
+        if calc_metrics_mode:
+            cmd.append("-n")
+        cmd.append('-i %s >> %s')
+        return ' '.join(cmd) % (output1, output2)
+
+    def _exec_monitor(self, kwargs, calc_metrics_mode=False):
+        metrics_suffix = '-metrics' if calc_metrics_mode else  ""
+        recordCommand = self.generate_record_cmd(kwargs["duration"], kwargs["events"], kwargs["pid"], calc_metrics_mode,
+            kwargs["output1"] + metrics_suffix)
+        p = subprocess.call(recordCommand, shell=True)
+        reportCommand = self.generate_report_cmd(kwargs["output1"] + metrics_suffix,
+            kwargs["output2"] + metrics_suffix, calc_metrics_mode=calc_metrics_mode)
+        subprocess.call(reportCommand, shell=True)
+        subprocess.call('sudo chmod 777 ' + kwargs['output1'] + metrics_suffix, shell=True)
+        subprocess.call('sudo chmod 777 ' + kwargs['output2'] + metrics_suffix, shell=True)
 
     def monitor(self, args):
-        # TODO I think it will be better to use keyword arguments...
-        duration = args[0]
-        output1 = args[1]
-        output2 = args[2]
-        events = args[3]
-        pid = args[4]
+        kwargs = {}
+        kwargs["duration"] = args[0]
+        kwargs["output1"] = args[1]
+        kwargs["output2"] = args[2]
+        kwargs["events"] = args[3]
+        kwargs["pid"] = args[4]
+        
+        self._exec_monitor(kwargs, calc_metrics_mode=False)
+        if self.calc_metrics:
+            self._exec_monitor(kwargs, calc_metrics_mode=True)
 
-        tmpCommand = self.generate_record_cmd_tpl(events, pid)
-        tmpReportCommand = self.generate_report_cmd_tpl()
-
-        recordCommand = tmpCommand % {"output": output1, "duration": duration, "events": events, "pid": pid}
-        p = subprocess.call(recordCommand, shell=True)
-
-        reportCommand = tmpReportCommand % (output1, output2)
-        subprocess.call(reportCommand, shell=True)
-        subprocess.call('sudo chmod 777 ' + output1, shell=True)
-        subprocess.call('sudo chmod 777 ' + output2, shell=True)
 
     def run(self):
         job = self.job

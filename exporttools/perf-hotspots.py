@@ -31,11 +31,17 @@ def main():
 
     parser.add_option("-p", "--pid", dest="pid", default="",
                       help="The pid of the process that the monitor will attach to", metavar="PID")
+
+    parser.add_option("-m", action="store_true", dest="metrics_mode", help="Will the metrics be calculated.",
+        default=False)
     # TODO: type checking. I think it's not safe because of CMD injection
     options, args = parser.parse_args()
 
-    adapter = HotspotsMonitorAdapter(HotspotsMonitor(job_info=options.__dict__),
-        HotspotsProcessor(config=HotspotsProcessorConfig(job_info=options.__dict__)))
+    adapter = HotspotsMonitorAdapter(
+        HotspotsMonitor(job_info=options.__dict__),
+        HotspotsProcessor(config=HotspotsProcessorConfig(job_info=options.__dict__),
+            calc_metrics=options.__dict__.get("metrics_mode"))
+    )
     adapter.run()
 
 
