@@ -28,7 +28,7 @@ def parseFile(fname):
         #print code
     for line in rawfile.readlines():
         for code,name in maps.items():
-            if line.find('raw'):
+            if -1 != line.find('raw'):
                 code = code.replace('r', 'raw 0x')
             line = line.replace(code, name)
             line = line.replace('<not counted>', '0')
