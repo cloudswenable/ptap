@@ -6,23 +6,26 @@ from Util import *
 import shutil
 
 class PerfListProcessorConfig(ProcessorConfig):
-    def __init__(self):
+    def __init__(self, use_base_path=True):
         super(PerfListProcessorConfig, self).__init__()
         self.rPath = ''
+        self.use_base_path=use_base_path
 
     def getInputPath(self):
-        tmp = 'AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
-        return self.root_path + '/' + tmp
+        if self.use_base_path:
+            return self.root_path + '/' + 'AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
+        else:
+            return self.rPath + '/Raw/Events/Perf/'
 
     def getOutputPath(self):
-        tmp = 'AllSource/ClientOutput/' + self.rPath + '/Process/Events/Perf/'
+        tmp = ('AllSource/ClientOutput/' if self.use_base_path else "")  + self.rPath + '/Process/Events/Perf/'
         try:
             shutil.rmtree(tmp)
         except:
             pass
         if not os.path.exists(tmp):
             os.makedirs(tmp)
-        tmp2 = 'AllSource/ClientOutput/' + self.rPath + '/Process/Metrics/Perf/'
+        tmp2 = ('AllSource/ClientOutput/' if self.use_base_path else "") + self.rPath + '/Process/Metrics/Perf/'
         try:
             shutil.rmtree(tmp2)
         except:

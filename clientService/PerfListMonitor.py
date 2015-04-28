@@ -5,13 +5,17 @@ from PerfListMetricsManager import *
 
 
 class PerfListConfig(MonitorConfig):
-    def __init__(self):
+    def __init__(self, use_base_path=True):
         super(PerfListConfig, self).__init__()
         self.rPath = ''
         self.file_name = 'report.dat'
+        self.use_base_path = use_base_path
 
     def getOutputPath(self):
-        temp = self.root_path + '/AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
+        if self.use_base_path:
+            temp = self.root_path + '/AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
+        else: 
+            temp = self.rPath + '/Raw/Events/Perf/'
         try:
             shutil.rmtree(temp)
         except:
@@ -52,6 +56,7 @@ class PerfListMonitor(Monitor):
         job = self.job
         duration = job.perf_list_paras['duration']
         delay = job.perf_list_paras['delay']
+        repeat = job.perf_list_paras.get('repeat', None)
         self.config.rPath = job.path
         prefix = os.path.dirname(self.config.getOutputPath())
         args = [prefix]
@@ -64,6 +69,10 @@ class PerfListMonitor(Monitor):
             self.config.file_name = time.strftime('%Y%m%d%H%M%S', time.localtime())
             args[0] = prefix + '/' + self.config.file_name
             self.monitor(args)
+            if repeat:
+                repeat -= 1
+                if repeat == 0:
+                    self.running = False
 
 def main():
     from tmp import Job
