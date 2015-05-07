@@ -5,13 +5,17 @@ from PerfListMetricsManager import *
 
 
 class PerfListConfig(MonitorConfig):
-    def __init__(self):
+    def __init__(self, use_base_path=True):
         super(PerfListConfig, self).__init__()
         self.rPath = ''
         self.file_name = 'report.dat'
+        self.use_base_path = use_base_path
 
     def getOutputPath(self):
-        temp = self.root_path + '/AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
+        if self.use_base_path:
+            temp = self.root_path + '/AllSource/ClientOutput/' + self.rPath + '/Raw/Events/Perf/'
+        else: 
+            temp = self.rPath + '/Raw/Events/Perf/'
         try:
             shutil.rmtree(temp)
         except:
@@ -29,8 +33,6 @@ class PerfListMonitor(Monitor):
         Monitor.__init__(self, config)
         self.metrics_manager = metricsManager
         self.useExe = True
-        self.testPlatformCommandExe = 'sudo ' + self.config.root_path + '/tools/perf stat -o %s -a -e %s sleep %s'
-        self.testPlatformCommand = 'sudo perf stat -o %s -a -e %s sleep %s'
 
     def monitoringPlatform(self, rPath, duration, delay):
         self.config.rPath = rPath
@@ -40,30 +42,44 @@ class PerfListMonitor(Monitor):
         args.append(events)
         args.append(duration)
 
-    def monitor(self, args):
+    def generate_cmd(self, kwargs):
         if self.useExe:
-            tmpCommand = self.testPlatformCommandExe
+            cmd = 'sudo ' + self.config.root_path + '/tools/perf stat -o %(output)s '
         else:
-            tmpCommand = self.testPlatformCommand
-        mCommand = tmpCommand % tuple(args)
+            cmd = 'sudo perf stat -o %(output)s '
+        if int(kwargs["pid"]) > 0:
+            cmd += ' -p %(pid)s '
+        else:
+            cmd += ' -a '
+        cmd += ' -e %(events)s sleep %(duration)s '
+        return cmd % kwargs
+
+    def monitor(self, kwargs):
+        mCommand = self.generate_cmd(kwargs)
         out = subprocess.call(mCommand, shell=True)
 
     def run(self):
         job = self.job
         duration = job.perf_list_paras['duration']
         delay = job.perf_list_paras['delay']
+        repeat = job.perf_list_paras.get('repeat', None)
         self.config.rPath = job.path
         prefix = os.path.dirname(self.config.getOutputPath())
-        args = [prefix]
+        kwargs = {}
         events = self.metrics_manager.getAllEvents()
-        args.append(events)
-        args.append(duration)
+        kwargs["pid"] = job.pid
+        kwargs["events"] = events
+        kwargs["duration"] = duration
 
         while self.running:
             time.sleep(delay)
             self.config.file_name = time.strftime('%Y%m%d%H%M%S', time.localtime())
-            args[0] = prefix + '/' + self.config.file_name
-            self.monitor(args)
+            kwargs["output"] = prefix + '/' + self.config.file_name
+            self.monitor(kwargs)
+            if repeat is not None:
+                repeat -= 1
+                if repeat == 0:
+                    self.running = False
 
 def main():
     from tmp import Job

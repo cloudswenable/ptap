@@ -58,6 +58,8 @@ class Job(object):
 
         #TODO add other needed attr
 
+        self.from_cli = False # distinguished with tmp.Job
+
 
 class JobDispatcher(threading.Thread):
     def __init__(self, responseQueue=None):

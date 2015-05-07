@@ -28,3 +28,4 @@ class Job(object):
         self.hotspots_paras = hotspots_paras
         self.perf_list_paras = perf_list_paras
         self.rmon_paras = rmon_paras
+        self.from_cli = True # is the object used from cli

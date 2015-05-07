@@ -40,7 +40,9 @@ class HotspotsMonitor(Monitor):
         self.useExe = True
         self.job_info = job_info
         # sometimes there is no job instance(e.g. we use the commandline tool perf-hotspots.py ), the job_info will be used
-        self.calc_metrics = job_info['metrics_mode']
+        self.calc_metrics = False
+        if job_info is not None:
+            self.calc_metrics = job_info['metrics_mode']
         self.metricsManager = PMUMetricsManager()
         # PMUMetricsManager has provided all the functions we need
 
@@ -101,14 +103,14 @@ class HotspotsMonitor(Monitor):
     def run(self):
         job = self.job
         #fix bellow in future
-        repeat_times = None # if repeat_time is None, it will repeat untill running become false
+        repeat = None # if repeat is None, it will repeat untill running become false
         events = "" # if events is blank, it will use default events
         if job:
             delay = job.perf_list_paras['delay']
             self.config.rPath = job.path
             duration = int(job.hotspots_paras['duration'])
             output1, output2 = self.config.getOutputPath()
-            pid = getattr(job, None)
+            pid = getattr(job, "pid", None)
         elif self.job_info:
             delay = self.job_info.get("delay")
             outpath = self.job_info.get("outpath")
@@ -127,7 +129,7 @@ class HotspotsMonitor(Monitor):
             args[1] = prefix + '/' + self.config.file_name
             args[2] = prefix + '/' + self.config.output_name
             self.monitor(args)
-            if repeat:
+            if repeat is not None:
                 repeat -= 1
                 if repeat == 0:
                     self.running = False

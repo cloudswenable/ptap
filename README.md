@@ -90,3 +90,106 @@ stop server
              copy code to each server and run command in "bin/" 
 Copyright notice:
   Some license files are include in the root path. PTAP self use the intel sample code license. 
+
+# cli tools
+perf-pmu.py can calculate some matrics for the system.
+perf-pmu.py -h will print the usage
+```shell
+[root@ptap-01 exporttools]# ./exporttools/perf-pmu.py -h
+/tmp/ptap-experiment/tools/perf -pmu -h -o outfile -r repeatnum [-d delaysecond] [-p pid] -i interval [-n]
+```
+For example, this command will run perf once for 2 seconds and output the result to output/.
+```shell
+[root@ptap-01 exporttools]# ./perf-pmu.py -o output/prefix -r 1 -i 2 -p 15312
+[root@ptap-01 exporttools]# find output/
+output/
+output/prefix-20150430172933
+output/prefix-20150430172933.out
+output/prefix-20150430172933-metric.csv
+```
+---
+
+perf-hotspots.py can calculate metrics and track events with `perf record` and `perf report` on function level.
+Most options have default value.
+```shell
+[root@ptap-01 exporttools]# ./perf-hotspots.py  -h
+Usage: perf-hotspots.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -d DELAY_TIME, --delay=DELAY_TIME
+                        time to deplay before start monitor
+  -o OUTPATH, --outpath=OUTPATH
+                        the file that output will be written
+  -u DURATION, --duration=DURATION
+                        How long it will monitors
+  -r REPEAT, --repeat=REPEAT
+                        How many times it will repeats
+  -e EVENTS, --events=EVENTS
+                        which events it will monitor
+  -p PID, --pid=PID     The pid of the process that the monitor will attach to
+  -m                    Will the metrics be calculated.
+```
+
+If you want to track events on function level for event cpu-clock of process 15312, you can run cmd below.
+```shell
+[root@ptap-01 exporttools]# ./perf-hotspots.py  -e cpu-clock -p 15312
+[root@ptap-01 exporttools]# find outpath/
+outpath/
+outpath/perf-20150430173649
+outpath/report-20150430173649
+outpath/20150430173649
+```
+
+If you want to calculate metrics on function level of process 15312, you can run cmd below.
+```shell
+[root@ptap-01 exporttools]# ./perf-hotspots.py  -m -p 15312
+[root@ptap-01 exporttools]# find outpath/
+outpath/
+outpath/perf-20150430173844
+outpath/report-20150430173844
+outpath/perf-20150430173844-metrics
+outpath/report-20150430173844-metrics
+outpath/20150430173844
+outpath/20150430173844-metrics
+```
+
+
+---
+
+perf-list.py can calculate the metrics like clientService/PerfListMonitor.py
+Most options have default value.
+```shell
+[root@ptap-01 exporttools]# ./perf-list.py -h
+Usage: perf-list.py [options]
+
+Options:
+  -h, --help            show this help message and exit
+  -d DELAY_TIME, --delay=DELAY_TIME
+                        time to deplay before start monitor
+  -o OUTPATH, --outpath=OUTPATH
+                        the file that output will be written
+  -u DURATION, --duration=DURATION
+                        How long it will monitors
+  -r REPEAT, --repeat=REPEAT
+                        How many times it will repeats
+  -p PID, --pid=PID     The pid of the process that the monitor will attach to
+```
+
+If you want to calculate metrics for process 15312, you can run commands below
+```shell
+[root@ptap-01 exporttools]# ./perf-list.py -p 15312
+[root@ptap-01 exporttools]# find outpath/
+outpath/
+outpath/Raw
+outpath/Raw/Events
+outpath/Raw/Events/Perf
+outpath/Raw/Events/Perf/20150430174330
+outpath/Process
+outpath/Process/Events
+outpath/Process/Events/Perf
+outpath/Process/Events/Perf/20150430174330
+outpath/Process/Metrics
+outpath/Process/Metrics/Perf
+outpath/Process/Metrics/Perf/20150430174330
+```
