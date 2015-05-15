@@ -129,6 +129,7 @@ Options:
                         which events it will monitor
   -p PID, --pid=PID     The pid of the process that the monitor will attach to
   -m                    Will the metrics be calculated.
+  -l                    This will use perf-list events
 ```
 
 If you want to track events on function level for event cpu-clock of process 15312, you can run cmd below.
