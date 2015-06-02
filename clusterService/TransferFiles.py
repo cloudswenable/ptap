@@ -30,6 +30,7 @@ class FileReceiver(threading.Thread):
             except:
                 portUsed = True
 
+        ## we use the clientIP in the agentclient.cfg file as the server ip.
         if self.serverIp:
             return (self.serverIp, port)
 

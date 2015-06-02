@@ -21,6 +21,7 @@ from clientService.JobDispatcher import *
 from clientService.BackgroundService import *
 from analysis.policy import *
 from analysis.NMFAnalysisService import *
+from clusterService.ClusterConfig import AgentClientConfig
 
 
 class MessageHandler(threading.Thread):
@@ -130,7 +131,9 @@ class UploadRequestHandler(MessageHandler):
             #TODO if source code exist do not transfer
             id = message.sourceCodeId
             if True:  #TODO can add agent local source code cache
-                receiver = FileReceiver(rootpath + '/AllSource/ClientSourceCode')
+                acc = AgentClientConfig()
+                # we use the client ip in the config file
+                receiver = FileReceiver(rootpath + '/AllSource/ClientSourceCode', serverIp=acc.client_ip)
                 ip, port = receiver.prepareServer()
                 receiver.start()
             else:
