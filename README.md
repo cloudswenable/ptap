@@ -87,7 +87,7 @@ stop server
              bin/stopall.py
 
 # About the format of your application for testing.
-When you upload a application for testing on the web page "/show/new/", you should always upload a file named start.txt.
+When you upload a application for testing on the web page "/show/new/", you should always upload a file named **start.txt**.
 This start.txt will tell the ptap how to run this application.
 For example:
 You upload two files: "Hello.py" and "start.txt", the content of start.txt might be like this
@@ -95,7 +95,7 @@ You upload two files: "Hello.py" and "start.txt", the content of start.txt might
 python Hello.py
 ```
 
-If you upload a docker application for testing, you must contain a file named "Dockerfile".
+If you upload a docker application for testing, you must contain a file named **Dockerfile**.
 
 
 #Deploy on multiple server:
