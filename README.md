@@ -86,6 +86,18 @@ start server
 stop server
              bin/stopall.py
 
+# About the format of your application for testing.
+When you upload a application for testing on the web page "/show/new/", you should always upload a file named **start.txt**.
+This start.txt will tell the ptap how to run this application.
+For example:
+You upload two files: "Hello.py" and "start.txt", the content of start.txt might be like this
+```bash
+python Hello.py
+```
+
+If you upload a docker application for testing, you must contain a file named **Dockerfile**.
+
+
 #Deploy on multiple server:
              copy code to each server and run command in "bin/" 
 Copyright notice:
@@ -94,6 +106,7 @@ Copyright notice:
 # cli tools
 perf-pmu.py can calculate some matrics for the system.
 perf-pmu.py -h will print the usage
+NOTICE: You must **install perf** in your system before you this command.
 ```shell
 [root@ptap-01 exporttools]# ./exporttools/perf-pmu.py -h
 /tmp/ptap-experiment/tools/perf -pmu -h -o outfile -r repeatnum [-d delaysecond] [-p pid] -i interval [-n]
