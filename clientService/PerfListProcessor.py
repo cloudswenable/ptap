@@ -4,6 +4,7 @@ from Processor import *
 from PerfListMetricsManager import *
 from Util import *
 import shutil
+import re
 
 class PerfListProcessorConfig(ProcessorConfig):
     def __init__(self, use_base_path=True):
@@ -38,9 +39,28 @@ class PerfListProcessorConfig(ProcessorConfig):
 
 
 class PerfListProcessor(Processor):
+    
+    # REG patterns to match the data
+    NOT_COUNTED_REG = re.compile(r"\s*<not counted>\s+(\S+)\s*")  # for treating not counted specially
+
     def __init__(self, config=PerfListProcessorConfig()):
         super(PerfListProcessor, self).__init__()
         self.config = config
+
+    @staticmethod
+    def process_names(name):
+        '''
+            This will process the name for not_counted_names like '<not counted> L1-dcache-loads'
+            For the example L1-dcache-loads
+            This will change it to L1-dcache-misses(of all L1-dcache hits %), because it is hard coded in the ResultAdapter
+        '''
+        return {
+           'cache-misses': 'cache-misses(% of all cache refs )',
+           'branch-misses': 'branch-misses(of all branches %)',
+           'task-clock': 'task-clock(CPUs utilized )',
+           'LLC-load-misses': 'LLC-load-misses(of all LL-cache hits %)',
+           'L1-dcache-load-misses': 'L1-dcache-load-misses(of all L1-dcache hits %)'
+        }.get(name, name)
 
     def process(self, inputPath, outputPath):
         timestamp = os.path.basename(inputPath)
@@ -53,10 +73,22 @@ class PerfListProcessor(Processor):
         metricsNames = []
         metricsDatas = []
         while count < len(lines) - 2:
-            rawItems = lines[count][:-1].split(' ')
+            line = lines[count][:-1]
+
+            # NOTICE !!!! I'll treat not counted specially, I feel the code below is really hard to understand.....
+            not_counted_names = self.NOT_COUNTED_REG.findall(line)
+            if not_counted_names:
+                metricsNames.append(self.process_names(not_counted_names[0]))
+                metricsDatas.append(0.)
+                count += 1
+                continue
+            # TODO: Code below is beyond my comprehension..... It should replaced by the format above.
+
+            rawItems = line.split(' ')
             items = []
             for item in rawItems:
-                if item: items.append(item)
+                if item:
+                    items.append(item)
             if items:
                 items[0] = items[0].replace(',', '')
             if not items or (not firstHalf and not items[0].replace('.', '').isdigit()):

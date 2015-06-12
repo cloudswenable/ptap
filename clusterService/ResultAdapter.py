@@ -81,7 +81,7 @@ class ResultAdapter(object):
                 return datas
         
         def getSingleResultOverview(self, rPath):
-                items = ['cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'task-clock(CPUs utilized )', 'LLC-misses(of all LL-cache hits %)', 'CPI', 'L1-dcache-misses(of all L1-dcache hits %)']
+                items = ['cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'task-clock(CPUs utilized )', 'LLC-load-misses(of all LL-cache hits %)', 'CPI', 'L1-dcache-load-misses(of all L1-dcache hits %)']
                 manager = ResultManager()
                 datas = manager.queryResultsByNames(rPath, items)
                 return datas
