@@ -136,7 +136,7 @@ class ResultManager(AbstractResultManager):
                                     found = True
                                     break
 
-                                elif data: 
+                                elif data is not None: 
                                         data = float(data)
                                         datas.append((item, data))
                                         found = True

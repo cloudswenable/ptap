@@ -1,4 +1,32 @@
 from ResultManager import *
+import re
+
+
+IFACE_REG = re.compile("^\s*?(\S+)\s*:")
+
+
+def get_net_ifaces(without_lo=True):
+    ifaces = []
+    with open('/proc/net/dev') as f:
+        for line in f.readlines():
+            iface_name = IFACE_REG.findall(line)
+            if iface_name:
+                iface_name = iface_name[0]
+                ifaces.append(iface_name)
+    return ifaces
+
+
+def get_iface_keys(without_lo=True):
+    '''
+    this function will read the local interface names and return results like this
+    ['IFACE_lo_rxkB/s','IFACE_lo_txkB/s','IFACE_eth0_rxkB/s','IFACE_eth0_txkB/s','IFACE_eth1_rxkB/s','IFACE_eth1_txkB/s']
+    '''
+    if_keys = []
+    for key_pattern in ('IFACE_%s_rxkB/s','IFACE_%s_txkB/s'):
+        for iface_name in get_net_ifaces(without_lo=without_lo):
+            if_keys.append(key_pattern % iface_name)
+    return if_keys
+
 
 class ResultAdapter(object):
         def getModelsAnalysisResults(self, rPath):
@@ -81,7 +109,7 @@ class ResultAdapter(object):
                 return datas
         
         def getSingleResultOverview(self, rPath):
-                items = ['cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'task-clock(CPUs utilized )', 'LLC-misses(of all LL-cache hits %)', 'CPI', 'L1-dcache-misses(of all L1-dcache hits %)']
+                items = ['cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'task-clock(CPUs utilized )', 'LLC-load-misses(of all LL-cache hits %)', 'CPI', 'L1-dcache-load-misses(of all L1-dcache hits %)']
                 manager = ResultManager()
                 datas = manager.queryResultsByNames(rPath, items)
                 return datas
@@ -109,7 +137,7 @@ class ResultAdapter(object):
             return manager.querySARModelResult(rpath)
 
         def getOverviewResults(self, rPaths):
-                tables = [('application performance',[], 0),('micro-arch performance',['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'], 0),('os level performance',['cswch/s','INTR_sum_intr/s','tps','IFACE_lo_rxkB/s','IFACE_lo_txkB/s','IFACE_eth0_rxkB/s','IFACE_eth0_txkB/s','IFACE_eth1_rxkB/s','IFACE_eth1_txkB/s'], 0),('application hotspots', [0,1,2,3,4], 1, 'hotspots')]
+                tables = [('application performance',[], 0),('micro-arch performance',['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'], 0),('os level performance',['cswch/s','INTR_sum_intr/s','tps',] + get_iface_keys(), 0),('application hotspots', [0,1,2,3,4], 1, 'hotspots')]
                 #init
                 results = []
                 for table in tables:
@@ -141,7 +169,14 @@ class ResultAdapter(object):
         
         def getDynamicOverviewResults(self, rPath, qtables=None, starts=None, next=1):
                 size =3 
-                tables = [('micro-arch performance',['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'], 0),('os level performance',['cswch/s','INTR_sum_intr/s','tps','IFACE_lo_rxkB/s','IFACE_lo_txkB/s','IFACE_eth0_rxkB/s','IFACE_eth0_txkB/s','IFACE_eth1_rxkB/s','IFACE_eth1_txkB/s'], 0)]
+                tables = [
+                    ('micro-arch performance',
+                     ['CPI', 'cache-misses(% of all cache refs )', 'branch-misses(of all branches %)', 'mem Page Hits vs. all requests'],
+                     0),
+                    ('os level performance',
+                     ['cswch/s','INTR_sum_intr/s','tps',] + get_iface_keys(),
+                     0),
+                ]
                 results = []
                 manager = ClassifyResultManager(rootSubPath='/AllSource/ServerOutput/', tailSubPath='/Process')
                 manager.getOutputResults(rPath)
