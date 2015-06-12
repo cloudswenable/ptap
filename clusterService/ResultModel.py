@@ -1,4 +1,5 @@
 import json
+import re
 '''
         0: CommonDictResult
 '''
@@ -123,8 +124,27 @@ class SARModelResult(Result):
         self.tpsData = None
         self.tcpMetricsData = None
         self.otherMetricsData = None
-
+    
+    IFACE_QUERY_REG = re.compile(r"IFACE_([^_]+)_(.*/s)")
     def getIndex(self, metric):
+        # NOTICE !!! first we plan to treat some metrics speciallly
+        # * we treat the interface specially
+        found_pattern = self.IFACE_QUERY_REG.findall(metric)
+        if found_pattern:
+            iface, unit = found_pattern[0]
+            try:
+                unit_index = self.netMetrics.index(unit)
+            except ValueError:
+                pass
+            else:
+                iface_index = 0
+                for data in self.netMetricsData:
+                    if data[iface_index] == iface:
+                        return [data], unit_index
+        # * we treat INTR_sum_intr/s specially
+        if metric == 'INTR_sum_intr/s':
+            return self.otherMetricsData[1], 1
+        # Then we lockup the metrics in general way
         if self.cpuMetrics.count(metric) > 0:
             return self.cpuMetricsData, self.cpuMetrics.index(metric)
         if self.netMetrics.count(metric) > 0:
