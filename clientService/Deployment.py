@@ -39,12 +39,13 @@ class DeploymentControler:
     def getDeploymentType(rpath):
         '''
             get the deployment type based on the files in the directory
-        '''
         sourcePath = DeploymentControlerConfig.getSourcePath(rpath)
         if "Dockerfile" in os.listdir(sourcePath):
             return DeploymentControler.DOCKER
         else:
             return DeploymentControler.BINARY
+        '''
+	return DeploymentControler.BINARY
 
     def setStart(self, path, comFile): pass
 

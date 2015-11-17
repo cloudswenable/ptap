@@ -113,11 +113,13 @@ class JobHandler(threading.Thread):
                 elif deployment_type == DeploymentControler.BINARY:
                     #Start source code project
                     sourceCodeControler = SourceDeploymentControler()
-                    pid = sourceCodeControler.run(self.job.source_path)
+                    #disable the start txt for test
+                    #pid = sourceCodeControler.run(self.job.source_path)
                 self.process_steps = self.generateSteps()
-                print 'START SOURCE CODE PROCESS PID : ', pid
+                #print 'START SOURCE CODE PROCESS PID : ', pid
                 if self.job:
-                    self.job.pid = pid
+                    #disable pid
+                    #self.job.pid = pid
                     for step in self.process_steps:
                         step.job = self.job
                         step.start()
