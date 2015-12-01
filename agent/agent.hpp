@@ -7,6 +7,7 @@
 #define AGENT_H_
 
 #include "agentconfig.hpp"
+#include "glog_helper.hpp"
 
 class Agent {
 public:

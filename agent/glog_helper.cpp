@@ -5,7 +5,15 @@
  */
 #include "glog_helper.hpp"
 
+void signalHandler(const char *data, int size) {
+	std::string coredump = std::string(data, size);
+	std::fstream fs("ptapt.core", std::ios::out);
+	fs << coredump;
+	fs.close();
+}
+
 GlogHelper::GlogHelper(const char *program) {
+	this->name = program;
 }
 
 
@@ -43,6 +51,27 @@ void GlogHelper::setLogDir(const char *log_dir) {
 		string cmd = "mkdir -p " + log_dir;
 		system(cmd.c_str());
 	}
-
 	LOG(LOG_LEVEL::INFO) << "PTAP LOG PATH is " << log_dir; 
+}
+
+void GlogHelper::setName(const char *program) {
+	this->name = program;
+}
+
+void GlogHelper::init() {
+	google::InitGoogleLogging(this->name);
+	FLAGS_logbufsecs = 0;
+	FLAGS_max_log_size = 1000;
+	FLAGS_stop_logging_if_full_disk = true;
+	google::SetLogFilenameExtension("log");
+	google::InstallFailureSignalHandler();
+	google::InstallFailureFunction(&signalHandler); 
+
+}
+
+static GlogHelper *instance() {
+	if(ptap_log == NULL) {
+		ptap_log = new GlogHelper();
+	}
+	return ptap_log;
 }

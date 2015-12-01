@@ -5,8 +5,12 @@
  */
 
 #include "agentconfig.hpp"
-
+#include <fstream>
 
 AgentConfig::AgentConfig(string configFilePath) {
-
+	fstream cfgFile;
+	cfgFile.open(configFilePath);
+	if (! cfgFile.is_open()) {
+		
+	}
 }

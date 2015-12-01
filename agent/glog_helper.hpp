@@ -24,6 +24,12 @@ public:
 	inline void log(LOG_LEVEL log_level, const char *log_string);
 	void setLogLevel(LOG_LEVEL log_level);
 	void setLogDir(const char *log_dir);
+	void setName(const char *program);
+
+	static GlogHelper *instance();
+	static GlogHelper *ptap_log = NULL;
+private:
+	const char *name;
 };
 
 #endif //GLOG_HELPER_H
