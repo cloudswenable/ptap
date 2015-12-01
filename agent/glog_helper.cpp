@@ -69,7 +69,7 @@ void GlogHelper::init() {
 
 }
 
-static GlogHelper *instance() {
+static GlogHelper *get() {
 	if(ptap_log == NULL) {
 		ptap_log = new GlogHelper();
 	}

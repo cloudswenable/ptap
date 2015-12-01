@@ -6,13 +6,24 @@
 #ifndef AGENT_CONFIG_H 
 #define AGENT_CONFIG_H
 
-class AgentConfig {
+class LogConfig {
 public:
-	AgentConfig(string configFilePath = "server.cfg");
+	LogConfig(){};
+	const char *program;
+	const char *min_log_level;
+	const char *log_dir;
+
+};
+
+class AgentConfig {
+
+public:
+	AgentConfig(const char *configFilePath = "server.cfg");
 private:
-	const string _server_ip;
+	const char *_server_ip;
 	const int _server_port;
 	const int _heatbeat_interval;
+	const LogConfig *_log_config;
 };
 
 #endif //AGENT_CONFIG_H

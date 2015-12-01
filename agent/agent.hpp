@@ -9,10 +9,12 @@
 #include "agentconfig.hpp"
 #include "glog_helper.hpp"
 
+GlogHelper *ptap_log = GlogHelper::get();
+
 class Agent {
 public:
 	Agent();
-	Agent(string configFilePath);
+	Agent(const char *configFilePath);
 
 private:
 	/** command port for upd connection*/
@@ -21,6 +23,7 @@ private:
 	int _data_port;
 	/** server configuration */
 	AgentConfig _config;
+	static GlogHelper *ptap_log;
 };
 
 #endif // AGENT_H

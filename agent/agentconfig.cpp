@@ -3,14 +3,14 @@
  * @date    2015-11-30 09:27:26
  * @version 1.0
  */
-
-#include "agentconfig.hpp"
 #include <fstream>
+#include <iostream>
+#include "agentconfig.hpp"
 
-AgentConfig::AgentConfig(string configFilePath) {
+AgentConfig::AgentConfig(const char *configFilePath) {
 	fstream cfgFile;
 	cfgFile.open(configFilePath);
 	if (! cfgFile.is_open()) {
-		
+
 	}
 }

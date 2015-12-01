@@ -16,6 +16,7 @@ enum LOG_LEVEL
 	FATAL = google::FATAL,
 };
 
+class GlogHelper;
 class GlogHelper {
 public:
 	GlogHelper(const char *program);
@@ -26,7 +27,7 @@ public:
 	void setLogDir(const char *log_dir);
 	void setName(const char *program);
 
-	static GlogHelper *instance();
+	static GlogHelper *get();
 	static GlogHelper *ptap_log = NULL;
 private:
 	const char *name;
