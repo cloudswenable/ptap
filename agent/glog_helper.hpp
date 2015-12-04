@@ -7,6 +7,7 @@
 #define GLOG_HELPER_H
 
 #include "glog-0.3.3/include/glog/logging.h"
+#include "glog-0.3.3/include/glog/raw_logging.h"
 
 enum LOG_LEVEL
 {
@@ -28,7 +29,8 @@ public:
 	void setName(const char *program);
 
 	static GlogHelper *get();
-	static GlogHelper *ptap_log = NULL;
+private:
+	static GlogHelper *ptap_log;
 private:
 	const char *name;
 };

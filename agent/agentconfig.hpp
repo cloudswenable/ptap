@@ -8,7 +8,12 @@
 
 class LogConfig {
 public:
-	LogConfig(){};
+	LogConfig();
+	virtual ~LogConfig();
+	void setProgram(const char *program);
+	void setMinLogLevel(const char *minLogLevel);
+	void setLogDir(const char *logDir);
+
 	const char *program;
 	const char *min_log_level;
 	const char *log_dir;
