@@ -6,6 +6,18 @@
 #ifndef AGENT_CONFIG_H 
 #define AGENT_CONFIG_H
 
+#include <hash_map>
+
+class ConfigParser {
+public:
+	ConfigParser();
+	virtual ~ConfigParser();
+	parseFile(const char* filePath);
+
+private:
+	hash_map<string, hash_map<string, string>* > _config_content;
+};
+
 class LogConfig {
 public:
 	LogConfig();
@@ -24,11 +36,19 @@ class AgentConfig {
 
 public:
 	AgentConfig(const char *configFilePath = "server.cfg");
+	virtual ~AgentConfig();
+	inline void setServerPort(int port);
+	inline void setHeartbeatInterval(int interval);
+	void setServerIp(const char *ip);
+	void setClientIp(const char *ip);
+
 private:
+	const ConfigParser *_parser;
 	const char *_server_ip;
 	const int _server_port;
 	const int _heatbeat_interval;
 	const LogConfig *_log_config;
+	const char *_self_ip;
 };
 
 #endif //AGENT_CONFIG_H
